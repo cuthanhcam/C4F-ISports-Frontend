@@ -1,12 +1,14 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"); */
 @import "tailwindcss";
 
 @theme {
   /* Custom text */
-  /* --font-primary: "Noto Serif", "serif"; // Text main
-  --font-secondary: "Roboto", "serif"; // Text second */
+  --font-primary: "Noto Sans", "serif";
+  --font-secondary: "Roboto", "serif";
 
   /* Custom color */
-  /* --color-primary: #33ccff; // Blue
-  --color-secondary: #e74c3c; // Red
-  --color-tertiary: #f1c40f; // Yellow */
+  --color-text-primary: #506690;
+
+  /* Button */
+  --color-btn-primary: #00ccff;
 }
