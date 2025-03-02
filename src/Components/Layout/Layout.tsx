@@ -1,41 +1,19 @@
-import { Header } from "./layout"; 
 import useHeader from '../../Hooks/header';
-import Hero from "./Hero";
 import useHero from "../../Hooks/hero";
+import { Header, Hero, MainContent, Footer } from "./index";
 
 
 
 const Layout = () => {
-
     const { isLogin, setIsLogin } = useHeader();
-    const { 
-        displayedText, 
-        choicePlay, 
-        handleChoicePlay,  
-        isSreachCity, 
-        setIsSreachCity,
-        choiceCity, 
-        handleChoiceCity,
-        isSearchDistrict, 
-        setIsSearchDistrict,
-        choiceDistrict,
-        handleChoiceDistrict,
-        isOpenPlay, 
-        setIsOpenPlay,
-    } = useHero();
-
+    const heroProps = useHero();
+    
     return (
         <div>
             <Header isLogin={isLogin} setIsLogin={setIsLogin}/>
-            <Hero 
-                displayedText={displayedText} 
-                choicePlay={choicePlay} handleChoicePlay={handleChoicePlay} 
-                isSreachCity={isSreachCity} setIsSreachCity={setIsSreachCity}
-                choiceCity={choiceCity} handleChoiceCity={handleChoiceCity}
-                isSearchDistrict={isSearchDistrict} setIsSearchDistrict={setIsSearchDistrict}
-                choiceDistrict={choiceDistrict} handleChoiceDistrict={handleChoiceDistrict}
-                isOpenPlay={isOpenPlay} setIsOpenPlay={setIsOpenPlay}
-            />
+            <Hero {...heroProps}/>
+            <MainContent/>
+            <Footer/>
         </div>
     )
 }
