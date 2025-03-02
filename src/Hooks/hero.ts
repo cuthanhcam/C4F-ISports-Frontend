@@ -1,13 +1,38 @@
 import { useEffect, useState } from "react";
-import { heroData } from "../Data/heroData";
+import { heroData, heroSearchChoicePlayData } from "../Data/heroData";
 
 export default function useHero() {
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [displayedText, setDisplayedText] = useState("");
     const [isDeleting, setIsDeleting] = useState(false);
     
-    //const words = heroData;
-    const words = ["Soccer", "Golf", "Tennis", "Volleyball", "Rugby"];
+    const [choicePlay, setChoicePlay] = useState(heroSearchChoicePlayData[0].name);
+    const [isOpenPlay, setIsOpenPlay] = useState(false);
+
+
+    const [isSreachCity, setIsSreachCity] = useState(false);
+    const [isSearchDistrict, setIsSearchDistrict] = useState(false);
+    
+    
+    function handleChoicePlay(event: React.MouseEvent<HTMLAnchorElement>, iconName: string) {
+      event.preventDefault();
+      setChoicePlay(iconName);
+    }
+    
+    const [choiceCity, setChoiceCity] = useState("Thành Phố");
+    function handleChoiceCity(event: React.MouseEvent<HTMLAnchorElement>, city: string) {
+      event.preventDefault(); // Ngăn chặn chuyển hướng
+      setChoiceCity(city); // Cập nhật giá trị mới
+    }
+
+    const [choiceDistrict, setChoiceDistrict] = useState("Quận");
+    function handleChoiceDistrict(event: React.MouseEvent<HTMLAnchorElement>, district: string) {
+      event.preventDefault(); // Ngăn chặn chuyển hướng
+      setChoiceDistrict(district); // Cập nhật giá trị mới
+    }
+    
+  //  const words = ["Soccer", "Golf", "Tennis", "Volleyball", "Rugby"];
+    const words = heroData.map((wrod) => wrod.name);
     useEffect(() => {
         let timeout: ReturnType<typeof setTimeout>;
     
@@ -38,6 +63,18 @@ export default function useHero() {
       }, [displayedText, isDeleting, currentWordIndex]);
 
     return {
-        displayedText
+        displayedText,
+        choicePlay,
+        handleChoicePlay, 
+        isSreachCity, 
+        setIsSreachCity,
+        choiceCity, 
+        handleChoiceCity,
+        isSearchDistrict, 
+        setIsSearchDistrict,
+        choiceDistrict,
+        handleChoiceDistrict,
+        isOpenPlay, 
+        setIsOpenPlay,
     }
 }
