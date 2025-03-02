@@ -1,7 +1,7 @@
 import React from "react";
 import { menuItemsData } from "../../Data/menuData";
 import LogoC4F from "/src/assets/images/LogoC4F.png"; 
-
+import { Link } from "react-router-dom";
 
 
 interface HeaderProps {
@@ -27,13 +27,13 @@ const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
                             {menuItemsData.map((nav) => (
                                 <li key={nav.id}>
                                     <div className="px-2 py-1 rounded-md">
-                                        <a 
-                                            href={nav.path}
-                                            className="py-2 text-xl text-text-primary font-primary font-semibold 
+                                        <Link 
+                                            to={nav.path}
+                                            className="py-2 text-xl text-text-primary font-secondary font-semibold 
                                             hover:text-btn-primary hover:border-b-2 hover:border-bg-btn-primary duration-200 transition-transform ease-in-out"
                                         >
                                             {nav.name}
-                                        </a>
+                                        </Link>
                                     </div>
                                 </li>
                             ))}
@@ -41,17 +41,19 @@ const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
                     </div>
                     {/* Login */}
                     <div className="flex items-center gap-4">
-                        <button 
+                        <Link
+                            to="/signup"
                             onClick={() => setIsLogin(!isLogin)}
-                            className={`text-xl text-text-primary font-primary font-semibold px-4 py-1 rounded-md cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out ${isLogin ? "" : "text-white bg-btn-primary"}`}
+                            className={`text-xl text-text-primary font-secondary font-semibold px-4 py-1 rounded-md cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out ${isLogin ? "" : "text-white bg-btn-primary"}`}
                         >Sign up
-                        </button>
+                        </Link>
                         
-                        <button 
+                        <Link 
+                            to="/register"
                             onClick={() => setIsLogin(!isLogin)}
                             className={`text-xl text-text-primary font-primary font-semibold px-4 py-1 rounded-md cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out ${isLogin ? "bg-btn-primary text-white" : ""}`}
                         >Register
-                        </button>
+                        </Link>
                     </div>
                 </div>            
             </div>
