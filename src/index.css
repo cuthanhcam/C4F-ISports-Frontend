@@ -4,7 +4,7 @@
 @theme {
   /* Custom text */
   --font-primary: "Noto Sans", "serif";
-  --font-secondary: "Roboto", "serif";
+  --font-secondary: "Roboto", "sans-serif";
 
   /* Custom color */
   --color-text-primary: #506690;

@@ -12,7 +12,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
     return (
-        <div className='fixed top-0 left-0 w-screen bg-white'>
+        <div className='fixed top-0 left-0 w-screen bg-white z-[10]'>
             <div className="max-w-[1200px] mx-auto py-6">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
