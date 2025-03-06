@@ -1,21 +1,16 @@
-import useHeader from '../../Hooks/header';
-import useHero from "../../Hooks/hero";
-import { Header, Hero, MainContent, Footer } from "./index";
+import useHeader from "../../Hooks/header";
+import { Header, Footer } from "./index";
 
+const Layout = ({ children }: { children?: React.ReactNode }) => {
+  const { isLogin, setIsLogin } = useHeader();
 
+  return (
+    <div>
+      <Header isLogin={isLogin} setIsLogin={setIsLogin} />
+      {children} {/* Phần nội dung của từng trang */}
+      <Footer />
+    </div>
+  );
+};
 
-const Layout = () => {
-    const { isLogin, setIsLogin } = useHeader();
-    const heroProps = useHero();
-    
-    return (
-        <div>
-            <Header isLogin={isLogin} setIsLogin={setIsLogin}/>
-            <Hero {...heroProps}/>
-            <MainContent/>
-            <Footer/>
-        </div>
-    )
-}
-
-export default Layout
+export default Layout;
