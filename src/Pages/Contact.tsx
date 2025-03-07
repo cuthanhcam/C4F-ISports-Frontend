@@ -1,6 +1,9 @@
+
 const Contact = () => {
   return (
-    <h1>Contact page</h1>
+    <div className="py-24">
+      <h1>Testing</h1>
+    </div>
   )
 }
 

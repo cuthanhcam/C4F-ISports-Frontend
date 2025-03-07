@@ -243,23 +243,24 @@ const Map = () => {
                     </button>
                 ))}
             </div>
+            <div className="rounded-md overflow-hidden">
+                <GoogleMap mapContainerStyle={containerStyle} center={currentLocation} zoom={15}>
+                    <Marker position={currentLocation} label="Vị trí của bạn" />
 
-            <GoogleMap mapContainerStyle={containerStyle} center={currentLocation} zoom={15}>
-                <Marker position={currentLocation} label="Vị trí của bạn" />
-
-                {allLocations[selectedType].map((loc) => (
-                    <Marker
-                        key={loc.id}
-                        position={{ lat: loc.lat, lng: loc.lng }}
-                        label={loc.name}
-                        icon={{
-                            url: getIconByType(selectedType),
-                            
-                            scaledSize: new window.google.maps.Size(40, 40),
-                        }}
-                    />
-                ))}
-            </GoogleMap>
+                    {allLocations[selectedType].map((loc) => (
+                        <Marker
+                            key={loc.id}
+                            position={{ lat: loc.lat, lng: loc.lng }}
+                            label={loc.name}
+                            icon={{
+                                url: getIconByType(selectedType),
+                                
+                                scaledSize: new window.google.maps.Size(40, 40),
+                            }}
+                        />
+                    ))}
+                </GoogleMap>
+            </div>
         </div>
     );
 };

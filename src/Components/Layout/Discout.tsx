@@ -38,7 +38,7 @@ const Discout = () => {
                         >
                         {mainContentData.map((content) => (
                             <SwiperSlide key={content.id}>
-                                <img src={content.image} alt={content.alt} className="w-full h-[250px] object-cover rounded-md"/>
+                                <img src={content.image} alt={content.alt} className="w-full h-[400px] object-cover rounded-md"/>
                             </SwiperSlide>
                         ))}
                     </Swiper>
