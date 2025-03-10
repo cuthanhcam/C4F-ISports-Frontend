@@ -42,7 +42,7 @@ const Footer = () => {
                                 <a href="" className="text-base font-medium">Tính năng</a>
                             </li>
                             <li>
-                                <a href="" className="text-base font-medium">Tính tức</a>
+                                <a href="" className="text-base font-medium">Tin tức</a>
                             </li>
                             <li>
                                 <a href="" className="text-base font-medium">Liên hệ</a>
