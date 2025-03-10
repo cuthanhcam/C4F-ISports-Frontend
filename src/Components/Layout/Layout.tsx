@@ -1,7 +1,12 @@
+import React from "react";
 import useHeader from "../../Hooks/header";
 import { Header, Footer } from "./index";
 
-const Layout = ({ children }: { children?: React.ReactNode }) => {
+interface LayoutProps {
+  children?: React.ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { isLogin, setIsLogin } = useHeader();
 
   return (
