@@ -16,11 +16,13 @@ const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
             <div className="max-w-[1200px] mx-auto py-6">
                 <div className="flex items-center justify-between">
                     {/* Logo */}
-                    <a href="#" className='flex gap-2 items-center'>
-                        {/* Not yet fix logo */}
-                        <img src={LogoC4F} alt="Logo" className="min-w-[48px] min-h-[48px] object-contain"/>
-                        <h1 className="text-4xl tracking-wide text-black dark:text-white font-primary font-semibold">ISports</h1>
-                    </a>
+                    <Link to='/'>
+                        <a href="#" className='flex gap-2 items-center'>
+                            {/* Not yet fix logo */}
+                            <img src={LogoC4F} alt="Logo" className="min-w-[48px] min-h-[48px] object-contain"/>
+                            <h1 className="text-4xl tracking-wide text-black dark:text-white font-primary font-semibold">ISports</h1>
+                        </a>
+                    </Link>
                     {/* Navbar */}
                     <div>
                         <ul className="flex gap-6">

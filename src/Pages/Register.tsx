@@ -33,7 +33,7 @@ const Register = () => {
 
       await register({ email, password, fullname, phone, role });
       alert('Đăng kí thành công, kiểm tra email để xác thực ^^!');
-      navigate("/login");
+      navigate("/auth/login");
     } catch (err) {
       console.log(err);
     }

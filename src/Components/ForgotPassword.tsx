@@ -39,7 +39,7 @@ const ForgotPassword = () => {
           />
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded"
+            className="w-full bg-blue-500 text-white p-2 rounded cursor-pointer"
             disabled={loading}
           >
             {loading ? "Đang gửi..." : "Gửi yêu cầu"}
