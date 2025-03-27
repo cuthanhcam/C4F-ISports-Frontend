@@ -42,7 +42,7 @@ const Footer = () => {
                                 <a href="" className="text-base font-medium">Tính năng</a>
                             </li>
                             <li>
-                                <a href="" className="text-base font-medium">Tính tức</a>
+                                <a href="" className="text-base font-medium">Tin tức</a>
                             </li>
                             <li>
                                 <a href="" className="text-base font-medium">Liên hệ</a>
@@ -70,29 +70,29 @@ const Footer = () => {
                         <div className="flex flex-col gap-4">
                             <h1 className="text-2xl font-semibold">Follow Us</h1>
                             <ul className="flex items-center gap-4">
-                                <li className="p-2 bg-white rounded-md">
+                                <li className="p-2 bg-white rounded-md hover:bg-amber-50 duration-200 transition-colors cursor-pointer  group">
                                     <a href="">
-                                        <FaFacebookF/>
+                                        <FaFacebookF className="group-hover:-translate-y-1 duration-300 transition-transform ease-linear"/>
                                     </a>
                                 </li>
-                                <li className="p-2 bg-white rounded-md">
+                                <li className="p-2 bg-white rounded-md hover:bg-amber-50 duration-200 transition-colors cursor-pointer  group">
                                     <a href="">
-                                        <FaPinterestP/>
+                                        <FaPinterestP className="group-hover:-translate-y-1 duration-300 transition-transform ease-linear"/>
                                     </a>
                                 </li>
-                                <li className="p-2 bg-white rounded-md">
+                                <li className="p-2 bg-white rounded-md hover:bg-amber-50 duration-200 transition-colors cursor-pointer  group">
                                     <a href="">
-                                        <FaInstagram/>
+                                        <FaInstagram className="group-hover:-translate-y-1 duration-300 transition-transform ease-linear"/>
                                     </a>
                                 </li>
-                                <li className="p-2 bg-white rounded-md">
+                                <li className="p-2 bg-white rounded-md hover:bg-amber-50 duration-200 transition-colors cursor-pointer  group ">
                                     <a href="">
-                                        <FaTiktok/>
+                                        <FaTiktok className="group-hover:-translate-y-1 duration-300 transition-transform ease-linear"/>
                                     </a>
                                 </li>
-                                <li className="p-2 bg-white rounded-md">
+                                <li className="p-2 bg-white rounded-md hover:bg-amber-50 duration-200 transition-colors cursor-pointer group">
                                     <a href="">
-                                        <FaLinkedinIn/>
+                                        <FaLinkedinIn className="group-hover:-translate-y-1 duration-300 transition-transform ease-linear"/>
                                     </a>
                                 </li>
                             </ul>
@@ -102,7 +102,7 @@ const Footer = () => {
                             <p>Subscribe to stay tuned for new web design and latest updates. Let's do it!</p>
                             <div className="flex items-center px-4 py-2 border border-gray-300 rounded-md">
                                 <input type="email" placeholder="Enter your email" className="outline-none w-full"/>
-                                <button className="cursor-pointer">
+                                <button className="cursor-pointer hover:translate-x-1 duration-200 transition-transform ease-linear">
                                     <img src={ButtonImage} alt="" className="w-5 h-5 object-cover"/>
                                 </button>
                             </div>

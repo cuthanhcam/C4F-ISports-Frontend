@@ -10,7 +10,7 @@ const Discout = () => {
             <div className="relative flex items-center justify-center py-4">
                 <div className="absolute left-0 w-full border-t-2 border-gray-300"></div>
                 <div className="relative px-6 py-2 bg-white border-2 border-gray-300 rounded-md shadow-sm flex items-center space-x-2">
-                    <img src={Logo} alt="" className="w-6 h-6 object-cover"/>
+                    <img src={Logo} alt="" className="w-6 h-6 object-cover" />
                     <span className="text-black text-xl font-bold uppercase">Ưu đãi</span>
                 </div>
             </div>
@@ -21,7 +21,7 @@ const Discout = () => {
                     <p className="text-base text-white">Khi nào đặt sân trên ứng dụng website</p>
                     <button className="flex items-center gap-1 group px-6 py-2 bg-btn-primary w-fit rounded-md cursor-pointer font-semibold">
                         Đặt sân
-                        <IoIosArrowRoundForward className="translate-y-0.5 group-hover:translate-x-1 transition-transform duration-300 ease-in-out"/>
+                        <IoIosArrowRoundForward className="translate-y-0.5 group-hover:translate-x-1 transition-transform duration-300 ease-in-out" />
                     </button>
                 </div>
                 <div>
@@ -35,10 +35,10 @@ const Discout = () => {
                         }}
                         pagination={{ clickable: true }}
                         navigation
-                        >
+                    >
                         {mainContentData.map((content) => (
                             <SwiperSlide key={content.id}>
-                                <img src={content.image} alt={content.alt} className="w-full h-[400px] object-cover rounded-md"/>
+                                <img src={content.image} alt={content.alt} className="w-full h-[400px] object-cover rounded-md" />
                             </SwiperSlide>
                         ))}
                     </Swiper>
