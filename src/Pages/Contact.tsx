@@ -117,7 +117,8 @@ const Contact = () => {
               className="w-full h-full px-2 py-2 border border-gray-300 rounded-md bg-gray-100 outline-none overflow-y-auto resize-none"
             ></textarea>
             <div className="flex justify-end">
-              <button className="text-white font-secondary bg-btn-primary px-6 py-2 rounded-md cursor-pointer">Send Massage</button>
+              <button className="text-white font-secondary bg-btn-primary px-6 py-2 
+                rounded-md cursor-pointer shadow-[4px_4px_0px_#6b7280] hover:shadow-[6px_6px_0px_#6b7280] transition-all duration-300">Send Massage</button>
             </div>
           </div>
         </div>

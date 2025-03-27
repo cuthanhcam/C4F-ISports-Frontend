@@ -45,14 +45,14 @@ const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
                     {/* Login */}
                     <div className="flex items-center gap-4">
                         <Link
-                            to="/signup"
+                            to="/auth/login"
                             onClick={() => setIsLogin(!isLogin)}
                             className={`text-xl text-text-primary font-secondary font-semibold px-4 py-1 rounded-md cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out ${isLogin ? "dark:text-white" : "text-white dark:text-black bg-btn-primary"}`}
-                        >Sign up
+                        >Login
                         </Link>
                         
                         <Link 
-                            to="/register"
+                            to="/auth/register"
                             onClick={() => setIsLogin(!isLogin)}
                             className={`text-xl text-text-primary font-primary font-semibold px-4 py-1 rounded-md cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out ${isLogin ? "bg-btn-primary text-white dark:text-black" : "dark:text-white"}`}
                         >Register

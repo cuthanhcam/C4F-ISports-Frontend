@@ -9,34 +9,41 @@ import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import useSignIn from "../Hooks/SignIn";
 
-const SignIn = () => {
-  const [enabled, setEnabled] = useState(false);
+import { login } from '../Services/authService';
+import { Link } from "react-router";
 
-  const { showPassword, setShowPassword } = useSignIn();
+const Login = () => {
 
   
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
 
-  const handleSignIn = async () => {
+
+  // Thiết kế nút lưu password.
+  const [enabled, setEnabled] = useState(false);
+
+  // Hiển thị | kh hiển thị password
+  const { showPassword, setShowPassword } = useSignIn();
+
+  // Xử lý login
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    console.log(email, password);
     try {
-      const response = await fetch(`http://localhost:5000/users?email=${email}&password=${password}`);
-      const users = await response.json();
+      // Client gửi yêu cầu login
+      const response = await login({email, password});
 
-      if (users.length > 0) {
-        setMessage("✅ Đăng nhập thành công!");
-        console.log("Đăng nhập thành công!", users[0]);
-      } else {
-        setMessage("❌ Sai tài khoản hoặc mật khẩu!");
-      }
-    } catch (error) {
-      setMessage("❌ Lỗi kết nối API!");
-      console.error("Lỗi kết nối API", error);
+      // Lưu token vào localStorage
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
+      alert('Đăng nhập thành công!');
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  console.log(message);
+
+
   
   return (
     <div className="h-screen pt-[96px] flex items-center justify-center">
@@ -49,7 +56,7 @@ const SignIn = () => {
               <h1 className="text-xl font-semibold">ISports</h1>
             </div>
             <h1 className="text-2xl font-semibold">Nice to see you again</h1>
-            <form action="" className="flex flex-col gap-5">
+            <form onSubmit={handleLogin} className="flex flex-col gap-5">
               <div className="flex flex-col gap-2">
                 <label htmlFor="" className="text-xs pl-2.5">Email</label>
                 <input 
@@ -57,7 +64,7 @@ const SignIn = () => {
                   placeholder="Enter your email" 
                   className="outline-none p-2.5 bg-gray-200 rounded-md"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}  
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -92,14 +99,17 @@ const SignIn = () => {
                   </Switch>
                   <span className="text-xs">Remember me</span>
                 </div>
-                <a href="#" className="text-xs font-semibold text-blue-500">Forgot password?</a>
+                <a href="#" className="text-xs font-semibold text-blue-500">
+                  <Link to='/auth/forgot-password'>Forgot password?</Link>
+                </a>
               </div>
             </form>
             <button 
+              
               className="w-full bg-btn-primary py-1.5 rounded-md text-white font-semibold"
-              onClick={handleSignIn}
+              onClick={handleLogin}
             >
-              Sign In
+              Login
             </button>
             <div className="flex items-center">
               <div className="flex-1 border-t border-gray-300"></div>
@@ -131,4 +141,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default Login
