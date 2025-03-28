@@ -1,12 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { logout } from '../Services/authService';
+import { getUserProfile, logout, updateUserProfile } from '../Services/authService';
 interface AuthContextType {
-    isAuthenticated: boolean;
-    setIsAuthenticated: (value: boolean) => void;
-    user: any;
-    setUser: (value: any) => void;
-    login: (token: string, userData: any) => void;
-    logoutUser: () => Promise<void>;
+  isAuthenticated: boolean;
+  setIsAuthenticated: (value: boolean) => void;
+  user: any;
+  setUser: (value: any) => void;
+  login: (token: string, userData: any) => void;
+  logoutUser: () => Promise<void>;
+  fetchUserProfile: () => Promise<void>;
+  updateUser: (userData: any) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -23,10 +25,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           try {
             setUser(JSON.parse(userData)); // Parse user từ localStorage
             setIsAuthenticated(true);
+            fetchUserProfile();
           } catch (error) {
             console.error("Lỗi khi parse user từ localStorage:", error);
             setUser(null);
-            setIsAuthenticated(false);
+            setIsAuthenticated(false);  
           }
         } else {
           setUser(null);
@@ -35,12 +38,48 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
 
-    const login = (token: string, userData: any) => {
-        localStorage.setItem("accessToken", token);
-        localStorage.setItem("user", JSON.stringify(userData));
+    const updateUser = async (userData: any) => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('No authentication token found');
+  
+        const updatedUser = await updateUserProfile(token, userData);
+        setUser(updatedUser);
+      } catch (error) {
+        console.error('Update profile failed:', error);
+      }
+    };
 
-        setIsAuthenticated(true);
+    const fetchUserProfile = async () => {
+      const token = localStorage.getItem("accessToken");
+      
+      if (!token) {
+        setUser(null);
+        setIsAuthenticated(false);
+        return;
+      }
+  
+      try {
+        const userData = await getUserProfile(token);
+        console.log("user Data: ", userData);
         setUser(userData);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+    };
+  
+
+
+    const login = async (token: string, userData: any) => {
+      localStorage.setItem("accessToken", token);
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      setIsAuthenticated(true);
+      setUser(userData);
+      await fetchUserProfile();
     };
 
     const logoutUser = async () => {
@@ -61,7 +100,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser, login, logoutUser }}>
+        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser, login, logoutUser, fetchUserProfile, updateUser }}>
             {children}
         </AuthContext.Provider>
     );
