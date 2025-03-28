@@ -12,6 +12,8 @@ import BookingPage from "./Pages/BookingPage.tsx";
 import VerifyEmail from "./Components/VerifyEmail.tsx";
 import ForgotPassword from "./Components/ForgotPassword.tsx";
 import ResetPasswordForm from "./Components/ResetPasswordForm.tsx";
+import PrivateRoute from "./Routes/PrivateRoute.tsx";
+import ProfilePage from "./Pages/ProfilePage.tsx";
 
 
 const App = () => {
@@ -21,9 +23,9 @@ const App = () => {
   return (
     <div className="overflow-hidden">
       <Routes>
+        {/* Route công khai */}
         {/* Trang chính */}
         <Route path="/" element={<Home />} />
-        {/* Auth */}
         <Route path="/contact" element={<Layout><Contact /></Layout>} />
         <Route path="/services" element={<Layout><Services /></Layout>} />
         <Route path="/auth/login" element={<Layout><Login /></Layout>} />
@@ -31,10 +33,16 @@ const App = () => {
         <Route path="/auth/verify-email" element={<Layout><VerifyEmail /></Layout>} />
         <Route path="/auth/forgot-password" element={<Layout><ForgotPassword /></Layout>} />
         <Route path="/auth/reset-password" element={<Layout><ResetPasswordForm /></Layout>} />
-        {/* Trang quản trị viên */}
-        <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-        {/* Trang người dùng */}
-        <Route path="/booking" element={<Layout><BookingPage /></Layout>} />
+        
+        {/* Rote bảo vệ - chỉ vào được khi đăng nhập*/}
+        <Route element={<PrivateRoute />}>
+          {/* Trang quản trị viên */}
+          <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+          {/* Trang người dùng */}
+          <Route path="/booking" element={<Layout><BookingPage /></Layout>} />
+
+          <Route path="/users/profile" element={<Layout><ProfilePage/></Layout>} />
+        </Route>
       </Routes>
       {/* Setting layout */}
       <FloatingMenu darkMode={darkMode} setDarkMode={setDarkMode}/>

@@ -9,38 +9,46 @@ import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
 import useSignIn from "../Hooks/SignIn";
 
-import { login } from '../Services/authService';
-import { Link } from "react-router";
-
+import { login as loginAPI } from '../Services/authService';
+import { Link, useNavigate } from "react-router";
+import { useAuth } from '../Context/AuthContext';
 const Login = () => {
-
-  
-
 
   // Thiết kế nút lưu password.
   const [enabled, setEnabled] = useState(false);
-
   // Hiển thị | kh hiển thị password
   const { showPassword, setShowPassword } = useSignIn();
 
-  // Xử lý login
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
+  // Xử lý login
   const handleLogin = async () => {
-    console.log(email, password);
     try {
-      // Client gửi yêu cầu login
-      const response = await login({email, password});
+      // Gửi yêu cầu đăng nhập đến API
+      const response = await loginAPI({ email, password });
+  
+      // Kiểm tra dữ liệu nhận về có hợp lệ không
+      if (response && response.data && response.data.token) {
+        const { token, refreshToken } = response.data;
 
-      // Lưu token vào localStorage
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
-      alert('Đăng nhập thành công!');
+        // Lưu token vào localStorage
+        login(token, response.data.user ?? {}); // Nếu không có `user`, lưu object rỗng
+  
+        // Hiển thị thông báo thành công
+        alert("Đăng nhập thành công!");
+        navigate('/booking');
+      } else {
+        throw new Error("Dữ liệu đăng nhập không hợp lệ!");
+      }
     } catch (err) {
-      console.log(err);
+      console.error("Lỗi khi đăng nhập:", err);
+      alert("Đăng nhập thất bại! Vui lòng kiểm tra lại tài khoản và mật khẩu.");
     }
   };
+  
 
 
 
@@ -106,7 +114,7 @@ const Login = () => {
             </form>
             <button 
               
-              className="w-full bg-btn-primary py-1.5 rounded-md text-white font-semibold"
+              className="w-full bg-btn-primary py-1.5 rounded-md text-white font-semibold cursor-pointer"
               onClick={handleLogin}
             >
               Login
