@@ -12,9 +12,9 @@ const ForgotPassword = () => {
     setLoading(true);
   
     try {
-      const res = await forgotPassword({ email }); // 👈 Nhận response từ API
-      console.log("📩 Phản hồi từ API:", res); // Debug log
-      setMessage(res?.message || "✅ Kiểm tra email để đặt lại mật khẩu!");
+      const res = await forgotPassword({ email }); // Nhận response từ API
+      console.log("Phản hồi từ API:", res); // Debug log
+      setMessage(res?.message || "Kiểm tra email để đặt lại mật khẩu!");
     } catch (error: any) {
       setMessage(`❌ ${error?.Error || "Có lỗi xảy ra!"}`);
     } finally {

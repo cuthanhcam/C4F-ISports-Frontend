@@ -12,6 +12,16 @@ export const register = async (data: RegisterRequestType) => {
     return await axios.post(`${API_URL}/register`, data);
 };
 
+export const logout = async (refreshToken: string) => {
+  try {
+    const response = await axios.post(`${API_URL}/logout`, { refreshToken });
+    return response.data;
+  } catch (error) {
+    console.error("Logout error:", error);
+    throw error;
+  }
+};
+
 export const forgotPassword = async (data: { email: string }) => {
     try {
       const response = await axios.post(`${API_URL}/forgot-password`, data);
@@ -25,4 +35,10 @@ export const forgotPassword = async (data: { email: string }) => {
 
 export const resetPassword = async (data: { email: string; token: string; newPassword: string }) => {
     return await axios.post(`${API_URL}/reset-password`, data);
+};
+
+
+
+export const getUser = async () => {
+  return await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`);
 };
