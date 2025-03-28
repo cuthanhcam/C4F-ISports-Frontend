@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { menuItemsData } from "../../Data/menuData";
 import LogoC4F from "/src/assets/images/LogoC4F.png"; 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import { FaRegUserCircle } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
 import { HiOutlineBell } from "react-icons/hi2";
-import { motion } from "framer-motion";
+
 interface HeaderProps {
     isLogin: boolean;
     setIsLogin: (value: boolean) => void;
@@ -17,9 +17,12 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
     const { isAuthenticated, logoutUser } = useAuth();
+    
+    const navigate = useNavigate();
     const handleLogout = async () => {
         try {
             await logoutUser(); // 
+            navigate('/auth/login');
         } catch (error) {
             console.error("Logout error:", error);
         }
@@ -27,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
 
     const [isProfile, setIsProfile] = useState(false);
     
-
+    
     return (
         <div className='fixed top-0 left-0 w-screen dark:bg-bg-dark-mode-sc bg-white z-[10] border-gray-300 border-b'>
             <div className="max-w-[1200px] mx-auto py-6">

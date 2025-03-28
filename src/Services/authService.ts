@@ -38,7 +38,31 @@ export const resetPassword = async (data: { email: string; token: string; newPas
 };
 
 
+export const getUserProfile = async (token: string) => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
+      headers: { Authorization: `Bearer ${token}` }, // Sửa 'Beaver' thành 'Bearer'
+    });
+    return response.data; // Đúng phải là 'response.data'
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    throw error;
+  }
+};
 
-export const getUser = async () => {
-  return await axios.get(`${import.meta.env.VITE_API_URL}/user/profile`);
+
+
+export const updateUserProfile = async (token: string, userData: any) => {
+  try {
+    const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/users/profile`, userData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error: ", error);
+    throw error.response?.data || error.message;
+  }
 };
