@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function useHeader() {
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState('login');
 
     return {
         isLogin, 
