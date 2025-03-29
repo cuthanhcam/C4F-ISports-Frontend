@@ -53,16 +53,41 @@ export const getUserProfile = async (token: string) => {
 
 
 export const updateUserProfile = async (token: string, userData: any) => {
+  const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/users/profile`, userData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });  
+};
+
+
+export const deleteUserProfile = async (token: string) => {
   try {
-    const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/users/profile`, userData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await axios.delete(
+      `${import.meta.env.VITE_API_URL}/api/users/profile`, 
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return response.data;
   } catch (error) {
-    console.error("Error: ", error);
-    throw error.response?.data || error.message;
+    console.error("Error deleting user profile:", error);
+    throw error;
+  }
+};
+
+export const changePassword = async (data: any): Promise<string> => {
+  try {
+    const response = await axios.post(`${API_URL}/change-password`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data.message;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Có lỗi xảy ra");
   }
 };

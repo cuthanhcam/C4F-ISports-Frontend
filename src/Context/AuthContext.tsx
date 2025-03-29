@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getUserProfile, logout, updateUserProfile } from '../Services/authService';
+import { getUserProfile, logout, updateUserProfile, deleteUserProfile, changePassword } from '../Services/authService';
+import { useNavigate } from "react-router";
+
 interface AuthContextType {
   isAuthenticated: boolean;
   setIsAuthenticated: (value: boolean) => void;
@@ -8,7 +10,9 @@ interface AuthContextType {
   login: (token: string, userData: any) => void;
   logoutUser: () => Promise<void>;
   fetchUserProfile: () => Promise<void>;
-  updateUser: (userData: any) => Promise<void>;
+  updateProfile: (userData: any) => Promise<void>;
+  deleteProfile: () => Promise<void>;
+  changeUserPassword: (oldPassword: string, newPassword: string) => Promise<string>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -16,7 +20,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [user, setUser] = useState<any>(null);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
         const userData = localStorage.getItem("user");
@@ -38,18 +42,54 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
 
-    const updateUser = async (userData: any) => {
+    const deleteProfile = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) return;
+    
       try {
-        const token = localStorage.getItem('token');
-        if (!token) throw new Error('No authentication token found');
-  
-        const updatedUser = await updateUserProfile(token, userData);
-        setUser(updatedUser);
+        await deleteUserProfile(token);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("user");
+        setUser(null);
+        setIsAuthenticated(false);
+        alert("Xóa tài khoản thành công!");
+        navigate('/auth/login');
       } catch (error) {
-        console.error('Update profile failed:', error);
+        console.error("Failed to delete profile:", error);
+        alert("Xóa tài khoản thất bại!");
       }
     };
 
+
+     // Cập nhật thông tin user
+     const updateProfile = async (userData: any) => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) return;
+     
+      try {
+        const updatedUser = await updateUserProfile(token, userData);
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      } catch (error) {
+        console.error("Failed to update profile:", error);
+      }
+    };
+
+
+    const changeUserPassword = async (oldPassword: string, newPassword: string): Promise<string> => {
+      try {
+        const responseMessage = await changePassword({ oldPassword, newPassword });
+        alert('Thay đổi mật khẩu thành công!');
+        return responseMessage;
+      } catch (error: any) {
+        console.error(error);
+        alert('Thay đổi mật khẩu thật bại!');
+        throw error;
+      }
+    };
+    
+    // Lấy thông tin user
     const fetchUserProfile = async () => {
       const token = localStorage.getItem("accessToken");
       
@@ -61,7 +101,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   
       try {
         const userData = await getUserProfile(token);
-        console.log("user Data: ", userData);
+    
         setUser(userData);
         setIsAuthenticated(true);
       } catch (error) {
@@ -72,7 +112,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   
 
-
+    // Đăng nhập user
     const login = async (token: string, userData: any) => {
       localStorage.setItem("accessToken", token);
       localStorage.setItem("user", JSON.stringify(userData));
@@ -82,6 +122,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await fetchUserProfile();
     };
 
+    // Đăng xuất user
     const logoutUser = async () => {
       try {
         const refreshToken = localStorage.getItem("refreshToken");
@@ -100,7 +141,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser, login, logoutUser, fetchUserProfile, updateUser }}>
+        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser, login, logoutUser, fetchUserProfile, updateProfile,  deleteProfile, changeUserPassword  }}>
             {children}
         </AuthContext.Provider>
     );
