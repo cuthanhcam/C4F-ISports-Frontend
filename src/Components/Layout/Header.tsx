@@ -9,8 +9,8 @@ import { CiLogout } from "react-icons/ci";
 import { HiOutlineBell } from "react-icons/hi2";
 
 interface HeaderProps {
-    isLogin: boolean;
-    setIsLogin: (value: boolean) => void;
+    isLogin: string;
+    setIsLogin: (value: string) => void;
 }
 
 
@@ -101,11 +101,19 @@ const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
                         </div>
                     ) : (
                         <>
-                            <Link to="/auth/login" onClick={() => setIsLogin(!isLogin)} className={`text-xl text-text-primary font-secondary font-semibold px-4 py-1 rounded-md cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out ${isLogin ? "dark:text-white" : "text-white dark:text-black bg-btn-primary"}`}>
+                            <Link to="/auth/login" onClick={() => {
+                                if (isLogin !== 'login') {
+                                    setIsLogin('login');
+                                }
+                            }} className={`text-xl text-text-primary font-secondary font-semibold px-4 py-1 rounded-md cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out ${isLogin !== 'login' ? "dark:text-white" : "text-white dark:text-black bg-btn-primary"}`}>
                                 Login
                             </Link>
                             
-                            <Link to="/auth/register" onClick={() => setIsLogin(!isLogin)} className={`text-xl text-text-primary font-primary font-semibold px-4 py-1 rounded-md cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out ${isLogin ? "bg-btn-primary text-white dark:text-black" : "dark:text-white"}`}>
+                            <Link to="/auth/register" onClick={() => {
+                                if (isLogin !== 'register') {
+                                    setIsLogin('register');
+                                }
+                            }} className={`text-xl text-text-primary font-primary font-semibold px-4 py-1 rounded-md cursor-pointer hover:scale-110 transition-transform duration-300 ease-in-out ${isLogin === 'register' ? "bg-btn-primary text-white dark:text-black" : "dark:text-white"}`}>
                                 Register
                             </Link>
                         </>

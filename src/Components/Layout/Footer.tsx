@@ -9,7 +9,7 @@ import { FaPinterestP,  FaInstagram, FaTiktok, FaLinkedinIn, FaFacebookF } from 
 import ButtonImage from "../../assets/images/banners/VectorRow.png";
 const Footer = () => {
     return (
-        <div className="bg-btn-primary">
+        <div className="bg-btn-primary mt-18">
             <div className="py-18">
                 <div className="max-w-[1200px] mx-auto grid grid-cols-4 justify-items-center">
                     <div className="flex flex-col gap-8">
