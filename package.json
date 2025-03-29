@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
+    "@radix-ui/react-select": "^2.1.6",
     "@react-google-maps/api": "^2.20.6",
     "@tailwindcss/vite": "^4.0.8",
     "axios": "^1.8.4",
     "framer-motion": "^12.6.2",
+    "lucide-react": "^0.485.0",
     "motion": "^12.4.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
