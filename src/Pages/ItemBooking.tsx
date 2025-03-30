@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import Logo from '../assets/images/logo_C4F_tachnen.png';
 import { IoLocationOutline } from "react-icons/io5"
 import { CiClock2 } from "react-icons/ci";
@@ -10,6 +10,8 @@ import Badminton from '../assets/Icons/badminton.png';
 import Basketball from '../assets/Icons/basketball.png';
 import vollayball from '../assets/Icons/block.png';
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
+import { jwtDecode } from "jwt-decode";
+
 const containerStyle = {
     width: "100%",
     height: "400px",
@@ -26,7 +28,29 @@ const images = [
 const centerDefault = { lat: 10.7769, lng: 106.7009 };
 
 
+const getRoleFromToken = () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+        try {
+            const decodedToken: any = jwtDecode(token); // Giải mã token
+            console.log("Decoded Token: ", decodedToken);  // In ra payload để kiểm tra
+            // Truy xuất đúng role với tiền tố đầy đủ
+            return decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || null;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+        }
+    }
+    return null; // Nếu không có token, trả về null
+};
+
+
+
+
 const ItemBooking = () => {
+
+
+    const [role, setRole] = useState<string | null>(null);
+
     const { id } = useParams(); // Lấy ID từ URL
     const [field, setField] = useState<any>(null);
     const [loading, setLoading] = useState(true);
@@ -39,6 +63,14 @@ const ItemBooking = () => {
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: "AIzaSyCLtpk5GN1QnAfW8G3IbBKHXiOy3kxR6Gw",
     });
+
+    useEffect(() => {
+            // Gọi getRoleFromToken chỉ một lần để lấy giá trị role
+            const tokenRole = getRoleFromToken();
+            console.log("role:", tokenRole);
+            setRole(tokenRole);
+        }, []); // Chạy một lần khi component mount
+
 
     useEffect(() => {
         const fetchField = async () => {
@@ -70,7 +102,53 @@ const ItemBooking = () => {
         }
     }, []);
 
+
+   
+
+    const handleDeleteField = async (id: number) => {
+        if (role === 'Owner' || role === 'Admin') {
+          try {
+            // Thêm confirm dialog
+            const isConfirmed = window.confirm(
+              'Bạn có chắc muốn xóa sân này? Tất cả dữ liệu liên quan (đặt sân, sân con) sẽ bị xóa!'
+            );
+            if (!isConfirmed) return;
+      
+            // Thêm header 'Content-Type'
+            const response = await axios.delete(
+              `${import.meta.env.VITE_API_URL}/api/field/${id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                  'Content-Type': 'application/json'
+                }
+              }
+            );
+      
+            // Kiểm tra response status
+            if (response.status === 200 || response.status === 204) {
+              alert('Xóa sân thành công!');
+              window.location.href = '/'; // Chuyển về trang chủ
+            }
+          } catch (error: any) {
+            console.error('Chi tiết lỗi:', {
+              status: error.response?.status,
+              data: error.response?.data,
+              config: error.config
+            });
+      
+            if (error.response?.status === 500) {
+              alert('Lỗi server: Không thể xóa sân do có dữ liệu liên quan. Vui lòng liên hệ quản trị viên.');
+            } else {
+              alert(`Lỗi khi xóa sân: ${error.message}`);
+            }
+          }
+        } else {
+          alert('Bạn không có quyền xóa sân!');
+        }
+      };
     
+      
     if (loading) return <p>Đang tải...</p>;
     if (error) return <p>{error}</p>;
     if (!isLoaded) return <p>Loading...</p>;
@@ -223,6 +301,39 @@ const ItemBooking = () => {
                         </div>
                     </div>
                 </div>
+                {/* Đặt sân */}
+                <div>
+                    <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-10 bg-btn-primary rounded-md"></div>
+                        <h2 className="text-lg font-medium">Đặt sân ngay tại đây</h2>
+                    </div>
+                    <Link to={`/field/${field.fieldId}/availability`}>
+                        <button className="px-10 py-2 bg-btn-primary my-8 rounded-md text-lg font-semibold text-white cursor-pointer">
+                            Đặt sân
+                        </button>
+                    </Link>
+                </div>
+
+                {/* Quyền cập nhật và xóa field */}
+                {role === 'Owner' || role === 'Admin' ? (<div>
+                    <div className="flex items-center gap-2 py-8">
+                        <div className="w-1.5 h-10 bg-btn-primary rounded-md"></div>
+                        <h2 className="text-lg font-medium">Cập nhật thông tin, xóa filed</h2>
+                    </div>
+                    <div className="flex items-center gap-6 py-2 text-white">
+                        <Link  to={`/field/${field.fieldId}/edit`}>
+                            <button 
+                                className="bg-amber-400 px-6 py-2 rounded-md cursor-pointer"
+                                >Cập nhật sân</button>
+                        </Link>
+                        <button 
+                            className="bg-red-500 px-6 py-2 rounded-md cursor-pointer"
+                            onClick={() => handleDeleteField(field.fieldId)}
+                            >
+                            Xóa sân
+                        </button>
+                    </div>
+                </div>) : null}
             </div>
         </div>
     )

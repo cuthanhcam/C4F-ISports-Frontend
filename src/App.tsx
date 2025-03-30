@@ -15,6 +15,8 @@ import ResetPasswordForm from "./Components/ResetPasswordForm.tsx";
 import PrivateRoute from "./Routes/PrivateRoute.tsx";
 import ProfilePage from "./Pages/ProfilePage.tsx";
 import ItemBooking from "./Pages/ItemBooking.tsx";
+import FieldBooking from "./Pages/FieldBooking.tsx";
+import FieldUpdateForm from "./Components/FieldUpdateForm.tsx";
 
 
 const App = () => {
@@ -28,20 +30,23 @@ const App = () => {
         {/* Trang chính */}
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Layout><Contact /></Layout>} />
-        <Route path="/services" element={<Layout><Services /></Layout>} />
+        <Route path="/field" element={<Layout><BookingPage /></Layout>} />
         <Route path="/auth/login" element={<Layout><Login /></Layout>} />
         <Route path="/auth/register" element={<Layout><Register /></Layout>} />
         <Route path="/auth/verify-email" element={<Layout><VerifyEmail /></Layout>} />
         <Route path="/auth/forgot-password" element={<Layout><ForgotPassword /></Layout>} />
         <Route path="/auth/reset-password" element={<Layout><ResetPasswordForm /></Layout>} />
-        
+        <Route path="/field/:id" element={<Layout><ItemBooking/></Layout>} />
+        <Route path="/field/:id/availability" element={<Layout><FieldBooking/></Layout>} />
+        <Route path="/field/:id/edit" element={<Layout><FieldUpdateForm /></Layout>} />
+
+
+
         {/* Rote bảo vệ - chỉ vào được khi đăng nhập*/}
         <Route element={<PrivateRoute />}>
           {/* Trang quản trị viên */}
           <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
           {/* Trang người dùng */}
-          <Route path="/field" element={<Layout><BookingPage /></Layout>} />
-          <Route path="/field/:id" element={<Layout><ItemBooking/></Layout>} />
           <Route path="/users/profile" element={<Layout><ProfilePage/></Layout>} />
         </Route>
       </Routes>
@@ -52,3 +57,4 @@ const App = () => {
 };
 
 export default App;
+

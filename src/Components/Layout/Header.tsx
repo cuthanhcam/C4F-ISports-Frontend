@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { menuItemsData } from "../../Data/menuData";
-import LogoC4F from "/src/assets/images/LogoC4F.png"; 
+import LogoC4F from "/src/assets/images/logo_C4F_tachnen.png"; 
 import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
@@ -39,8 +39,8 @@ const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
                     <Link to='/'>
                         <a href="#" className='flex gap-2 items-center'>
                             {/* Not yet fix logo */}
-                            <img src={LogoC4F} alt="Logo" className="min-w-[48px] min-h-[48px] object-contain"/>
-                            <h1 className="text-4xl tracking-wide text-black dark:text-white font-primary font-semibold">ISports</h1>
+                            <img src={LogoC4F} alt="Logo" className="w-16 h-16 object-cover"/>
+                            <h1 className="text-3xl tracking-wide text-black dark:text-white font-primary font-semibold">ISports</h1>
                         </a>
                     </Link>
                     {/* Navbar */}
