@@ -39,7 +39,7 @@ const App = () => {
           {/* Trang quản trị viên */}
           <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
           {/* Trang người dùng */}
-          <Route path="/booking" element={<Layout><BookingPage /></Layout>} />
+          <Route path="/field" element={<Layout><BookingPage /></Layout>} />
 
           <Route path="/users/profile" element={<Layout><ProfilePage/></Layout>} />
         </Route>

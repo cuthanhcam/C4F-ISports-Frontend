@@ -39,7 +39,7 @@ const Login = () => {
   
         // Hiển thị thông báo thành công
         alert("Đăng nhập thành công!");
-        navigate('/booking');
+        navigate('/field');
       } else {
         throw new Error("Dữ liệu đăng nhập không hợp lệ!");
       }

@@ -1,27 +1,65 @@
-import { useFields } from "../Hooks/useFields";
+// import { useFields } from "../Hooks/useFields";
 import { CiClock2 } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
-import Logo  from '../assets/images/LogoC4FMain.png';
 import Logo2  from '../assets/images/logo_C4F_tachnen.png';
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PiCityLight } from "react-icons/pi";
 import { SlSocialDribbble } from "react-icons/sl";
 import { heroData, heroSearchDistrict } from "../Data/heroData";
-import { CiSearch } from "react-icons/ci";
+import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { Swiper as SwiperType } from "swiper/types";
+import { debounce } from "lodash";
+
+
 const BookingPage = () => {
     // Xoay icon 180
     const [isOpen, setIsOpen] = useState(false);
     
-
-    const { fields, loading, error } = useFields(1, 10);
     
-    if (loading) return <p>Loading fields...</p>;
-    if (error) return <p>{error}</p>;
+    const [data, setData] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
+    
+    const pageSize = 12;
+    const [currentPage, setCurrentPage] = useState(1);
+    const swiperRef = useRef<SwiperType | null>(null);
+    
+    const [idSort, setIdSort] = useState(0);
+    
+    const fetchData = async (page: number, sportId: number) => {
+        try {
+            const params: any = { page, pageSize }; 
+
+            if (sportId === 1 || sportId === 2) { 
+                params.sportId = sportId; // Chỉ thêm sportId nếu id là 1 hoặc 2
+            }
+
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/field`, { params });
+
+            setData(response.data.items);
+            setTotalPages(Math.ceil(response.data.totalItems / pageSize));
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+    };
+    
+
+    useEffect(() => {
+        fetchData(currentPage, idSort);
+    }, [currentPage, idSort]);
+    // const { fields, loading, error } = useFields(1, 10);
+    // if (loading) return <p>Loading fields...</p>;
+    // if (error) return <p>{error}</p>;
 
     
     return (
-        <div className="h-screen pt-24">
+        <div className="h-fit pt-24">
             <div className="w-full max-w-[1200px] mx-auto mt-16">
                 {/* Search */}
                 <div className="border border-gray-300 rounded-lg backdrop-blur-xl">
@@ -104,45 +142,108 @@ const BookingPage = () => {
                         <span className="text-black text-xl font-bold uppercase">danh sách sân thể thao</span>
                     </div>
                 </div>
-                
+                {/*  Thể loại sân */}
+                <div className="flex justify-end py-8 gap-4">
+                    <div>
+                        <button 
+                            className={`px-5 py-1 rounded-2xl border border-gray-300 text-sm font-medium cursor-pointer shadow-2xl ${idSort === 0 ? 'bg-blue-500 text-white' : ''}`}
+                            onClick={() => setIdSort(0)}
+                        >Tất cả</button>
+                    </div>
+                    <div>
+                        <button 
+                            className={`px-5 py-1 rounded-2xl border border-gray-300 text-sm font-medium cursor-pointer shadow-2xl  ${idSort === 1 ? 'bg-blue-500 text-white' : ''}`}
+                            onClick={() => setIdSort(1)}
+                        >
+                            Bóng đá
+                        </button>
+                    </div>
+                    <div>
+                        <button 
+                            className={`px-5 py-1 rounded-2xl border border-gray-300 text-sm font-medium cursor-pointer shadow-2xl ${idSort === 2 ? 'bg-blue-500 text-white' : ''}`}
+                            onClick={() => setIdSort(2)}
+                        >Cầu lông
+                        </button>
+                    </div>
+                </div>
                 {/* Danh sách sân */}
-                <div className="grid grid-cols-4 gap-8">
-                    {fields.map((field) => (
-                        <div key={field.id} className="border border-gray-200 rounded-sm">
-                            <div className="p-6">
-                                <img src="" alt="" className="w-full h-[160px] object-cover rounded-xl mb-6"/>
-                                <div className="flex flex-col gap-2">
-                                    {/* Mở cửa */}
-                                    <div>
-                                        <div className="flex items-center gap-2 text-sm">
-                                            <CiClock2/>
-                                            {field.Active === 'Active' 
-                                            ? (<span className="text-green-500">
-                                                Đang mở cửa
-                                            </span>) 
-                                            : (<span className="text-red-500">
-                                                Đang đóng cửa
-                                            </span>)}
-                                        </div>                                
+                <Swiper
+                    modules={[Pagination, Navigation]}
+                    slidesPerView={1}
+                    // pagination={{ clickable: true }}
+                    // navigation
+                    onSlideChange={(swiper) => setCurrentPage(swiper.activeIndex + 1)}
+                    onSwiper={(swiper) => (swiperRef.current = swiper)}
+                    className="mySwiper"
+                >
+                    {Array.from({ length: totalPages }).map((_, pageIndex) => (
+                        <SwiperSlide key={pageIndex}>
+                            <div className="grid grid-cols-4 grid-rows-3 gap-8">
+                                {data.map((field, index) => (
+                                    <div key={index} className="border border-gray-200 rounded-sm">
+                                        <div className="p-6">
+                                            <img src={Logo2} alt="" className="w-full h-[160px] object-cover rounded-xl mb-6"/>
+                                            <div className="flex flex-col gap-2">
+                                                {/* Mở cửa */}
+                                                <div>
+                                                    <div className="flex items-center gap-2 text-sm">
+                                                        <CiClock2/>
+                                                        {field.Active === 'Active' 
+                                                        ? (<span className="text-green-500">
+                                                            Đang mở cửa
+                                                        </span>) 
+                                                        : (<span className="text-red-500">
+                                                            Đang đóng cửa
+                                                        </span>)}
+                                                    </div>                                
+                                                </div>
+                                                {/* Thời gian mở cửa */}
+                                                <div className="flex items-center gap-2 text-sm">
+                                                    <p>Mở cửa:</p>
+                                                    <p>{field.openHours}</p>
+                                                </div>    
+                                                {/* Thể loại sân */}
+                                                <h2>{field.sportName}</h2>
+                                                {/* Tên sân */}
+                                                <h1 className="text-xl font-medium">{field.fieldName}</h1>
+                                                {/* Địa chỉ */}
+                                                <div className="flex items-center gap-2 text-sm">
+                                                    <IoLocationOutline/>
+                                                    <span>{field.address}</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    {/* Thời gian mở cửa */}
-                                    <div className="flex items-center gap-2 text-sm">
-                                        <p>Mở cửa:</p>
-                                        <p>{field.openHours}</p>
-                                    </div>    
-                                    {/* Thể loại sân */}
-                                    <h2>{field.sportName}</h2>
-                                    {/* Tên sân */}
-                                    <h1 className="text-xl font-medium">{field.fieldName}</h1>
-                                    {/* Địa chỉ */}
-                                    <div className="flex items-center gap-2 text-sm">
-                                        <IoLocationOutline/>
-                                        <span>{field.address}</span>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
-                        </div>
+                        </SwiperSlide>
                     ))}
+                </Swiper>
+                {/* Hiển thị số trang */}
+                <div className="flex justify-center items-center gap-8 my-8">
+                    <button
+                        onClick={() => swiperRef.current?.slidePrev()}
+                        disabled={swiperRef.current?.activeIndex === 0}
+                        className={`bg-blue-500 text-white h-8 w-20 rounded text-sm font-medium flex justify-center items-center gap-1 group cursor-pointer 
+                            ${swiperRef.current?.activeIndex === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+                    >
+                        <MdOutlineKeyboardArrowLeft className="group-hover:-translate-x-0.5 duration-200 transition-all ease-in-out"/>
+                        Trước
+                    </button>
+                    <p>
+                        Trang <span className="text-btn-primary">{currentPage}</span> / {totalPages}
+                    </p>
+                    
+                    <button
+                        onClick={() => swiperRef.current?.slideNext()}
+                        disabled={swiperRef.current?.activeIndex === swiperRef.current?.slides.length - 1}
+                        className={`bg-blue-500 text-white h-8 w-20 rounded text-sm font-medium flex justify-center items-center gap-1 group cursor-pointer 
+                            ${swiperRef.current?.activeIndex === swiperRef.current?.slides.length - 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+                        >
+                            Sau
+                            <MdOutlineKeyboardArrowRight className="group-hover:translate-x-0.5 duration-200 transition-all ease-in-out"/>
+                    </button>
+                    
                 </div>
             </div>
         </div>

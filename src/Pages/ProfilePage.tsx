@@ -114,7 +114,7 @@ const ProfilePage = () => {
   return (
     <div>
       <div className="pt-24">
-        <div className="h-screen py-10">
+        <div className="h-fit py-10">
           <div className="max-w-[1200px] mx-auto">
             <div className="flex items-center gap-2 pb-10">
               <div className="bg-btn-primary w-1 h-10 rounded-md"></div>
