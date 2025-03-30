@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { menuItemsData } from "../../Data/menuData";
-import LogoC4F from "/src/assets/images/LogoC4F.png"; 
+import LogoC4F from "/src/assets/images/logo_C4F_tachnen.png"; 
 import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
@@ -39,8 +39,8 @@ const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
                     <Link to='/'>
                         <a href="#" className='flex gap-2 items-center'>
                             {/* Not yet fix logo */}
-                            <img src={LogoC4F} alt="Logo" className="min-w-[48px] min-h-[48px] object-contain"/>
-                            <h1 className="text-4xl tracking-wide text-black dark:text-white font-primary font-semibold">ISports</h1>
+                            <img src={LogoC4F} alt="Logo" className="w-16 h-16 object-cover"/>
+                            <h1 className="text-3xl tracking-wide text-black dark:text-white font-primary font-semibold">ISports</h1>
                         </a>
                     </Link>
                     {/* Navbar */}
@@ -82,16 +82,16 @@ const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
                                 <FaRegUserCircle className="text-xl group-hover:scale-110 duration-200 transition-transform ease-linear"/>
                                 {isProfile 
                                 ? 
-                                (<div className="absolute left-0 top-1/2 translate-y-1/3 bg-amber-300 w-[180px] h-fit rounded-sm">
+                                (<div className="absolute left-0 top-1/2 translate-y-1/3 bg-slate-100 w-[180px] h-fit rounded-sm">
                                     <ul className="flex flex-col items-start gap-2 p-4">
-                                        <li>
-                                            <Link to='/users/profile'>Trang cá nhân</Link>
+                                        <li className="hover:bg-gray-200 w-full">
+                                            <Link to='/users/profile' className="">Trang cá nhân</Link>
                                         </li>
-                                        <li>
-                                            <Link to='/'>Cài đặt</Link>
+                                        <li className="hover:bg-gray-200 w-full">
+                                            <Link to='/' className="">Cài đặt</Link>
                                         </li>
-                                        <li>
-                                            <Link to='/'>Đăng xuất</Link>
+                                        <li className="hover:bg-gray-200 w-full">
+                                            <Link to='/' className="">Đăng xuất</Link>
                                         </li>
                                     </ul>
                                 </div>) 

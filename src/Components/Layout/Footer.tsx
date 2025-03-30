@@ -1,4 +1,4 @@
-import Logo from "../../assets/images/LogoC4F.png";
+import Logo from "../../assets/images/logo_C4F_tachnen.png";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaPhone } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
@@ -20,15 +20,15 @@ const Footer = () => {
                         <div className="flex flex-col gap-4">
                             <div className="flex items-center gap-2 text-sm font-medium">
                                 <FaLocationDot/>
-                                Tầng 5 số 32 ngõ 12 Khuất Duy Tiến, Thanh Xuân, Hà Nội
+                                48/8 Đường số 3, Trường Thọ, Thủ Đức
                             </div>
                             <div className="flex items-centergap-2 text-sm font-medium">
                                 <FaPhone/>
-                                +84 83 563 6263
+                                +84 00 000 000
                             </div>
                             <div className="flex items-center gap-2 text-sm font-medium">
                                 <MdEmail/>
-                                dhdcompany666@gmail.com
+                                bootchatgmail.com
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,7 @@ const Footer = () => {
                 <img src={Footer_Layout01} alt="" className="w-full"/>
                 <img src={Footer_Layout02} alt="" className="absolute top-0 left-0 z-[2] w-full"/>
                 <img src={Footer_Layout03} alt="" className="absolute top-0 left-0 z-[3] w-full"/>
-                <h1 className="absolute top-1/2 translate-y-1/2 left-1/2 -translate-x-1/2 text-sm text-gray-300 font-semibold z-[4]">Copyright 2025 © IPorsts</h1>
+                <h1 className="absolute top-1/2 translate-y-1/2 left-1/2 -translate-x-1/2 text-sm text-gray-300 font-semibold z-[4]">Copyright 2025 © ISports</h1>
             </div>
         </div>
     )
