@@ -16,6 +16,7 @@ import "swiper/css/navigation";
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Swiper as SwiperType } from "swiper/types";
 import { debounce } from "lodash";
+import { useNavigate } from "react-router";
 
 
 const BookingPage = () => {
@@ -48,6 +49,9 @@ const BookingPage = () => {
           console.error("Error fetching data:", error);
         }
     };
+
+    const navigate = useNavigate();
+
     
 
     useEffect(() => {
@@ -180,15 +184,18 @@ const BookingPage = () => {
                         <SwiperSlide key={pageIndex}>
                             <div className="grid grid-cols-4 grid-rows-3 gap-8">
                                 {data.map((field, index) => (
-                                    <div key={index} className="border border-gray-200 rounded-sm">
+                                    <div 
+                                        onClick={() => navigate(`/field/${field.fieldId}`)}
+                                        key={index} 
+                                        className="shadow-md hover:shadow-lg rounded-sm cursor-pointer hover:-translate-y-2 duration-300 transition-transform ease-linear">
                                         <div className="p-6">
-                                            <img src={Logo2} alt="" className="w-full h-[160px] object-cover rounded-xl mb-6"/>
+                                            <img src={Logo2} alt="" className="w-full h-[160px] object-cover rounded-xl mb-6 border border-gray-300 cursor-default"/>
                                             <div className="flex flex-col gap-2">
                                                 {/* Mở cửa */}
                                                 <div>
                                                     <div className="flex items-center gap-2 text-sm">
                                                         <CiClock2/>
-                                                        {field.Active === 'Active' 
+                                                        {field.status === 'Active' 
                                                         ? (<span className="text-green-500">
                                                             Đang mở cửa
                                                         </span>) 
@@ -203,12 +210,12 @@ const BookingPage = () => {
                                                     <p>{field.openHours}</p>
                                                 </div>    
                                                 {/* Thể loại sân */}
-                                                <h2>{field.sportName}</h2>
+                                                <h2 className="text-base text-btn-primary">{field.sportName}</h2>
                                                 {/* Tên sân */}
                                                 <h1 className="text-xl font-medium">{field.fieldName}</h1>
                                                 {/* Địa chỉ */}
                                                 <div className="flex items-center gap-2 text-sm">
-                                                    <IoLocationOutline/>
+                                                    <IoLocationOutline className=""/>
                                                     <span>{field.address}</span>
                                                 </div>
                                             </div>

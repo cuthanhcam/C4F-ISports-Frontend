@@ -14,6 +14,7 @@ import ForgotPassword from "./Components/ForgotPassword.tsx";
 import ResetPasswordForm from "./Components/ResetPasswordForm.tsx";
 import PrivateRoute from "./Routes/PrivateRoute.tsx";
 import ProfilePage from "./Pages/ProfilePage.tsx";
+import ItemBooking from "./Pages/ItemBooking.tsx";
 
 
 const App = () => {
@@ -40,7 +41,7 @@ const App = () => {
           <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
           {/* Trang người dùng */}
           <Route path="/field" element={<Layout><BookingPage /></Layout>} />
-
+          <Route path="/field/:id" element={<Layout><ItemBooking/></Layout>} />
           <Route path="/users/profile" element={<Layout><ProfilePage/></Layout>} />
         </Route>
       </Routes>
