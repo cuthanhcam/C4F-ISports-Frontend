@@ -14,9 +14,25 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Swiper as SwiperType } from "swiper/types";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom"; // Sửa Link import
+import { jwtDecode } from "jwt-decode";
+
+const getRoleFromToken = () => {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    try {
+      const decodedToken: any = jwtDecode(token);
+      console.log("Decoded Token: ", decodedToken);
+      return decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || null;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+    }
+  }
+  return null;
+};
 
 const BookingPage = () => {
+  const [role, setRole] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -24,8 +40,15 @@ const BookingPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const swiperRef = useRef<SwiperType | null>(null);
 
-  const [idSort, setIdSort] = useState(0); // Môn thể thao: 0 (tất cả), 1 (bóng đá), 2 (cầu lông)
+  const [idSort, setIdSort] = useState(0); // Trạng thái cho nút lọc (Tất cả, Bóng đá, Cầu lông)
+  const [searchSportId, setSearchSportId] = useState(0); // Trạng thái cho select tìm kiếm
   const [selectedDistrict, setSelectedDistrict] = useState(""); // Quận/huyện
+
+  useEffect(() => {
+    const tokenRole = getRoleFromToken();
+    console.log("role:", tokenRole);
+    setRole(tokenRole);
+  }, []);
 
   const fetchData = async (page: number, sportId: number, district: string) => {
     try {
@@ -48,30 +71,26 @@ const BookingPage = () => {
 
   const navigate = useNavigate();
 
+  // Fetch dữ liệu khi nhấn nút lọc (Tất cả, Bóng đá, Cầu lông)
+  useEffect(() => {
+    fetchData(currentPage, idSort, ""); // Không dùng district khi lọc bằng nút
+  }, [idSort, currentPage]);
+
   // Xử lý khi nhấn nút "Tìm kiếm"
   const handleSearch = () => {
-    fetchData(currentPage, idSort, selectedDistrict);
+    fetchData(currentPage, searchSportId, selectedDistrict); // Dùng searchSportId và district từ select
   };
 
   // Xử lý chọn môn thể thao từ select
   const handleSportChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    if (value === "1") setIdSort(1); // Bóng đá
-    else if (value === "2") setIdSort(2); // Cầu lông
-    else setIdSort(0); // Tất cả
+    const value = Number(e.target.value);
+    setSearchSportId(value); // Chỉ cập nhật searchSportId, không ảnh hưởng idSort
   };
 
   // Xử lý chọn quận/huyện từ select
   const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedDistrict(e.target.value);
   };
-
-  // Xử lý thay đổi trang từ Swiper
-  useEffect(() => {
-    if (data.length > 0) {
-      fetchData(currentPage, idSort, selectedDistrict); // Chỉ fetch lại khi đã có dữ liệu ban đầu
-    }
-  }, [currentPage]);
 
   return (
     <div className="h-fit pt-24">
@@ -90,7 +109,7 @@ const BookingPage = () => {
                   <div className="relative w-full">
                     <select
                       className="w-full appearance-none focus:outline-none px-2"
-                      value={idSort.toString()}
+                      value={searchSportId.toString()}
                       onChange={handleSportChange}
                       onClick={() => setIsOpen(true)}
                       onBlur={() => setIsOpen(false)}
@@ -210,6 +229,13 @@ const BookingPage = () => {
             </button>
           </div>
         </div>
+
+        {/* Quyền khởi tạo */}
+        {role === 'Owner' || role === 'Admin' ? (
+          <Link to="/field/create" className="flex justify-end py-6">
+            <button className="px-6 py-2 bg-green-500 rounded-md text-white font-medium cursor-pointer">Tạo sân mới</button>
+          </Link>
+        ) : null}
 
         {/* Danh sách sân */}
         <Swiper

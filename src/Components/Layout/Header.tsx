@@ -82,16 +82,16 @@ const Header: React.FC<HeaderProps> = ({ isLogin, setIsLogin }) => {
                                 <FaRegUserCircle className="text-xl group-hover:scale-110 duration-200 transition-transform ease-linear"/>
                                 {isProfile 
                                 ? 
-                                (<div className="absolute left-0 top-1/2 translate-y-1/3 bg-amber-300 w-[180px] h-fit rounded-sm">
+                                (<div className="absolute left-0 top-1/2 translate-y-1/3 bg-slate-100 w-[180px] h-fit rounded-sm">
                                     <ul className="flex flex-col items-start gap-2 p-4">
-                                        <li>
-                                            <Link to='/users/profile'>Trang cá nhân</Link>
+                                        <li className="hover:bg-gray-200 w-full">
+                                            <Link to='/users/profile' className="">Trang cá nhân</Link>
                                         </li>
-                                        <li>
-                                            <Link to='/'>Cài đặt</Link>
+                                        <li className="hover:bg-gray-200 w-full">
+                                            <Link to='/' className="">Cài đặt</Link>
                                         </li>
-                                        <li>
-                                            <Link to='/'>Đăng xuất</Link>
+                                        <li className="hover:bg-gray-200 w-full">
+                                            <Link to='/' className="">Đăng xuất</Link>
                                         </li>
                                     </ul>
                                 </div>) 

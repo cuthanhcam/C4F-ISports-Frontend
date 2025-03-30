@@ -17,6 +17,7 @@ import ProfilePage from "./Pages/ProfilePage.tsx";
 import ItemBooking from "./Pages/ItemBooking.tsx";
 import FieldBooking from "./Pages/FieldBooking.tsx";
 import FieldUpdateForm from "./Components/FieldUpdateForm.tsx";
+import CreateFieldForm from "./Components/CreateFieldForm.tsx";
 
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/field/:id" element={<Layout><ItemBooking/></Layout>} />
         <Route path="/field/:id/availability" element={<Layout><FieldBooking/></Layout>} />
         <Route path="/field/:id/edit" element={<Layout><FieldUpdateForm /></Layout>} />
+        <Route path="/field/create" element={<Layout><CreateFieldForm /></Layout>} />
 
 
 

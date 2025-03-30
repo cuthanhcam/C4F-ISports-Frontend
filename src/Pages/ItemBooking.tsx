@@ -65,11 +65,11 @@ const ItemBooking = () => {
     });
 
     useEffect(() => {
-            // Gọi getRoleFromToken chỉ một lần để lấy giá trị role
-            const tokenRole = getRoleFromToken();
-            console.log("role:", tokenRole);
-            setRole(tokenRole);
-        }, []); // Chạy một lần khi component mount
+        // Gọi getRoleFromToken chỉ một lần để lấy giá trị role
+        const tokenRole = getRoleFromToken();
+        console.log("role:", tokenRole);
+        setRole(tokenRole);
+    }, []); // Chạy một lần khi component mount
 
 
     useEffect(() => {
