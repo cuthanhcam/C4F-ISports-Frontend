@@ -6,10 +6,22 @@ import { IoLocationOutline } from "react-icons/io5"
 import { CiClock2 } from "react-icons/ci";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import FootballIcon from "../assets/Icons/football.png";
+import Badminton from '../assets/Icons/badminton.png';
+import Basketball from '../assets/Icons/basketball.png';
+import vollayball from '../assets/Icons/block.png';
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 const containerStyle = {
     width: "100%",
     height: "400px",
 };
+
+const images = [
+    Logo,
+    Badminton,
+    Basketball,
+    vollayball,
+    FootballIcon
+];
 
 const centerDefault = { lat: 10.7769, lng: 106.7009 };
 
@@ -20,6 +32,9 @@ const ItemBooking = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+    const [currentImage, setCurrentImage] = useState(0);
+
+    const [mainImage, setMainImage] = useState(images[0]);
 
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: "AIzaSyCLtpk5GN1QnAfW8G3IbBKHXiOy3kxR6Gw",
@@ -101,11 +116,39 @@ const ItemBooking = () => {
                     </div>
                     <div className="grid grid-cols-[auto_1fr] gap-6 py-8">
                         <div className="flex flex-col gap-4">
-                            {Array.from({ length: 5 }).map((_, i) => (
-                                <img key={i} src={Logo} alt='' className="w-16 h-16 object-cover rounded-md bg-gray-200/50 p-2"/>
+                            {images.slice(0).map((img, index) => (
+                                <img 
+                                    key={index} 
+                                    src={img} 
+                                    alt='' 
+                                    className="w-16 h-16 object-cover rounded-md bg-gray-200/50 p-2 hover:bg-gray-200"
+                                    onMouseEnter={() => setMainImage(img)}
+                                />
                             ))}
                         </div>
-                        <img src={Logo} alt="" className="w-full max-w-2xl h-auto object-cover bg-gray-200/50 p-2 rounded-md"/>
+                        <div className="relative max-w-2xl">
+                            <img src={mainImage} alt="" className="w-full max-h-[500px] object-cover bg-gray-200/50 p-2 rounded-md"/>
+                            <div className="flex items-center gap-2 absolute bottom-2 right-2">
+                                <button 
+                                    onClick={() => {
+                                        const newIndex = currentImage - 1 < 0 ? images.length - 1 : currentImage - 1;
+                                        setCurrentImage(newIndex);
+                                        setMainImage(images[newIndex]);
+                                    }}
+                                    className="p-2 bg-white rounded-full hover:bg-btn-primary duration-300 transition-all ease-linear group cursor-pointer">
+                                    <MdChevronLeft className="group-hover:-translate-x-1 duration-300 transition-all ease-linea text-2xl"/>
+                                </button>
+                                <button 
+                                    onClick={() => {
+                                        const newIndex = currentImage + 1 > images.length - 1 ? 0 : currentImage + 1;
+                                        setCurrentImage(newIndex);
+                                        setMainImage(images[newIndex]);
+                                    }}
+                                    className="p-2 bg-white rounded-full hover:bg-btn-primary duration-300 transition-all ease-linear group cursor-pointer">
+                                    <MdChevronRight className="group-hover:translate-x-1 duration-300 transition-all ease-linea text-2xl"/>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {/* Tiện ích */}
