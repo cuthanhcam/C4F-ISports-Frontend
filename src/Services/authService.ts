@@ -1,5 +1,5 @@
 import { LoginRequestType, RegisterRequestType, ForgotPasswordType } from '../Types/auth';
-import axios from "axios";
+import axios, { AxiosProgressEvent } from "axios";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/auth`;
 
@@ -43,6 +43,7 @@ export const getUserProfile = async (token: string) => {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
       headers: { Authorization: `Bearer ${token}` }, // Sửa 'Beaver' thành 'Bearer'
     });
+    console.log('User profile response:', response.data);
     return response.data; // Đúng phải là 'response.data'
   } catch (error) {
     console.error("Error fetching user profile:", error);
@@ -89,5 +90,39 @@ export const changePassword = async (data: any): Promise<string> => {
     return response.data.message;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || "Có lỗi xảy ra");
+  }
+};
+
+
+
+
+export interface UpdateAvatarResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+  avatarUrl?: string;
+}
+
+
+export interface UpdateAvatarDto {
+  avatarFile: File;
+}
+
+export const updateUserAvatar = async (file: File): Promise<any> => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/users/profile/avatar`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        // Nếu cần thêm authentication token
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error updating avatar:', error);
+    throw error;
   }
 };
