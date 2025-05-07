@@ -193,7 +193,7 @@ const Map = () => {
     const [selectedType, setSelectedType] = useState("football");
 
     const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: "AIzaSyCLtpk5GN1QnAfW8G3IbBKHXiOy3kxR6Gw",
+        googleMapsApiKey: import.meta.env.VITE_API_KEY,
     });
 
     
