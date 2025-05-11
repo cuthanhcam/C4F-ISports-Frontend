@@ -5,6 +5,7 @@ import { HiOutlineTranslate } from "react-icons/hi";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosHelpCircleOutline } from "react-icons/io";
+import { NavLink } from "react-router";
 
 const Header = () => {
     const [isOpenDarkMode, setIsOpenDarkMode] = useState<boolean | null>(false);
@@ -15,7 +16,7 @@ const Header = () => {
         <header className="bg-surface-2">
             <div className="container py-6 flex items-center justify-between">
                 {/* Logo website */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">   
                     <img src="" alt="" className="w-10 h-10 object-cover"/>
                     <h1 className="text-2xl text-primary font-semibold">C4F Isports</h1>
                 </div>
@@ -24,7 +25,7 @@ const Header = () => {
                     <ul className="flex items-center gap-8">
                         {NavbarMenu.map((item) => (
                             <li key={item.id} className="text-base text-surface-on font-medium">
-                                <a href={item.link}>{item.title}</a>
+                                <NavLink to={item.link}>{item.title}</NavLink>
                             </li>
                         ))}
                     </ul>      

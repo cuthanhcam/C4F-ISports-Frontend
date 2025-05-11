@@ -1,9 +1,19 @@
-import Header from "./components/common/layout/Header";
+import { Routes, Route } from "react-router-dom";
+import { appRoutes } from "./routes/Routes";
+import './App.css';
 
 const App = () => {
   return (
     <div>
-      <Header/>
+      <Routes location={location}>
+            {appRoutes.map((route) => (
+              <Route 
+                key={route.id} 
+                path={route.path} 
+                element={<route.component />} 
+              />
+            ))}
+        </Routes>
     </div>
   );
 };
