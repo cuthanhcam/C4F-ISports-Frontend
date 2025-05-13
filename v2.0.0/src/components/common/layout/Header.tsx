@@ -17,7 +17,7 @@ const Header = () => {
       <div className="container py-6 flex items-center justify-between">
         {/* Logo website */}
         <div className="flex items-center gap-2">
-          <img src="" alt="" className="w-10 h-10 object-cover" />
+          <img src={LogoImage} alt="" className="w-10 h-10 object-cover" />
           <h1 className="text-2xl text-primary font-semibold">C4F Isports</h1>
         </div>
         {/* Path page */}
@@ -26,9 +26,19 @@ const Header = () => {
             {NavbarMenu.map((item) => (
               <li
                 key={item.id}
-                className="text-base text-surface-on font-medium"
+                className="group relative text-base text-surface-on font-medium"
               >
-                <NavLink to={item.link}>{item.title}</NavLink>
+                <NavLink
+                  to={item.link}
+                  className="relative pb-1 hover:text-primary transition-all duration-300"
+                >
+                  {item.title}
+                  <span
+                    className="absolute left-0 -bottom-0.5 h-[2px] w-0 bg-primary 
+                  transition-all duration-500 group-hover:w-full
+                  shadow-[0_0_8px] shadow-primary/40"
+                  ></span>
+                </NavLink>
               </li>
             ))}
           </ul>
