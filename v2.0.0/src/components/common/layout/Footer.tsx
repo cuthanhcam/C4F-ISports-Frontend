@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-const Footer = () => {
-    return (
-        <div>
-            <h1>Footer</h1>
-        </div>
-=======
-<<<<<<< Updated upstream
-=======
 import { FaFacebookF, FaInstagramSquare, FaTelegramPlane, FaLinkedin } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
@@ -22,14 +13,14 @@ const Footer = () => {
                     <div className="flex flex-col gap-8">
                         {/* Logo website */}
                         <div className="flex items-center gap-2">
-                            <img src="" alt="" className="w-12 h-12 object-cover"/>
+                            <img src="" alt="" className="w-12 h-12 object-cover" />
                             <h1 className="text-primary text-3xl font-bold">ISports</h1>
                         </div>
                         {/* Description */}
                         <p className="text-surface-onVariant text-sm">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                            Facilis repellendus et dolores quod, adipisci consequatur sunt animi, 
-                            temporibus incidunt commodi architecto? Exercitationem perspiciatis illo 
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                            Facilis repellendus et dolores quod, adipisci consequatur sunt animi,
+                            temporibus incidunt commodi architecto? Exercitationem perspiciatis illo
                             minima iusto eos optio provident ex.
                         </p>
                         {/* Link socials */}
@@ -37,25 +28,25 @@ const Footer = () => {
                             {/* Facebook */}
                             <li className="text-primary p-2 border border-outline-variant rounded-md group hover:bg-primary duration-200 transition-all cursor-pointer">
                                 <a href="" className="group-hover:text-primary-on">
-                                    <FaFacebookF/>
+                                    <FaFacebookF />
                                 </a>
                             </li>
                             {/* linked */}
                             <li className="text-primary p-2 border border-outline-variant rounded-md group hover:bg-primary duration-200 transition-all cursor-pointer">
-                                 <a href="" className="group-hover:text-primary-on">
-                                    <FaLinkedin/>
+                                <a href="" className="group-hover:text-primary-on">
+                                    <FaLinkedin />
                                 </a>
                             </li>
                             {/* instargram */}
                             <li className="text-primary p-2 border border-outline-variant rounded-md group hover:bg-primary duration-200 transition-all cursor-pointer">
                                 <a href="" className="group-hover:text-primary-on">
-                                    <FaInstagramSquare/>
+                                    <FaInstagramSquare />
                                 </a>
                             </li>
                             {/* teltegram */}
                             <li className="text-primary p-2 border border-outline-variant rounded-md group hover:bg-primary duration-200 transition-all cursor-pointer">
                                 <a href="" className="group-hover:text-primary-on">
-                                    <FaTelegramPlane/>
+                                    <FaTelegramPlane />
                                 </a>
                             </li>
                         </ul>
@@ -102,19 +93,19 @@ const Footer = () => {
                             {/* Other link */}
                             <ul className="text-base font-medium flex flex-col gap-4 mt-8">
                                 <li className="flex items-start justify-start gap-3">
-                                    <FaLocationDot className="shrink-0 mt-1 text-primary"/>
+                                    <FaLocationDot className="shrink-0 mt-1 text-primary" />
                                     <span>Exeample location distric Q9, City Thuc Duc</span>
                                 </li>
                                 <li className="flex items-start justify-start gap-3">
-                                    <FaPhoneAlt className="shrink-0 mt-1 text-primary"/>
+                                    <FaPhoneAlt className="shrink-0 mt-1 text-primary" />
                                     <span>(+84) {" "} 123 {" "} 456 {" "} 789</span>
                                 </li>
                                 <li className="flex items-start justify-start gap-3">
-                                    <MdEmail className="shrink-0 mt-1 text-primary"/>
+                                    <MdEmail className="shrink-0 mt-1 text-primary" />
                                     <span>c4f@gmail.com</span>
                                 </li>
                                 <li className="flex items-start justify-start gap-3">
-                                    <GoClockFill className="shrink-0 mt-1 text-primary"/>
+                                    <GoClockFill className="shrink-0 mt-1 text-primary" />
                                     <span>07.00 AM - 19.AM</span>
                                 </li>
                             </ul>
@@ -157,12 +148,8 @@ const Footer = () => {
                 </div>
             </div>
         </footer>
->>>>>>> feature/build-ui-footer-layout
     )
 }
 
 export default Footer
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> feature/build-ui-footer-layout
+
