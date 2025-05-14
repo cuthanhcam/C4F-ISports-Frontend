@@ -46,6 +46,9 @@ export default {
         green: '#55e16b',
         orange: '#ffb874',
       },
+      boxShadow: {
+        'navigation': '0px 0px 8px 0px rgba(171, 199, 255, 0.53)',
+      }, 
       container: {
         center: true,
         padding: {
