@@ -6,13 +6,13 @@ const App = () => {
   return (
     <div>
       <Routes location={location}>
-            {appRoutes.map((route) => (
-              <Route 
-                key={route.id} 
-                path={route.path} 
-                element={<route.component />} 
-              />
-            ))}
+        {appRoutes.map((route) => (
+          <Route 
+            key={route.id} 
+            path={route.path} 
+            element={<route.component/>} 
+          />
+        ))}
         </Routes>
     </div>
   );

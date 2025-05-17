@@ -3,3 +3,4 @@
 3. npm install react-router-dom
 4. npm install --save-dev @types/react-transition-group
 5. npm install lottie-react
+6. npm install swiper
