@@ -5,7 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { GoClockFill } from "react-icons/go";
 const Footer = () => {
     return (
-        <footer className="bg-surface-2 rounded-t-5xl">
+        <footer className="bg-surface-2 rounded-t-5xl z-[0]">
             <div className="container py-6">
                 {/* Text content */}
                 <div className="grid grid-rows-[auto_auto] md:grid-rows-1 md:grid-cols-[1fr_3fr] py-10 gap-14 md:gap-4 items-start">

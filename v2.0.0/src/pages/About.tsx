@@ -8,8 +8,12 @@ import { aboutContribution, aboutFeature, aboutProgress, aboutUseTechBE, aboutUs
 const About = () => {
     return (
         <Layout>
-            <div className="bg-surface">
-                <div className="container py-6">
+            <div className="bg-surface relative">
+                {/* <div className="home-header-light-blue"/>
+                <div className="home-header-light-pink"/> */}
+                <div className="container py-6 relative z-[0]">
+                    <div className="home-header-light-blue"/>
+                    <div className="home-header-light-pink"/>
                     {/* Thông tin giới thiệu dự án */}
                     <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-items-center lg:justify-items-end my-12 md:my-20 gap-14 lg:gap-0">
                         {/*  Giới thiệu */}

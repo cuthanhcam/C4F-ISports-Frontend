@@ -4,3 +4,4 @@
 4. npm install --save-dev @types/react-transition-group
 5. npm install lottie-react
 6. npm install swiper
+7. npm install @headlessui/react

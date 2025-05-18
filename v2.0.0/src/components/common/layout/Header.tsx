@@ -13,7 +13,7 @@ const Header = () => {
   // Handle close hamburger menu
   const [isOpen, setIsOpen] = useState<boolean | null>(false);
   return (
-    <header className="bg-surface-2">
+    <header className="bg-surface-2 z-[0]">
       <div className="container py-6 flex items-center justify-between">
         {/* Logo website */}
         <div className="flex items-center gap-2">
