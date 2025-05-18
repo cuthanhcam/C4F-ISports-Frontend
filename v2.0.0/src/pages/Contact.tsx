@@ -51,7 +51,7 @@ const Contact = () => {
                     <div className="home-header-light-blue"/>
                     <div className="home-header-light-pink"/>
                     {/* Tiêu đề contact */}
-                    <div className="my-20">
+                    <div className="my-12 md:my-20">
                         <h1 className="text-3xl md:text-5xl text-center text-surface-on font-bold mb-6">Liên hệ với C4F-ISports</h1>
                         <p className="max-w-4xl mx-auto text-base text-center leading-loose text-surface-onVariant">
                         Cảm ơn bạn đã quan tâm đến C4F-ISports – nền tảng quản lý và đặt sân thể thao trực tuyến hiện đại. 
@@ -60,7 +60,7 @@ const Contact = () => {
                         </p>
                     </div>
                     {/* Thông tin liên hệ chính thức */}
-                    <div className="my-20">
+                    <div className="my-12 md:my-20">
                         <div className="flex flex-col items-center">
                             <h1 className="text-3xl md:text-5xl text-center text-surface-on font-bold mb-12 md:mb-16">Thông tin liên hệ chính thức</h1>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
@@ -79,7 +79,7 @@ const Contact = () => {
                         </div>
                     </div>
                     {/* Gửi yêu cầu hoặc phản hồi */}
-                    <div className="my-20">
+                    <div className="my-12 md:my-20">
                         <h1 className="text-3xl md:text-5xl text-center text-surface-on font-bold mb-6">Gửi yêu cầu phản hồi</h1>
                         <p className="max-w-4xl mx-auto text-base text-center leading-loose text-surface-onVariant mb-12 md:mb-16">
                             Nếu bạn có câu hỏi, cần hỗ trợ kỹ thuật, góp ý cải tiến, hoặc muốn hợp tác phát triển nền tảng – vui lòng 
@@ -145,7 +145,7 @@ const Contact = () => {
                         </div>
                     </div>
                     {/* Lưu ý khi liên hệ */}
-                    <div className="my-20">
+                    <div className="my-12 md:my-20">
                         <h1 className="text-3xl md:text-5xl text-center text-surface-on font-bold mb-12 md:mb-16">Lưu ý khi liên hệ</h1>
                         <div className="max-w-5xl mx-auto">
                             <div className="flex flex-col gap-4">
@@ -161,7 +161,7 @@ const Contact = () => {
                         </div>
                     </div>
                     {/* Tìm chúng tôi trên bản đồ */}
-                    <div className="my-20">
+                    <div className="my-12 md:my-20">
                         <h1 className="text-3xl md:text-5xl text-center text-surface-on font-bold mb-6">Tìm chúng tôi trên bản đồ</h1>
                         <p className="max-w-4xl mx-auto text-base text-center leading-loose text-surface-onVariant mb-12 md:mb-16">
                             Bạn có thể tìm chúng tôi tại 48/3/3A Đ. Số 3, Trường Thọ, Thủ Đức, Hồ Chí Minh, Việt Nam
