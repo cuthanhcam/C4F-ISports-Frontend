@@ -52,12 +52,16 @@ const Contact = () => {
                     <div className="home-header-light-pink"/>
                     {/* Tiêu đề contact */}
                     <div className="my-12 md:my-20">
-                        <h1 className="text-3xl md:text-5xl text-center text-surface-on font-bold mb-6">Liên hệ với C4F-ISports</h1>
-                        <p className="max-w-4xl mx-auto text-base text-center leading-loose text-surface-onVariant">
-                        Cảm ơn bạn đã quan tâm đến C4F-ISports – nền tảng quản lý và đặt sân thể thao trực tuyến hiện đại. 
-                        Chúng tôi luôn sẵn sàng lắng nghe mọi ý kiến đóng góp, phản hồi hoặc yêu cầu hỗ trợ từ phía người dùng, 
-                        chủ sân và các đối tác tiềm năng.
-                        </p>
+                        <div className="relative z-[0] max-w-4xl mx-auto flex flex-col items-center gap-4 border border-outline-variant p-8 rounded-3xl shadow-xunit">
+                            <div className="home-header-light-blue"/>
+                            <div className="home-header-light-pink"/>
+                            <h1 className="text-5xl text-surface-on text-center font-bold">Liên hệ với C4F-ISports</h1>
+                            <p className="max-w-2xl text-base text-surface-onVariant text-center">
+                                Cảm ơn bạn đã quan tâm đến C4F-ISports – nền tảng quản lý và đặt sân thể thao trực tuyến hiện đại. 
+                                Chúng tôi luôn sẵn sàng lắng nghe mọi ý kiến đóng góp, phản hồi hoặc yêu cầu hỗ trợ từ phía người dùng, 
+                                chủ sân và các đối tác tiềm năng.
+                            </p>
+                        </div>
                     </div>
                     {/* Thông tin liên hệ chính thức */}
                     <div className="my-12 md:my-20">
