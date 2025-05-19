@@ -1,9 +1,21 @@
+import { Routes, Route } from "react-router-dom";
+import { appRoutes } from "./routes/Routes";
+import './App.css';
+
 const App = () => {
   return (
     <div>
-        <h1 className="text-3xl text-purple-400 text-center">TPH</h1>
+      <Routes location={location}>
+        {appRoutes.map((route) => (
+          <Route 
+            key={route.id} 
+            path={route.path} 
+            element={<route.component/>} 
+          />
+        ))}
+        </Routes>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
