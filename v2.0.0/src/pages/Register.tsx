@@ -62,7 +62,7 @@ const Register = ({
           </div>
 
           {/* Form */}
-          <div className="w-[400px] sm:w-[450px] md:w-1/2 lg:p-14 md:p-12 sm:p-8 p-20 relative">
+          <div className="w-[400px] sm:w-[450px] md:w-1/2 lg:p-12 md:p-14 sm:p-8 p-6 relative">
             {/* Close button */}
             <button
               className="absolute top-4 right-4 text-surface-on hover:text-primary-default transition-colors"
