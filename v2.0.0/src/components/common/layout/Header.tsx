@@ -5,9 +5,14 @@ import { HiOutlineTranslate } from "react-icons/hi";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosHelpCircleOutline } from "react-icons/io";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 
-const Header = () => {
+interface HeaderProps {
+  setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowRegister: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Header = ({ setShowLogin, setShowRegister }: HeaderProps) => {
   const [isOpenDarkMode, setIsOpenDarkMode] = useState<boolean | null>(false);
 
   // Handle close hamburger menu
@@ -74,8 +79,24 @@ const Header = () => {
             </button>
           </div>
           {/* Login */}
-          <button className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md">
+          <button
+            onClick={() => {
+              setShowLogin(true);
+              setShowRegister(false);
+            }}
+            className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
+          >
             Login
+          </button>
+          {/* Register*/}
+          <button
+            onClick={() => {
+              setShowLogin(false);
+              setShowRegister(true);
+            }}
+            className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
+          >
+            Register
           </button>
           {/* Repositive menu mobile */}
           <button
