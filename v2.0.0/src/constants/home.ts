@@ -3,7 +3,7 @@ import { MdSportsSoccer, MdSportsTennis, MdSportsVolleyball } from "react-icons/
 import { BsFillLightningFill, BsShieldCheck } from "react-icons/bs";
 import { AiOutlineTeam } from "react-icons/ai";
 import type { IconType } from "react-icons";
-import FootballField from "../assets/images/football-fliedjpg.jpg"
+import FootballField from "../assets/images/football-filedjpg.jpg"
 import UserReviews from "../assets/images/avtarUserContriburion.png"
 
 
