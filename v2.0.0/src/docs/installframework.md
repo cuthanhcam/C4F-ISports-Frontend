@@ -6,3 +6,6 @@
 6. npm install swiper
 7. npm install @headlessui/react
 8. npm install motion
+9. npm install axios
+10. npm install react-toastify
+11. npm install sonner

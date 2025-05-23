@@ -7,6 +7,8 @@ import { LoginItem } from '../constants/login';
 import { IoClose } from "react-icons/io5";
 import { useState } from 'react';
 import { LuEye, LuEyeClosed } from "react-icons/lu";
+import { authAPI } from '../api/auth.api';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   // Routing
@@ -15,6 +17,25 @@ const Login = () => {
   // Open show password
   const [isOpenPassword, setIsOpenPassword] = useState<boolean>(false);
 
+
+  // Lấy dữ liệu từ người dùng khi nhập vào form
+  const [email, setEmail] = useState<string>('');
+  const [password, SetPassword] = useState<string>('');
+
+  // Xử lý sự kiện đăng nhập
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+
+    try {
+      const res = await authAPI.login({ email, password});
+      localStorage.setItem('token', res.data.token);
+      toast.success('Đăng nhập thành công!');
+    } catch (err) {
+      console.error(err);
+      toast.error('Đăng nhập thất bại');
+    }
+  }
+  
   return (
     <div className='flex w-full h-screen justify-center items-center'>
       <div className='max-w-4xl mx-auto'>
@@ -67,15 +88,22 @@ const Login = () => {
               <span className='text-sm md:text-base text-surface-onVariant'>Nếu bạn chưa có tài khoản, {' '}
                 <Link to='/auth/register' className='text-primary hover:text-primary-inverse font-medium duration-100 transition-all ease-in-out'>đăng ký ngay</Link>
               </span>
-              <form action="" className='flex flex-col gap-2 md:gap-4'>
+              <form onSubmit={handleSubmit} className='flex flex-col gap-2 md:gap-4'>
                   {/* Email */}
-                  <input type="email" placeholder='Email' className='p-2 rounded-md outline-none border border-outline-variant bg-surface'/>
+                  <input 
+                    type="email"
+                    value={email} 
+                    placeholder='Email' 
+                    onChange={(e) => setEmail(e.target.value)}
+                    className='text-surface-on p-2 rounded-md outline-none border border-outline-variant bg-surface'/>
                   {/* Password */}
                   <div className='relative'>
                     <input 
                       type={isOpenPassword ? "text" : "password"} 
+                      value={password}
                       placeholder='Password' 
-                      className='p-2 rounded-md outline-none border border-outline-variant bg-surface w-full'
+                      onChange={(e) => SetPassword(e.target.value)}
+                      className='text-surface-on p-2 rounded-md outline-none border border-outline-variant bg-surface w-full'
                     />
                     {isOpenPassword ? <LuEye onClick={() => setIsOpenPassword(!isOpenPassword)} className='text-primary absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer'/> 
                     : <LuEyeClosed onClick={() => setIsOpenPassword(!isOpenPassword)} className='text-primary absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer'/>}
@@ -89,7 +117,7 @@ const Login = () => {
                     <a href="#" className='text-primary text-xs md:text-sm font-medium hover:text-primary-inverse'>Forgot password?</a>
                   </div>
                   {/* Submit */}
-                  <button className='bg-primary font-medium px-2 py-2 mt-6 rounded-md text-primary-on hover:bg-primary-shade duration-100 transition-all ease-in-out'>Submit</button>
+                  <button type='submit' className='bg-primary font-medium px-2 py-2 mt-6 rounded-md text-primary-on hover:bg-primary-shade duration-100 transition-all ease-in-out'>Submit</button>
               </form>
             </div>
           </div>
