@@ -4,9 +4,6 @@ import About from "../pages/About";
 import Contact from "../pages/Contact";
 import Service from "../pages/Service";
 import NotFound from "../pages/NotFound";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-
 type Routes = {
   id: number;
   path: string;
@@ -18,7 +15,8 @@ export const appRoutes: Routes[] = [
   { id: 2, path: "/about", component: About },
   { id: 3, path: "/contact", component: Contact },
   { id: 4, path: "/service", component: Service },
-  { id: 5, path: "/login", component: Login },
-  { id: 6, path: "/register", component: Register },
+  { id: 5, path: "/auth/login", component: Home },      
+  { id: 6, path: "/auth/register", component: Home },   
   { id: 7, path: "*", component: NotFound },
 ];
+

@@ -1,40 +1,30 @@
-import { useState } from "react";
+
+import { useLocation } from "react-router";
 import Footer from "./Footer";
 import Header from "./Header";
 import Login from "../../../pages/Login";
 import Register from "../../../pages/Register";
-
 interface LayoutProps {
   children?: React.ReactNode;
 }
-
 const Layout = ({ children }: LayoutProps) => {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
-  const [confirmPage, setConfirmPage] = useState("");
-
+  const location = useLocation();
+  console.log(location.pathname);
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
-      <Header setShowLogin={setShowLogin} setShowRegister={setShowRegister} />
+      <Header/>
       <main className="flex-grow">{children}</main>
       <Footer />
-
-      {showLogin && (
-        <div className="fixed inset-0 z-50">
-          <Login
-            setShowPageLogin={setShowLogin}
-            setConfirmPage={setConfirmPage}
-            setShowPageRegister={setShowRegister}
-          />
+      {/* Mount Login */}
+      {location.pathname === '/auth/login' && (
+        <div className="fixed inset-0 z-50  backdrop-blur-sm bg-surface/30">
+          <Login/>
         </div>
       )}
-      {showRegister && (
-        <div className="fixed inset-0 z-50">
-          <Register
-            setShowPageLogin={setShowLogin}
-            setConfirmPage={setConfirmPage}
-            setShowPageRegister={setShowRegister}
-          />
+      {/* Mount Register */}
+      {location.pathname === '/auth/register' && (
+        <div className="fixed inset-0 z-50 backdrop-blur-sm bg-surface/30">
+          <Register/>
         </div>
       )}
     </div>

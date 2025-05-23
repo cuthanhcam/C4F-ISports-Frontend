@@ -5,16 +5,14 @@ import { HiOutlineTranslate } from "react-icons/hi";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosHelpCircleOutline } from "react-icons/io";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "@headlessui/react";
 
-interface HeaderProps {
-  setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowRegister: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const Header = ({ setShowLogin, setShowRegister }: HeaderProps) => {
+const Header = () => {
   const [isOpenDarkMode, setIsOpenDarkMode] = useState<boolean | null>(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
   // Handle close hamburger menu
   const [isOpen, setIsOpen] = useState<boolean | null>(false);
   return (
@@ -79,25 +77,27 @@ const Header = ({ setShowLogin, setShowRegister }: HeaderProps) => {
             </button>
           </div>
           {/* Login */}
-          <button
+          <Button
             onClick={() => {
-              setShowLogin(true);
-              setShowRegister(false);
+              navigate('/auth/login', {
+                state: { backgroundLocation: location }
+              })
             }}
             className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
           >
             Login
-          </button>
+          </Button>
           {/* Register*/}
-          <button
+          <Button
             onClick={() => {
-              setShowLogin(false);
-              setShowRegister(true);
+              navigate('/auth/register', {
+                state: { backgroundLocation: location }
+              })
             }}
             className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
           >
             Register
-          </button>
+          </Button>
           {/* Repositive menu mobile */}
           <button
             onClick={() => setIsOpen(!isOpen)}
