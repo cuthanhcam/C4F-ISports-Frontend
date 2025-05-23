@@ -4,11 +4,11 @@ export interface authLogin {
 };
 
 export interface authRegister {
+    fullName: string;
     email: string;
     password: string;
     confirmPassword: string;
     role: string;
-    fullName: string;
     phone: string;
 };
 

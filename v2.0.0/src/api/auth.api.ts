@@ -1,4 +1,4 @@
-import type { authLogin } from "../types/auth";
+import type { authLogin, authRegister } from "../types/auth";
 import axiosClient from "./axiosClient";
 
 
@@ -8,8 +8,8 @@ export const authAPI = {
         return axiosClient.post('auth/login', data);
     },
     // Đăng ký
-    register(){
-
+    register(data: authRegister){
+        return axiosClient.post('auth/register', data);
     },
     // Quên mật khuẩn
     forgotPassword(){
