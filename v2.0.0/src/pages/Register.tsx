@@ -5,8 +5,15 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import { LoginItem } from '../constants/login';
 import { IoClose } from "react-icons/io5";
+import { useState } from 'react';
+import { LuEye, LuEyeClosed } from 'react-icons/lu';
 const Register = () => {
-  const navigate = useNavigate();
+  // Routing
+  const navigate = useNavigate(); 
+
+  // Open show password
+  const [isOpenPassword, setIsOpenPassword] = useState<boolean>(false);
+
   return (
     <div className='flex w-full h-screen justify-center items-center'>
       <div className='max-w-4xl mx-auto'>
@@ -65,9 +72,25 @@ const Register = () => {
                   {/* Email */}
                   <input type="email" placeholder='Email' className='p-2 text-surface-on rounded-md outline-none border border-outline-variant bg-surface'/>
                   {/* Password */}
-                  <input type="password" placeholder='Password' className='p-2 text-surface-on rounded-md outline-none border border-outline-variant bg-surface'/>
+                  <div className='relative'>
+                    <input 
+                      type={isOpenPassword ? "text" : "password"} 
+                      placeholder='Password' 
+                      className='text-surface-on p-2 rounded-md outline-none border border-outline-variant bg-surface w-full'
+                    />
+                    {isOpenPassword ? <LuEye onClick={() => setIsOpenPassword(!isOpenPassword)} className='text-primary absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer'/> 
+                    : <LuEyeClosed onClick={() => setIsOpenPassword(!isOpenPassword)} className='text-primary absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer'/>}
+                  </div>
                   {/* Confirm password */}
-                  <input type="password" placeholder='Confirm password' className='p-2 text-surface-on rounded-md outline-none border border-outline-variant bg-surface'/>
+                  <div className='relative'>
+                    <input 
+                      type={isOpenPassword ? "text" : "password"} 
+                      placeholder='Confirm password' 
+                      className='text-surface-on p-2 rounded-md outline-none border border-outline-variant bg-surface w-full'
+                    />
+                    {isOpenPassword ? <LuEye onClick={() => setIsOpenPassword(!isOpenPassword)} className='text-primary absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer'/> 
+                    : <LuEyeClosed onClick={() => setIsOpenPassword(!isOpenPassword)} className='text-primary absolute top-1/2 -translate-y-1/2 right-2 cursor-pointer'/>}
+                  </div>
                   {/* Select role */}
                   <select 
                     name="" 
