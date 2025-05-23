@@ -13,7 +13,7 @@ const Login = () => {
         {/* Banner image*/}
         <div className='grid grid-cols-1 lg:grid-cols-2 max-w-4xl w-full h-[417px]  md:h-[517px] overflow-hidden rounded-xl relative '> 
             <button 
-              onClick={() => navigate(-1)}
+              onClick={() => navigate('/')}
               className='absolute top-0 right-0 p-2'>
               <IoClose className='text-2xl text-surface-on hover:scale-125 hover:text-primary duration-300 transition-all ease-in-out'/>
             </button>
@@ -57,7 +57,7 @@ const Login = () => {
             <div className='p-6 flex flex-col justify-center mx-auto gap-4 md:gap-6 max-w-xs md:max-w-sm w-full h-full'>
               <h1 className='text-xl md:text-2xl text-surface-on font-medium'>Đăng nhập</h1>
               <span className='text-sm md:text-base text-surface-onVariant'>Nếu bạn chưa có tài khoản, {' '}
-                <Link to='auth/login' className='text-primary hover:text-primary-inverse font-medium duration-100 transition-all ease-in-out'>đăng ký ngay</Link>
+                <Link to='/auth/register' className='text-primary hover:text-primary-inverse font-medium duration-100 transition-all ease-in-out'>đăng ký ngay</Link>
               </span>
               <form action="" className='flex flex-col gap-2 md:gap-4'>
                   {/* Email */}
