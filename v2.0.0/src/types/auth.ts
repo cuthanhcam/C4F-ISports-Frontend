@@ -12,3 +12,13 @@ export interface authRegister {
     phone: string;
 };
 
+export interface authFogotPassword {
+    email: string;
+};
+
+export interface authResetPassword {
+    email: string;
+    token: string;
+    password: string;
+};
+

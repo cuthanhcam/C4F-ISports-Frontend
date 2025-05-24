@@ -4,6 +4,8 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Login from "../../../pages/Login";
 import Register from "../../../pages/Register";
+import ForgotPassword from "../../../pages/ForgotPassword";
+import ResetPassword from "../../../pages/ResetPassword";
 interface LayoutProps {
   children?: React.ReactNode;
 }
@@ -15,6 +17,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Header/>
       <main className="flex-grow">{children}</main>
       <Footer />
+
       {/* Mount Login */}
       {location.pathname === '/auth/login' && (
         <div className="fixed inset-0 z-50  backdrop-blur-sm bg-surface/30">
@@ -25,6 +28,18 @@ const Layout = ({ children }: LayoutProps) => {
       {location.pathname === '/auth/register' && (
         <div className="fixed inset-0 z-50 backdrop-blur-sm bg-surface/30">
           <Register/>
+        </div>
+      )}
+      {/* Mont Forgot password */}
+      {location.pathname === '/auth/forgot-password' && (
+        <div className="fixed inset-0 z-50 backdrop-blur-sm bg-surface/30">
+          <ForgotPassword/>
+        </div>
+      )}
+      {/* Mount Reset password */}
+      {location.pathname === '/auth/reset-password' && (
+        <div className="fixed inset-0 z-50 backdrop-blur-sm bg-surface/30">
+          <ResetPassword/>
         </div>
       )}
     </div>

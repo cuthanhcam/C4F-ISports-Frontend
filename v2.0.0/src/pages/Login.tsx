@@ -114,7 +114,7 @@ const Login = () => {
                       <input type="checkbox" />
                       <span className='text-xs md:text-sm'>Remmember</span>
                     </div>
-                    <a href="#" className='text-primary text-xs md:text-sm font-medium hover:text-primary-inverse'>Forgot password?</a>
+                    <Link to='/auth/forgot-password' className='text-primary text-xs md:text-sm font-medium hover:text-primary-inverse'>Forgot password?</Link>
                   </div>
                   {/* Submit */}
                   <button type='submit' className='bg-primary font-medium px-2 py-2 mt-6 rounded-md text-primary-on hover:bg-primary-shade duration-100 transition-all ease-in-out'>Submit</button>

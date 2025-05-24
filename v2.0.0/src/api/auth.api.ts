@@ -1,4 +1,4 @@
-import type { authLogin, authRegister } from "../types/auth";
+import type { authFogotPassword, authLogin, authRegister, authResetPassword } from "../types/auth";
 import axiosClient from "./axiosClient";
 
 
@@ -11,13 +11,13 @@ export const authAPI = {
     register(data: authRegister){
         return axiosClient.post('auth/register', data);
     },
-    // Quên mật khuẩn
-    forgotPassword(){
-
+    // Quên mật khẩu
+    forgotPassword(data: authFogotPassword){
+        return axiosClient.post('auth/forgot-password', data);
     },
-    // Đặt lại mật khuẩn
-    resetPassword(){
-
+    // Đặt lại mật khẩu
+    resetPassword(data: authResetPassword){
+        return axiosClient.post('auth/reset-password', data);
     },
     // Thay đổi mật khẩu
     changePassword(){
