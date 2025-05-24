@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { useNavigate } from "react-router";
-import { authAPI } from "../api/auth.api";
+import { authAPI } from "../../api/auth.api";
 import { toast } from 'react-toastify';
 const ForgotPassword = () => {
     const navigate = useNavigate();

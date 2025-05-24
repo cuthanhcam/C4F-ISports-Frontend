@@ -2,10 +2,10 @@
 import { useLocation } from "react-router";
 import Footer from "./Footer";
 import Header from "./Header";
-import Login from "../../../pages/Login";
-import Register from "../../../pages/Register";
-import ForgotPassword from "../../../pages/ForgotPassword";
-import ResetPassword from "../../../pages/ResetPassword";
+import Login from "../../../pages/auth/Login";
+import Register from "../../../pages/auth/Register";
+import ForgotPassword from "../../../pages/auth/ForgotPassword";
+import ResetPassword from "../../../pages/auth/ResetPassword";
 interface LayoutProps {
   children?: React.ReactNode;
 }
@@ -31,7 +31,7 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       )}
       {/* Mont Forgot password */}
-      {location.pathname === '/auth/forgot-password' && (
+      {location.pathname === '/auth/fforgot-password' && (
         <div className="fixed inset-0 z-50 backdrop-blur-sm bg-surface/30">
           <ForgotPassword/>
         </div>

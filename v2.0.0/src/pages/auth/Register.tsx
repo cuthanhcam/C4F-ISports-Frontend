@@ -3,11 +3,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
-import { LoginItem } from '../constants/login';
+import { LoginItem } from '../../constants/login';
 import { IoClose } from "react-icons/io5";
 import { useState } from 'react';
 import { LuEye, LuEyeClosed } from 'react-icons/lu';
-import { authAPI } from '../api/auth.api';
+import { authAPI } from '../../api/auth.api';
 import { toast } from 'react-toastify';
 const Register = () => {
   // Routing

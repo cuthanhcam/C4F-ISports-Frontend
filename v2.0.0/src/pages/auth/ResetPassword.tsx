@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router"
 import { toast } from 'react-toastify';
-import { authAPI } from "../api/auth.api";
+import { authAPI } from "../../api/auth.api";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { IoClose } from "react-icons/io5";
 const ResetPassword = () => {
