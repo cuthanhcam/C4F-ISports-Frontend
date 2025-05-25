@@ -48,6 +48,8 @@ const Register = () => {
       });
       // Thông báo sau khi đăng ký thành công
       toast.success('Đăng ký thành công!');
+      // Chuyển hướng về trang đăng nhập
+      navigate('/auth/login');
     } catch (err) {
       console.log("Lỗi server:", err.response?.data);
       toast.error('Đăng ký thất bại');
