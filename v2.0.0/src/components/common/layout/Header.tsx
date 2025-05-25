@@ -7,6 +7,11 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosHelpCircleOutline } from "react-icons/io";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@headlessui/react";
+import MenuMobile from "../../ui/MenuMobile";
+import { motion, AnimatePresence } from "framer-motion";
+
+
+
 
 const Header = () => {
   const [isOpenDarkMode, setIsOpenDarkMode] = useState<boolean | null>(false);
@@ -16,7 +21,7 @@ const Header = () => {
   // Handle close hamburger menu
   const [isOpen, setIsOpen] = useState<boolean | null>(false);
   return (
-    <header className="bg-surface-2 z-[0]">
+    <header className="bg-surface-2 z-[100] fixed top-0 left-0 w-full shadow-md">
       <div className="container py-6 flex items-center justify-between">
         {/* Logo website */}
         <div className="flex items-center gap-2">
@@ -119,6 +124,10 @@ const Header = () => {
               }`}
             />
           </button>
+          {/* Repositive menu layout  */}
+          <AnimatePresence>
+            {isOpen && (<MenuMobile key="menu-mobile"/>)}
+          </AnimatePresence>
         </div>
       </div>
     </header>
