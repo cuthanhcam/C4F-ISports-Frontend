@@ -28,8 +28,15 @@ const Login = () => {
 
     try {
       const res = await authAPI.login({ email, password});
+      
+      // Kiểm tra nếu đăng nhập thành công thì lưu token vào localStorage
       localStorage.setItem('token', res.data.token);
+      
+      // Thông bao đăng nhập thành công
       toast.success('Đăng nhập thành công!');
+
+      // Chuyển hướng về fields
+      navigate('/fields');
     } catch (err) {
       console.error(err);
       toast.error('Đăng nhập thất bại');

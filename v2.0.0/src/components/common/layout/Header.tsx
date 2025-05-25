@@ -1,19 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavbarMenu } from "../../../constants/navbarMenu";
 import LogoImage from "../../../assets/images/LogoC4F.png";
 import { HiOutlineTranslate } from "react-icons/hi";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
-import { IoIosHelpCircleOutline } from "react-icons/io";
+import { IoIosNotificationsOutline } from "react-icons/io";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@headlessui/react";
 import MenuMobile from "../../ui/MenuMobile";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { FiUser } from "react-icons/fi";
+import { userAPI } from "../../../api/user.api";
 
 
 
 const Header = () => {
+  // Check if user is authenticated
+  const token = localStorage.getItem("token");
+  const [userName, setUserName] = useState<string>('');
+  // Lấy dữ tên người dùng
+  const fetchUserProfile = async () => {
+    try {
+      const res = await userAPI.getUserProfile();
+      if (res?.data?.fullName) {
+        setUserName(res.data.fullName);
+      }
+    } catch (error) {
+      console.error("Lỗi khi lấy thông tin user:", error);
+    }
+  };
+
+  // Fetch user profile when component mounts
+  useEffect(() => {
+    fetchUserProfile();
+  }, [])
+
+
+  // Dark mode state
   const [isOpenDarkMode, setIsOpenDarkMode] = useState<boolean | null>(false);
 
   const navigate = useNavigate();
@@ -56,22 +79,9 @@ const Header = () => {
           <div className="text-surface-on flex items-center">
             {/* Help me */}
             <button className="hidden lg:block text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
-              <IoIosHelpCircleOutline />
+              <IoIosNotificationsOutline />
             </button>
             {/* Dark mode */}
-            {/* <button
-                            type="button"
-                            onClick={() => setIsOpenDarkMode(!isOpenDarkMode)}
-                            className="w-14 h-7 flex items-center rounded-full p-1 transition-colors duration-400 bg-primary border border-outline-variant"
-                            >
-                            <div
-                                className={`h-[22px] w-[22px] flex items-center justify-center rounded-full shadow-md transform transition-transform duration-300 ${
-                                isOpenDarkMode ? 'translate-x-6 bg-white' : 'translate-x bg-white'
-                                }`}
-                            >
-                                {isOpenDarkMode ? <IoMdMoon className="text-primary-on" /> : <IoMdSunny className="text-primary" />}
-                            </div>
-                        </button> */}
             <button className="text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
               <IoMdMoon />
             </button>
@@ -81,28 +91,40 @@ const Header = () => {
               <IoIosArrowDown className="text-sm" />
             </button>
           </div>
-          {/* Login */}
-          <Button
-            onClick={() => {
-              navigate('/auth/login', {
-                state: { backgroundLocation: location }
-              })
-            }}
-            className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
-          >
-            Login
-          </Button>
-          {/* Register*/}
-          <Button
-            onClick={() => {
-              navigate('/auth/register', {
-                state: { backgroundLocation: location }
-              })
-            }}
-            className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
-          >
-            Register
-          </Button>
+          {token ? (
+            <div>
+               <button className="text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
+                  <FiUser/>
+                  {/* Name user */}
+                  <span>{userName}</span>
+               </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              {/* Login */}
+              <Button
+                onClick={() => {
+                  navigate('/auth/login', {
+                    state: { backgroundLocation: location }
+                  })
+                }}
+                className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
+              >
+                Login
+              </Button>
+              {/* Register*/}
+              <Button
+                onClick={() => {
+                  navigate('/auth/register', {
+                    state: { backgroundLocation: location }
+                  })
+                }}
+                className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
+              >
+                Register
+              </Button>
+            </div>
+          )}
           {/* Repositive menu mobile */}
           <button
             onClick={() => setIsOpen(!isOpen)}
