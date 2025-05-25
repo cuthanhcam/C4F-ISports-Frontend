@@ -6,6 +6,7 @@ import Login from "../../../pages/auth/Login";
 import Register from "../../../pages/auth/Register";
 import ForgotPassword from "../../../pages/auth/ForgotPassword";
 import ResetPassword from "../../../pages/auth/ResetPassword";
+import ScrollToTop from "../../ui/ScrollToTop";
 interface LayoutProps {
   children?: React.ReactNode;
 }
@@ -17,6 +18,9 @@ const Layout = ({ children }: LayoutProps) => {
       <Header/>
       <main className="flex-grow">{children}</main>
       <Footer />
+
+      {/* Scroll to top button */}
+      <ScrollToTop/>
 
       {/* Mount Login */}
       {location.pathname === '/auth/login' && (
