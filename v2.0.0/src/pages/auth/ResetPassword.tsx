@@ -57,6 +57,9 @@ const ResetPassword = () => {
                 </button>
                 <div className="w-full max-w-sm p-6">
                     <h1 className="text-2xl text-surface-on font-medium text-center">Đặt lại mật khẩu</h1>
+                    <h4 className="text-sm text-center text-surface-onVariant mt-4">Nhập mật khẩu mới cho {" "}
+                        <span className="font-medium">{email}</span>
+                    </h4>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6 mt-10">
                         <div className="relative">
                             <input 

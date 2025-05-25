@@ -31,7 +31,7 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       )}
       {/* Mont Forgot password */}
-      {location.pathname === '/auth/fforgot-password' && (
+      {location.pathname === '/auth/forgot-password' && (
         <div className="fixed inset-0 z-50 backdrop-blur-sm bg-surface/30">
           <ForgotPassword/>
         </div>

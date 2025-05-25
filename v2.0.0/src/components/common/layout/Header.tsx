@@ -33,7 +33,7 @@ const Header = () => {
               >
                 <NavLink
                   to={item.link}
-                  className="relative pb-1 hover:text-primary transition-all duration-300"
+                  className={({isActive}) => `relative pb-1 hover:text-primary transition-all duration-300 ${isActive ? 'text-primary' : 'text-surface-on'}`}
                 >
                   {item.title}
                   <span
