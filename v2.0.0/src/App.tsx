@@ -5,6 +5,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from "./routes/PrivateRoute";
 import Fields from "./pages/dashboard/user/fields";
+import Profile from "./pages/dashboard/user/Profile/Profile";
+import ViewProfile from "./pages/dashboard/user/Profile/ViewProfile";
 
 
 const App = () => {
@@ -22,6 +24,11 @@ const App = () => {
           {/* Fields */}
           <Route path="/fields" element={<PrivateRoute><Fields/></PrivateRoute>}></Route>
           {/* User */}
+          <Route path="/users" element={<PrivateRoute><Profile/></PrivateRoute>}>
+            <Route path="profile" element={<ViewProfile/>}/>
+          </Route>
+
+
         </Routes>
         
 

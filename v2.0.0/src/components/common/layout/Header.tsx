@@ -11,7 +11,8 @@ import MenuMobile from "../../ui/MenuMobile";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiUser } from "react-icons/fi";
 import { userAPI } from "../../../api/user.api";
-
+import { FaRegHeart } from "react-icons/fa";
+import { IoLogOutOutline } from "react-icons/io5";
 
 
 const Header = () => {
@@ -92,12 +93,34 @@ const Header = () => {
             </button>
           </div>
           {token ? (
-            <div>
+            <div className="relative group">
                <button className="text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
-                  <FiUser/>
-                  {/* Name user */}
-                  <span>{userName}</span>
+                  <div className="flex items-center gap-2">
+                    <FiUser/>
+                    {/* Name user */}
+                    <span className="text-sm font-medium">{userName}</span>
+                  </div>
                </button>
+              {/* Dropdown menu */}
+              <div className="absolute top-full right-0 hidden group-hover:block bg-surface-3 text-sm rounded z-[10]">
+                <div className='px-4 py-2.5 flex flex-col items-start gap-4 w-full'>
+                  <Link to='/users/profile' className="text-primary flex items-center gap-2 border-b border-outline-variant p-2 w-full 
+                  hover:bg-primary hover:text-primary-on rounded-md transition-colors duration-200 ease-in-out">
+                    <FiUser className="text-lg shrink-0"/>
+                    <span>Tài khoản của tôi</span>
+                  </Link>
+                  <button className="text-primary flex items-center gap-2 border-b border-outline-variant p-2 w-full 
+                  hover:bg-primary hover:text-primary-on rounded-md transition-colors duration-200 ease-in-outl">
+                    <FaRegHeart className="text-lg shrink-0" />
+                    <span>Sân yêu thích</span>
+                  </button>
+                  <button className="text-primary flex items-center gap-2 p-2 w-full 
+                  hover:bg-primary hover:text-primary-on rounded-md transition-colors duration-200 ease-in-out">
+                    <IoLogOutOutline className="text-lg shrink-0" />
+                    <span>Đăng xuất</span>
+                  </button>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="flex items-center gap-2">
