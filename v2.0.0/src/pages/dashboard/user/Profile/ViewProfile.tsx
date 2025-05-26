@@ -3,6 +3,7 @@ import type { userUpdate } from "../../../../types/user"
 import { userAPI } from "../../../../api/user.api";
 import { CiCamera, CiEdit } from "react-icons/ci";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 const ViewProfile = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     
@@ -14,7 +15,8 @@ const ViewProfile = () => {
         district: '',
         avatarUrl: ''
     });
-    //console.log(userProfile);
+    
+    // Lấy thông tin người dùng
     const fetchUserProfile = async () => {
         try {
             const res = await userAPI.getUserProfile();
@@ -31,6 +33,27 @@ const ViewProfile = () => {
         }
     }
 
+    // Hàm xử lý lưu thông tin người dùng
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const isConfirmed = window.confirm("Bạn có chắc chắn muốn lưu thay đổi?");
+        if (!isConfirmed) return;
+
+        try {
+            await userAPI.updateUserProfile(userProfile);
+
+            // Thông báo cập nhật thành công
+            toast.success("Cập nhật thành công!");
+            setIsEditing(false);
+        } catch (err) {
+            console.error(err);
+            toast.error("Có lỗi xảy ra khi cập nhật.");
+        }
+
+    }
+
+    // Render thông tin người dùng
     useEffect(() => {
         fetchUserProfile();
     }, [])
@@ -48,13 +71,22 @@ const ViewProfile = () => {
                     <div className="border-r border-outline-variant px-8">
                         {/* Button edit */}
                         <div className="flex justify-end">
-                            <button className="flex items-center gap-2 bg-primary px-4 py-2 rounded-3xl text-primary-on font-medium hover:bg-primary-shade duration-200 transition-all ease-in-out">
+                            {!isEditing ? (
+                            <button 
+                                onClick={() => setIsEditing(true)}
+                                className="flex items-center gap-2 bg-primary px-4 py-2 rounded-3xl text-primary-on font-medium hover:bg-primary-shade duration-200 transition-all ease-in-out">
                                 <CiEdit/>
                                 <span>Chỉnh sửa</span>
-                            </button>
+                            </button>) : (
+                            <button 
+                                onClick={() => setIsEditing(false)}
+                                className="flex items-center gap-2 bg-primary px-4 py-2 rounded-3xl text-primary-on font-medium hover:bg-primary-shade duration-200 transition-all ease-in-out">
+                                <CiEdit/>
+                                <span>Hủy</span>
+                            </button>)}
                         </div>
                         {/* Thông tin users */}
-                        <form action="" className="flex flex-col gap-6 text-surface-on mt-8">
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-6 text-surface-on mt-8">
                             {/* Họ và tên */}
                             <div className="grid grid-cols-[150px_1fr] items-center gap-2">
                                 <label htmlFor="">Họ và tên</label>
@@ -115,6 +147,12 @@ const ViewProfile = () => {
                                     className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
                                 />
                             </div>
+                            <button
+                                type="submit"
+                                disabled={!isEditing}
+                                className={`px-8 py-2 rounded-3xl font-medium 
+                                w-fit mt-8 ${isEditing ? 'bg-primary text-primary-on hover:bg-primary-shade duration-200 transition-colors ease-in-out' 
+                                : 'bg-slate-400'}`}>Lưu</button>
                         </form>
                     </div>
                     {/* Hình ảnh */}
