@@ -13,6 +13,7 @@ import { FiUser } from "react-icons/fi";
 import { userAPI } from "../../../api/user.api";
 import { FaRegHeart } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
+import { authAPI } from "../../../api/auth.api";
 
 
 const Header = () => {
@@ -30,6 +31,25 @@ const Header = () => {
       console.error("Lỗi khi lấy thông tin user:", error);
     }
   };
+
+  // Đăng xuất
+  const handleLogout = async () => {
+    try {
+      await authAPI.logout(); 
+      
+      // Xoá token lưu trong localStorage
+      localStorage.removeItem("token");
+
+      // Reset thông tin người dùng trong state
+      setUserName('');
+
+      // Điều hướng về trang chủ
+      navigate('/');
+    } catch (err) {
+      console.error('Lỗi khi đăng xuất:', err);
+    }
+  };
+
 
   // Fetch user profile when component mounts
   useEffect(() => {
@@ -114,7 +134,9 @@ const Header = () => {
                     <FaRegHeart className="text-lg shrink-0" />
                     <span>Sân yêu thích</span>
                   </button>
-                  <button className="text-primary flex items-center gap-2 p-2 w-full 
+                  <button 
+                    onClick={handleLogout}
+                    className="text-primary flex items-center gap-2 p-2 w-full 
                   hover:bg-primary hover:text-primary-on rounded-md transition-colors duration-200 ease-in-out">
                     <IoLogOutOutline className="text-lg shrink-0" />
                     <span>Đăng xuất</span>

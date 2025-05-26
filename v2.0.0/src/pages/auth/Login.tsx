@@ -31,6 +31,9 @@ const Login = () => {
       
       // Kiểm tra nếu đăng nhập thành công thì lưu token vào localStorage
       localStorage.setItem('token', res.data.token);
+
+      // 
+      localStorage.setItem("refreshToken", res.data.refreshToken);
       
       // Thông bao đăng nhập thành công
       toast.success('Đăng nhập thành công!');

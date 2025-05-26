@@ -30,5 +30,12 @@ export const authAPI = {
     // Gửi lại email xác minh
     resendVerification(){
 
+    },
+    // Đăng xuất
+    logout() {
+        const refreshToken = localStorage.getItem("refreshToken");
+        return axiosClient.post('auth/logout', {
+            refreshToken: refreshToken
+        });
     }
-}
+} 
