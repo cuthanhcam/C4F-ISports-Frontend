@@ -4,8 +4,13 @@ import { userAPI } from "../../../../api/user.api";
 import { CiCamera, CiEdit } from "react-icons/ci";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+
 const ViewProfile = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [day, setDay] = useState<number | ''>('');
+    const [month, setMonth] = useState<number | ''>('');
+    const [year, setYear] = useState<number | ''>('');
+
     
     const [userProfile, setUserProfile] = useState<userUpdate>({
         fullName: '',
@@ -13,7 +18,8 @@ const ViewProfile = () => {
         phone: '',
         city: '',
         district: '',
-        avatarUrl: ''
+        dateOfBirth: '',
+        avatarUrl: '',
     });
     
     // Lấy thông tin người dùng
@@ -26,8 +32,17 @@ const ViewProfile = () => {
                 phone: res.data.phone,
                 city: res.data.city,
                 district: res.data.district,
+                dateOfBirth: new Date(res.data.dateOfBirth).toISOString().split('T')[0], 
                 avatarUrl: res.data.avatarUrl
             });
+            const date = new Date(res.data.dateOfBirth);
+            setDay(date.getDate());
+            setMonth(date.getMonth() + 1); // Tháng bắt đầu từ 0
+            setYear(date.getFullYear());
+            setUserProfile(prev => ({
+                ...prev,
+                dateOfBirth: date.toISOString().split('T')[0],
+            }));
         } catch (err) { 
             console.error(err);
         }
@@ -52,6 +67,15 @@ const ViewProfile = () => {
         }
 
     }
+    useEffect(() => {
+        if (day && month && year) {
+            const dob = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            setUserProfile(prev => ({
+            ...prev,
+            dateOfBirth: dob
+            }));
+        }
+    }, [day, month, year]);
 
     // Render thông tin người dùng
     useEffect(() => {
@@ -107,7 +131,7 @@ const ViewProfile = () => {
                                     name="email"
                                     value={userProfile.email} 
                                     onChange={(e) => setUserProfile({...userProfile, email: e.target.value})}
-                                    disabled={!isEditing}
+                                    disabled={true}
                                     className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
                                 />
                             </div>
@@ -147,11 +171,57 @@ const ViewProfile = () => {
                                     className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
                                 />
                             </div>
+                            {/* Ngày sinh */}
+                            <div className="grid grid-cols-[150px_1fr] items-center gap-2">
+                                <label>Ngày sinh</label>
+                                <div className="flex gap-4">
+                                    {/* Ngày */}
+                                    <select 
+                                        value={day} 
+                                        onChange={(e) => setDay(Number(e.target.value))} 
+                                        disabled={!isEditing}
+                                        className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-surface-on"
+                                    >
+                                        <option value="">Ngày</option>
+                                        {Array.from({ length: 31 }, (_, i) => i + 1).map(d => (
+                                            <option key={d} value={d}>{d}</option>
+                                        ))}
+                                    </select>
+                                    
+                                    {/* Tháng */}
+                                    <select 
+                                        value={month} 
+                                        onChange={(e) => setMonth(Number(e.target.value))} 
+                                        disabled={!isEditing}
+                                        className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-surface-on"
+                                    >
+                                        <option value="">Tháng</option>
+                                    {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
+                                        <option key={m} value={m}>{m}</option>
+                                    ))}
+                                    </select>
+
+                                    {/* Năm */}
+                                    <select 
+                                        value={year} 
+                                        onChange={(e) => setYear(Number(e.target.value))} 
+                                        disabled={!isEditing}
+                                        className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-surface-on"
+                                        >
+                                        <option value="">Năm</option>
+                                        {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map(y => (
+                                            <option key={y} value={y}>{y}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {/* Button save */}
                             <button
                                 type="submit"
                                 disabled={!isEditing}
                                 className={`px-8 py-2 rounded-3xl font-medium 
-                                w-fit mt-8 ${isEditing ? 'bg-primary text-primary-on hover:bg-primary-shade duration-200 transition-colors ease-in-out' 
+                                w-fit my-8 ${isEditing ? 'bg-primary text-primary-on hover:bg-primary-shade duration-200 transition-colors ease-in-out' 
                                 : 'bg-slate-400'}`}>Lưu</button>
                         </form>
                     </div>

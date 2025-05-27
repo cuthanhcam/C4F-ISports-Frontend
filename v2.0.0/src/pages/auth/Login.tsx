@@ -47,7 +47,7 @@ const Login = () => {
   }
   
   return (
-    <div className='flex w-full h-screen justify-center items-center'>
+    <div className='flex w-full h-screen justify-center items-center mt-[44px]'>
       <div className='max-w-4xl mx-auto'>
         {/* Banner image*/}
         <div className='grid grid-cols-1 lg:grid-cols-2 max-w-4xl w-full h-[417px]  md:h-[517px] overflow-hidden rounded-xl relative '> 

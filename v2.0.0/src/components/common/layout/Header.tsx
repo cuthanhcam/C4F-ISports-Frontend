@@ -122,7 +122,7 @@ const Header = () => {
                   </div>
                </button>
               {/* Dropdown menu */}
-              <div className="absolute top-full right-0 hidden group-hover:block bg-surface-3 text-sm rounded z-[10]">
+              <div className="w-[180px] absolute top-full right-0 hidden group-hover:block bg-surface-3 text-sm rounded z-[10]">
                 <div className='px-4 py-2.5 flex flex-col items-start gap-4 w-full'>
                   <Link to='/users/profile' className="text-primary flex items-center gap-2 border-b border-outline-variant p-2 w-full 
                   hover:bg-primary hover:text-primary-on rounded-md transition-colors duration-200 ease-in-out">
@@ -136,7 +136,7 @@ const Header = () => {
                   </button>
                   <button 
                     onClick={handleLogout}
-                    className="text-primary flex items-center gap-2 p-2 w-full 
+                    className="text-primary truncate flex items-center gap-2 p-2 w-full 
                   hover:bg-primary hover:text-primary-on rounded-md transition-colors duration-200 ease-in-out">
                     <IoLogOutOutline className="text-lg shrink-0" />
                     <span>Đăng xuất</span>

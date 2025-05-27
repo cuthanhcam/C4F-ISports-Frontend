@@ -9,3 +9,5 @@
 9. npm install axios
 10. npm install react-toastify
 11. npm install sonner
+12. npm install react-datepicker
+13. npm install date-fns
