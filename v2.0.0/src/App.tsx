@@ -7,6 +7,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import Fields from "./pages/dashboard/user/fields";
 import Profile from "./pages/dashboard/user/Profile/Profile";
 import ViewProfile from "./pages/dashboard/user/Profile/ViewProfile";
+import ChangePassword from "./pages/auth/ChangePassword";
 
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
           {/* User */}
           <Route path="/users" element={<PrivateRoute><Profile/></PrivateRoute>}>
             <Route path="profile" element={<ViewProfile/>}/>
+            <Route path="change-password" element={<ChangePassword/>}/>
           </Route>
 
 

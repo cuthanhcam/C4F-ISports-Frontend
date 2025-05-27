@@ -1,4 +1,4 @@
-import type { authFogotPassword, authLogin, authRegister, authResetPassword } from "../types/auth";
+import type { authChangePassword, authFogotPassword, authLogin, authRegister, authResetPassword } from "../types/auth";
 import axiosClient from "./axiosClient";
 
 
@@ -20,8 +20,8 @@ export const authAPI = {
         return axiosClient.post('auth/reset-password', data);
     },
     // Thay đổi mật khẩu
-    changePassword(){
-
+    changePassword(data: authChangePassword){
+        return axiosClient.post('auth/change-password', data);
     },
     // Xác minh email
     verifyEmail(){

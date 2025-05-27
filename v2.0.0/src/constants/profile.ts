@@ -36,7 +36,7 @@ export const ProfileItems: IProfile[] = [
         icon: FiUser,
         features: [
             { id: 1, name: 'Hồ sơ', link: '/users/profile' },
-            { id: 2, name: 'Đổi mật khẩu', link: '/auth/change-password' },
+            { id: 2, name: 'Đổi mật khẩu', link: '/users/change-password' },
         ]
     },
     {

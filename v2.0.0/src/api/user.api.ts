@@ -14,11 +14,11 @@ export const userAPI = {
     deleteUser() {
         return axiosClient.delete('users/profile');
     },
-    // Lấy thông tin các sân yêu thích của người dùng
+    // Lấy thông tin các sân đã đặt của người dùng
     getUserBookings() {
         return axiosClient.get('users/bookings');
     },
-    // Lấy thông tin các sân đã đặt của người dùng
+    // Lấy thông tin các sân yêu thích của người dùng
     getUserFavorites() {
         return axiosClient.get('users/favorites');
     },

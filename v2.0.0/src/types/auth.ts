@@ -22,3 +22,8 @@ export interface authResetPassword {
     password: string;
 };
 
+export interface authChangePassword {
+    CurrentPassword: string;
+    NewPassword: string;
+}
+
