@@ -34,7 +34,7 @@ const Navbar = () => {
                     <FiUser className="text-primary text-3xl"/>
                 </div>
                 <div className="flex flex-col gap-1">
-                    <h3 className="text-base font-medium text-primary">{userName}</h3>
+                    <h3 className="text-base font-medium text-primary truncate max-w-[177px]">{userName}</h3>
                     <button className="flex text-surface-on gap-2">
                         <CiEdit className="text-2xl"/>
                         <span className="text-sm ">Chỉnh sửa</span>

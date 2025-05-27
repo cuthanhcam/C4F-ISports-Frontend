@@ -116,9 +116,9 @@ const Header = () => {
             <div className="relative group">
                <button className="text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
                   <div className="flex items-center gap-2">
-                    <FiUser/>
+                    <FiUser className="shrink-0"/>
                     {/* Name user */}
-                    <span className="text-sm font-medium">{userName}</span>
+                    <span className="text-sm font-medium truncate max-w-[177px]">{userName}</span>
                   </div>
                </button>
               {/* Dropdown menu */}

@@ -58,6 +58,7 @@ const ViewProfile = () => {
         try {
             await userAPI.updateUserProfile(userProfile);
 
+            await fetchUserProfile();
             // Thông báo cập nhật thành công
             toast.success("Cập nhật thành công!");
             setIsEditing(false);
