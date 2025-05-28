@@ -56,7 +56,7 @@ export const ProfileItems: IProfile[] = [
         icon: FiStar,
         features: [
             { id: 1, name: 'Đánh giá của tôi', link: '/' },
-            { id: 2, name: 'Điểm tích lũy', link: '/' },
+            { id: 2, name: 'Điểm tích lũy', link: '/users/loyalty-points' },
         ]
     },
 ]

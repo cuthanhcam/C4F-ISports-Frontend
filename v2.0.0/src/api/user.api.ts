@@ -25,5 +25,8 @@ export const userAPI = {
     // Thêm sân vào danh sách yêu thích
     postUserFavorites() {
         
+    },
+    getUserLoyaltyPoints() {
+        return axiosClient.get('users/loyalty-points');
     }
 };
