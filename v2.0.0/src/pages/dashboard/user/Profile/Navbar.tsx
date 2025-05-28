@@ -4,26 +4,9 @@ import { userAPI } from "../../../../api/user.api";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { ProfileItems } from "../../../../constants/profile";
+import { useUser } from "../../../../context/UserContext";
 const Navbar = () => {  
-
-    // Lấy tên người dùng
-    const [userName, setUserName] = useState<string>('');
-    const fetchUserProfile = async () => {
-        try {
-          const res = await userAPI.getUserProfile();
-          if (res?.data?.fullName) {
-            setUserName(res.data.fullName);
-          }
-        } catch (error) {
-          console.error("Lỗi khi lấy thông tin user:", error);
-        }
-      };
-    
-    // Fetch user profile when component mounts
-    useEffect(() => {
-    fetchUserProfile();
-    }, []) 
-
+    const { user } = useUser();
     return (
         <div className="inset-0 backdrop-blur-md bg-surface/30 p-12 rounded-3xl">
             {/* Avatar user */}
@@ -34,7 +17,7 @@ const Navbar = () => {
                     <FiUser className="text-primary text-3xl"/>
                 </div>
                 <div className="flex flex-col gap-1">
-                    <h3 className="text-base font-medium text-primary truncate max-w-[177px]">{userName}</h3>
+                    <h3 className="text-base font-medium text-primary truncate max-w-[177px]">{user?.fullName}</h3>
                     <button className="flex text-surface-on gap-2">
                         <CiEdit className="text-2xl"/>
                         <span className="text-sm ">Chỉnh sửa</span>

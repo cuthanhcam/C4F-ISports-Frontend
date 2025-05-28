@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavbarMenu } from "../../../constants/navbarMenu";
 import LogoImage from "../../../assets/images/LogoC4F.png";
 import { HiOutlineTranslate } from "react-icons/hi";
@@ -8,29 +8,18 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@headlessui/react";
 import MenuMobile from "../../ui/MenuMobile";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { FiUser } from "react-icons/fi";
-import { userAPI } from "../../../api/user.api";
 import { FaRegHeart } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
 import { authAPI } from "../../../api/auth.api";
+import { useUser } from "../../../context/UserContext";
 
 
 const Header = () => {
   // Check if user is authenticated
   const token = localStorage.getItem("token");
-  const [userName, setUserName] = useState<string>('');
-  // Lấy dữ tên người dùng
-  const fetchUserProfile = async () => {
-    try {
-      const res = await userAPI.getUserProfile();
-      if (res?.data?.fullName) {
-        setUserName(res.data.fullName);
-      }
-    } catch (error) {
-      console.error("Lỗi khi lấy thông tin user:", error);
-    }
-  };
+  const { user } = useUser();
 
   // Đăng xuất
   const handleLogout = async () => {
@@ -39,9 +28,7 @@ const Header = () => {
       
       // Xoá token lưu trong localStorage
       localStorage.removeItem("token");
-
-      // Reset thông tin người dùng trong state
-      setUserName('');
+      localStorage.removeItem("re")
 
       // Điều hướng về trang chủ
       navigate('/');
@@ -49,13 +36,6 @@ const Header = () => {
       console.error('Lỗi khi đăng xuất:', err);
     }
   };
-
-
-  // Fetch user profile when component mounts
-  useEffect(() => {
-    fetchUserProfile();
-  }, [])
-
 
   // Dark mode state
   const [isOpenDarkMode, setIsOpenDarkMode] = useState<boolean | null>(false);
@@ -118,7 +98,7 @@ const Header = () => {
                   <div className="flex items-center gap-2">
                     <FiUser className="shrink-0"/>
                     {/* Name user */}
-                    <span className="text-sm font-medium truncate max-w-[177px]">{userName}</span>
+                    <span className="text-sm font-medium truncate max-w-[177px]">{user?.fullName}</span>
                   </div>
                </button>
               {/* Dropdown menu */}

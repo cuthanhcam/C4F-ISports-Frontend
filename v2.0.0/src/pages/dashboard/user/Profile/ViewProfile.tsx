@@ -4,6 +4,7 @@ import { userAPI } from "../../../../api/user.api";
 import { CiCamera, CiEdit } from "react-icons/ci";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import { useUser } from "../../../../context/UserContext";
 
 const ViewProfile = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -11,7 +12,8 @@ const ViewProfile = () => {
     const [month, setMonth] = useState<number | ''>('');
     const [year, setYear] = useState<number | ''>('');
 
-    
+    const { user, setUser } = useUser();
+
     const [userProfile, setUserProfile] = useState<userUpdate>({
         fullName: '',
         email: '',
@@ -56,8 +58,8 @@ const ViewProfile = () => {
         if (!isConfirmed) return;
 
         try {
-            await userAPI.updateUserProfile(userProfile);
-
+            const res = await userAPI.updateUserProfile(userProfile);
+            setUser(res.data);
             await fetchUserProfile();
             // Thông báo cập nhật thành công
             toast.success("Cập nhật thành công!");
