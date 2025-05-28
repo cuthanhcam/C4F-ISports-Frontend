@@ -47,6 +47,7 @@ export const ProfileItems: IProfile[] = [
         features: [
             { id: 1, name: 'Lịch sử đặt sân', link: '/' },
             { id: 2, name: 'Sân bóng yêu thích', link: '/' },
+            { id: 2, name: 'Lịch sử tìm kiếm', link: '/'},
         ]
     },
     {

@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
 import { FiUser } from "react-icons/fi"
-import { userAPI } from "../../../../api/user.api";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { ProfileItems } from "../../../../constants/profile";
 import { useUser } from "../../../../context/UserContext";
+import { useState } from "react";
 const Navbar = () => {  
     const { user } = useUser();
+    const [activeLink, setActiveLink] = useState<string>("/users/profile");
+    
     return (
         <div className="inset-0 backdrop-blur-md bg-surface/30 p-12 rounded-3xl">
             {/* Avatar user */}
@@ -25,19 +26,36 @@ const Navbar = () => {
                 </div>
             </Link>
             {/* Feature user */} 
-            <div className="mt-16 flex flex-col gap-6">
+           <div className="mt-16 flex flex-col gap-6">
                 {ProfileItems.map((item) => (
-                    <div key={item.id} className="flex flex-col gap-2">
+                    <div key={item.id} className="flex flex-col gap-3">
+                        {/* Mục cha */}
                         <Link
-                            to={item.link} 
-                            className="flex items-center gap-2">
-                            <item.icon className="shrink text-2xl text-primary"/>
-                            <h1 className="text-surface-on">{item.title}</h1>
+                            to={item.features[0]?.link || "#"}
+                            onClick={() => setActiveLink(item.features[0]?.link || "")}
+                            className="flex items-center gap-2 group"
+                        >
+                            <item.icon className="text-2xl text-primary" />
+                            <h1 className={`group-hover:text-primary transition ${
+                                item.features.some(f => f.link === activeLink) ? "text-primary font-semibold" : "text-surface-on"
+                            }`}>
+                                {item.title}
+                            </h1>
                         </Link>
-                        <ul className="ml-10 text-surface-onVariant flex flex-col gap-2">
+
+                        {/* Mục con */}
+                        <ul className="ml-10 flex flex-col gap-2 text-surface-onVariant">
                             {item.features.map((feature) => (
                                 <li key={feature.id}>
-                                    <Link to={feature.link}>
+                                    <Link
+                                        to={feature.link}
+                                        onClick={() => setActiveLink(feature.link)}
+                                        className={`block transition duration-200 ${
+                                            activeLink === feature.link
+                                                ? "text-primary font-medium"
+                                                : "hover:text-primary"
+                                        }`}
+                                    >
                                         {feature.name}
                                     </Link>
                                 </li>
