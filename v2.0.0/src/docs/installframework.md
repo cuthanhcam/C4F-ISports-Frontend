@@ -12,3 +12,4 @@
 12. npm install react-datepicker
 13. npm install date-fns
 14. npm install jwt-decode
+15. npm install axios cloudinary-react
