@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import type { userUpdate } from "../../../../types/user";
 import { userAPI } from "../../../../api/user.api";
-import { useUser } from "../../../../context/UserContext"; // Import useUser
+import { useUser } from "../../../../context/UserContext";
 import { CiCamera, CiEdit } from "react-icons/ci";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 const ViewProfile = () => {
-  const { user, setUser } = useUser(); // Lấy user và setUser từ Context
+  const { user, setUser, loading, error, retryFetchUser } = useUser();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [day, setDay] = useState<number | "">("");
   const [month, setMonth] = useState<number | "">("");
@@ -27,18 +27,19 @@ const ViewProfile = () => {
 
   const DEFAULT_AVATAR_URL = "https://res.cloudinary.com/dzgxdkass/image/upload/v1748497926/default-avatar.png";
 
-  // Đồng bộ userProfile với user từ Context
   useEffect(() => {
     if (user) {
-      setUserProfile({
+      const profile = {
         fullName: user.fullName || "",
         email: user.email || "",
         phone: user.phone || "",
         city: user.city || "",
         district: user.district || "",
         dateOfBirth: user.dateOfBirth || "",
-        avatarUrl: user.avatarUrl || DEFAULT_AVATAR_URL,
-      });
+        avatarUrl: user.avatarUrl || "",
+      };
+      setUserProfile(profile);
+      console.log("Updated userProfile:", profile); // Log để debug
       if (user.dateOfBirth) {
         const date = new Date(user.dateOfBirth);
         if (!isNaN(date.getTime())) {
@@ -56,14 +57,14 @@ const ViewProfile = () => {
     }
   };
 
-  // Xử lý gỡ ảnh hiện tại
   const handleRemoveAvatar = () => {
     setUserProfile((prev) => ({
       ...prev,
-      avatarUrl: DEFAULT_AVATAR_URL, // Gán avatarUrl thành chuỗi rỗng
+      avatarUrl: "", // Gán avatarUrl thành chuỗi rỗng
     }));
-    setFile(null); // Xóa file tạm thời
-    if (fileInputRef.current) fileInputRef.current.value = ""; // Reset input file
+    setFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    console.log("Avatar removed, new userProfile:", { ...userProfile, avatarUrl: "" }); // Log để debug
   };
 
   const uploadAvatar = async () => {
@@ -80,7 +81,7 @@ const ViewProfile = () => {
       );
       return res.data.secure_url;
     } catch (err) {
-      console.error(err);
+      console.error("Upload Avatar Error:", err);
       toast.error("Lỗi khi tải ảnh lên Cloudinary.");
       return null;
     }
@@ -95,6 +96,20 @@ const ViewProfile = () => {
     try {
       let updatedProfile = { ...userProfile };
 
+      // Validate dữ liệu
+      if (!updatedProfile.fullName) {
+        throw new Error("Họ và tên không được để trống.");
+      }
+      if (updatedProfile.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(updatedProfile.email)) {
+        throw new Error("Email không hợp lệ.");
+      }
+      if (updatedProfile.phone && !/^\d{10,11}$/.test(updatedProfile.phone)) {
+        throw new Error("Số điện thoại không hợp lệ.");
+      }
+      if (updatedProfile.dateOfBirth && !/^\d{4}-\d{2}-\d{2}$/.test(updatedProfile.dateOfBirth)) {
+        throw new Error("Ngày sinh không đúng định dạng (YYYY-MM-DD).");
+      }
+
       if (file) {
         const avatarUrl = await uploadAvatar();
         if (avatarUrl) {
@@ -102,34 +117,55 @@ const ViewProfile = () => {
         } else {
           throw new Error("Không thể tải ảnh lên.");
         }
+      } else if (updatedProfile.avatarUrl === "") {
+        updatedProfile = { ...updatedProfile, avatarUrl: DEFAULT_AVATAR_URL }; // Gửi null nếu gỡ ảnh
       }
 
+      console.log("Sending updatedProfile:", updatedProfile);
       await userAPI.updateUserProfile(updatedProfile);
-      // Cập nhật user trong Context
       setUser(updatedProfile);
       toast.success("Cập nhật thành công!");
       setIsEditing(false);
       setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
-    } catch (err) {
-      console.error(err);
-      toast.error("Có lỗi xảy ra khi cập nhật.");
+    } catch (err: any) {
+      console.error("Update Error:", err.response?.data || err.message);
+      toast.error("Có lỗi xảy ra khi cập nhật: " + (err.response?.data?.detail || err.message));
     }
   };
 
   useEffect(() => {
     if (day && month && year) {
       const dob = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-      setUserProfile((prev) => ({
-        ...prev,
-        dateOfBirth: dob,
-      }));
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dob) && !isNaN(new Date(dob).getTime())) {
+        setUserProfile((prev) => ({
+          ...prev,
+          dateOfBirth: dob,
+        }));
+      }
     }
   }, [day, month, year]);
 
-  // Hiển thị loading nếu user chưa tải
-  if (!user) {
+  if (loading) {
     return <div>Đang tải thông tin người dùng...</div>;
+  }
+
+  if (error) {
+    return (
+      <div>
+        <p>{error}</p>
+        <button
+          onClick={retryFetchUser}
+          className="px-4 py-2 bg-primary text-primary-on rounded-3xl hover:bg-primary-shade"
+        >
+          Thử lại
+        </button>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <div>Không tìm thấy thông tin người dùng.</div>;
   }
 
   return (
@@ -279,7 +315,7 @@ const ViewProfile = () => {
               className="relative w-32 h-32 rounded-full overflow-hidden cursor-pointer"
             >
               <img
-                src={file ? URL.createObjectURL(file) : userProfile.avatarUrl}
+                src={file ? URL.createObjectURL(file) : userProfile.avatarUrl || DEFAULT_AVATAR_URL}
                 alt="Avatar người dùng"
                 className="rounded-full w-full h-full object-cover border border-outline-variant"
               />
@@ -294,14 +330,6 @@ const ViewProfile = () => {
                 <CiCamera className="text-6xl text-white" />
               </motion.div>
             </motion.div>
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              className="hidden"
-              disabled={!isEditing}
-            />
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={!isEditing}
@@ -313,14 +341,25 @@ const ViewProfile = () => {
             >
               Cập nhật ảnh
             </button>
-            <button 
+            <button
               onClick={handleRemoveAvatar}
-              disabled={!isEditing}
+              disabled={!isEditing || userProfile.avatarUrl === ""}
               className={`px-4 py-2 rounded-3xl font-medium ${
-                isEditing
-                  ? "bg-primary text-primary-on hover:bg-primary-shade duration-200 transition-colors ease-in-out"
+                isEditing && userProfile.avatarUrl !== ""
+                  ? "bg-red-500 text-white hover:bg-red-600 duration-200 transition-colors ease-in-out"
                   : "bg-slate-400"
-              }`}>Gỡ ảnh</button>
+              }`}
+            >
+              Gỡ ảnh
+            </button>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              className="hidden"
+              disabled={!isEditing}
+            />
           </div>
         </div>
       </div>
