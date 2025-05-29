@@ -20,7 +20,7 @@ export const appRoutes: Routes[] = [
   { id: 6, path: "/auth/register", component: Home },   
   { id: 7, path: "/auth/forgot-password", component: Home },   
   { id: 8, path: "/auth/reset-password", component: Home },   
-  { id: 9, path: "/auth/verify-email", component: VerifyEmail },   
+  { id: 9, path: "/auth/verified", component: VerifyEmail },   
   { id: 10, path: "*", component: NotFound },
 ];
 
