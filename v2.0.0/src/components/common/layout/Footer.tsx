@@ -1,4 +1,5 @@
-import { FaFacebookF, FaInstagramSquare, FaTelegramPlane, FaLinkedin } from "react-icons/fa";
+import { FaFacebookF, FaInstagramSquare, FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -18,35 +19,32 @@ const Footer = () => {
                         </div>
                         {/* Description */}
                         <p className="text-surface-onVariant text-sm">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                            Facilis repellendus et dolores quod, adipisci consequatur sunt animi,
-                            temporibus incidunt commodi architecto? Exercitationem perspiciatis illo
-                            minima iusto eos optio provident ex.
+                            Modem, convenient sports court booking platform - from soccer, badminton to pickleball. Book a court in just a few clicks
                         </p>
                         {/* Link socials */}
                         <ul className="flex items-center gap-4 text-surface-onVariant">
                             {/* Facebook */}
                             <li className="text-primary p-2 border border-outline-variant rounded-md group hover:bg-primary duration-200 transition-all cursor-pointer">
-                                <a href="" className="group-hover:text-primary-on">
+                                <a href="https://www.facebook.com/profile.php?id=61573894474129" className="group-hover:text-primary-on">
                                     <FaFacebookF />
                                 </a>
                             </li>
                             {/* linked */}
                             <li className="text-primary p-2 border border-outline-variant rounded-md group hover:bg-primary duration-200 transition-all cursor-pointer">
-                                <a href="" className="group-hover:text-primary-on">
+                                <a href="https://www.linkedin.com/in/code-for-food-439679368/" className="group-hover:text-primary-on">
                                     <FaLinkedin />
                                 </a>
                             </li>
                             {/* instargram */}
                             <li className="text-primary p-2 border border-outline-variant rounded-md group hover:bg-primary duration-200 transition-all cursor-pointer">
-                                <a href="" className="group-hover:text-primary-on">
+                                <a href="https://www.instagram.com/c4f204/" className="group-hover:text-primary-on">
                                     <FaInstagramSquare />
                                 </a>
                             </li>
-                            {/* teltegram */}
+                            {/* twitter*/}
                             <li className="text-primary p-2 border border-outline-variant rounded-md group hover:bg-primary duration-200 transition-all cursor-pointer">
-                                <a href="" className="group-hover:text-primary-on">
-                                    <FaTelegramPlane />
+                                <a href="https://x.com/CodeForFood04" className="group-hover:text-primary-on">
+                                    <FaXTwitter />
                                 </a>
                             </li>
                         </ul>
@@ -60,16 +58,16 @@ const Footer = () => {
                             {/* Other link */}
                             <ul className="text-base font-medium flex flex-col gap-4 mt-8">
                                 <li>
-                                    <a href="">Home</a>
+                                    <a href="/">Home</a>
                                 </li>
                                 <li>
-                                    <a href="">About</a>
+                                    <a href="/about">About</a>
                                 </li>
                                 <li>
-                                    <a href="">Contact</a>
+                                    <a href="/service">Service</a>
                                 </li>
                                 <li>
-                                    <a href="">Service</a>
+                                    <a href="/contact">Contact</a>
                                 </li>
                             </ul>
                         </div>
@@ -94,15 +92,15 @@ const Footer = () => {
                             <ul className="text-base font-medium flex flex-col gap-4 mt-8">
                                 <li className="flex items-start justify-start gap-3">
                                     <FaLocationDot className="shrink-0 mt-1 text-primary" />
-                                    <span>Exeample location distric Q9, City Thuc Duc</span>
+                                    <span>48/3/3A Đ. Số 3, Trường Thọ, Thủ Đức, Hồ Chí Minh, Việt Nam</span>
                                 </li>
                                 <li className="flex items-start justify-start gap-3">
                                     <FaPhoneAlt className="shrink-0 mt-1 text-primary" />
-                                    <span>(+84) {" "} 123 {" "} 456 {" "} 789</span>
+                                    <span>(+84) {" "} 902 {" "} 621 {" "} 876</span>
                                 </li>
                                 <li className="flex items-start justify-start gap-3">
                                     <MdEmail className="shrink-0 mt-1 text-primary" />
-                                    <span>c4f@gmail.com</span>
+                                    <span>codeforfoodd@gmail.com</span>
                                 </li>
                                 <li className="flex items-start justify-start gap-3">
                                     <GoClockFill className="shrink-0 mt-1 text-primary" />

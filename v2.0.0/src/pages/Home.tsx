@@ -96,7 +96,7 @@ const Home = () => {
                       onChange={(e) => setDate(e.target.value)}
                     />
                   </div>
-                  <button className="flex items-center justify-center gap-2 bg-primary hover:bg-primary-tint text-surface-1 py-3 px-6 rounded-lg font-medium transition-colors">
+                  <button className="flex items-center justify-center gap-2 bg-primary font-medium hover:bg-primary-shade duration-200 transition-all ease-in-out py-3 px-6 rounded-lg">
                     <FaSearch />
                     <span>Tìm kiếm sân</span>
                   </button>
@@ -195,13 +195,13 @@ const Home = () => {
                     />
 
                     <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/80 transition-all"></div>
-                    <div className="absolute top-4 right-4 bg-primary-shade text-surface-on text-sm font-medium py-1 px-3 rounded">
+                    <div className="absolute top-4 right-4 bg-primary font-medium hover:bg-primary-shade duration-200 transition-all ease-in-out text-sm py-1 px-3 rounded">
                       {field.sportType}
                     </div>
 
                     {/* Thông tin sân  */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 text-surface-on">
-                      <h3 className="text-lg font-medium mb-2">{field.name}</h3>
+                    <div className="absolute bottom-0 left-0 right-0 p-4 ">
+                      <h3 className="text-lg text-surface-on font-medium mb-2">{field.name}</h3>
 
                       <div className="flex items-center text-sm text-gray-200 mb-1">
                         <FaMapMarkerAlt className="mr-1 text-primary" />
@@ -219,7 +219,7 @@ const Home = () => {
                         {field.priceRange}
                       </p>
 
-                      <button className="w-full bg-primary-shade text-surface-on py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors">
+                      <button className="w-full py-2 rounded-3xl bg-primary font-medium hover:bg-primary-shade duration-200 transition-all ease-in-out">
                         Đặt sân ngay
                       </button>
                     </div>
@@ -268,12 +268,12 @@ const Home = () => {
             </div>
 
             {/* CTA Section */}
-            <div className="my-12 md:my-20 bg-gradient-to-r from-primary-shade to-primary-container text-surface-on rounded-3xl py-12 px-8 text-center relative overflow-hidden">
+            <div className="my-12 md:my-20 bg-gradient-to-r from-primary-shade to-primary-container  rounded-3xl py-12 px-8 text-center relative overflow-hidden">
               <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full transform translate-x-1/2 -translate-y-1/2"></div>
               <div className="absolute bottom-0 left-0 w-60 h-60 bg-white/5 rounded-full transform -translate-x-1/3 translate-y-1/3"></div>
 
               <div className="relative z-10">
-                <h2 className="text-3xl md:text-5xl font-bold mb-4">
+                <h2 className="text-3xl text-surface-on md:text-5xl font-bold mb-4">
                   {ctaSectionData.title}
                 </h2>
                 <p className="text-surface-onVariant md:text-lg mb-8 max-w-3xl mx-auto leading-loose">
@@ -282,7 +282,7 @@ const Home = () => {
                 <div className="flex flex-col md:flex-row justify-center gap-4">
                   <a
                     href="/register" // nếu đã có register
-                    className="bg-primary text-surface-1 py-3 px-8 rounded-lg font-medium hover:bg-primary-tint transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    className="py-3 px-8 rounded-lg bg-primary font-medium hover:bg-primary-shade duration-200 transition-all ease-in-out shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                   >
                     Đăng ký ngay
                   </a>
