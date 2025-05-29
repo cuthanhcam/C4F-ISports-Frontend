@@ -1,19 +1,20 @@
 import { useEffect, useState, useRef } from "react";
 import type { userUpdate } from "../../../../types/user";
 import { userAPI } from "../../../../api/user.api";
+import { useUser } from "../../../../context/UserContext"; // Import useUser
 import { CiCamera, CiEdit } from "react-icons/ci";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 const ViewProfile = () => {
+  const { user, setUser } = useUser(); // Lấy user và setUser từ Context
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [day, setDay] = useState<number | "">("");
   const [month, setMonth] = useState<number | "">("");
   const [year, setYear] = useState<number | "">("");
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   const [userProfile, setUserProfile] = useState<userUpdate>({
     fullName: "",
     email: "",
@@ -24,37 +25,47 @@ const ViewProfile = () => {
     avatarUrl: "",
   });
 
-  // Lấy thông tin người dùng
-  const fetchUserProfile = async () => {
-    try {
-      const res = await userAPI.getUserProfile();
-      setUserProfile({
-        fullName: res.data.fullName,
-        email: res.data.email,
-        phone: res.data.phone,
-        city: res.data.city,
-        district: res.data.district,
-        dateOfBirth: new Date(res.data.dateOfBirth).toISOString().split("T")[0],
-        avatarUrl: res.data.avatarUrl,
-      });
-      const date = new Date(res.data.dateOfBirth);
-      setDay(date.getDate());
-      setMonth(date.getMonth() + 1);
-      setYear(date.getFullYear());
-    } catch (err) {
-      console.error(err);
-      toast.error("Lỗi khi tải thông tin người dùng.");
-    }
-  };
+  const DEFAULT_AVATAR_URL = "https://res.cloudinary.com/dzgxdkass/image/upload/v1748497926/default-avatar.png";
 
-  // Xử lý chọn file
+  // Đồng bộ userProfile với user từ Context
+  useEffect(() => {
+    if (user) {
+      setUserProfile({
+        fullName: user.fullName || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        city: user.city || "",
+        district: user.district || "",
+        dateOfBirth: user.dateOfBirth || "",
+        avatarUrl: user.avatarUrl || DEFAULT_AVATAR_URL,
+      });
+      if (user.dateOfBirth) {
+        const date = new Date(user.dateOfBirth);
+        if (!isNaN(date.getTime())) {
+          setDay(date.getDate());
+          setMonth(date.getMonth() + 1);
+          setYear(date.getFullYear());
+        }
+      }
+    }
+  }, [user]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
     }
   };
 
-  // Upload ảnh lên Cloudinary
+  // Xử lý gỡ ảnh hiện tại
+  const handleRemoveAvatar = () => {
+    setUserProfile((prev) => ({
+      ...prev,
+      avatarUrl: DEFAULT_AVATAR_URL, // Gán avatarUrl thành chuỗi rỗng
+    }));
+    setFile(null); // Xóa file tạm thời
+    if (fileInputRef.current) fileInputRef.current.value = ""; // Reset input file
+  };
+
   const uploadAvatar = async () => {
     if (!file) return null;
 
@@ -75,7 +86,6 @@ const ViewProfile = () => {
     }
   };
 
-  // Xử lý lưu thông tin
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -95,7 +105,8 @@ const ViewProfile = () => {
       }
 
       await userAPI.updateUserProfile(updatedProfile);
-      await fetchUserProfile();
+      // Cập nhật user trong Context
+      setUser(updatedProfile);
       toast.success("Cập nhật thành công!");
       setIsEditing(false);
       setFile(null);
@@ -116,9 +127,10 @@ const ViewProfile = () => {
     }
   }, [day, month, year]);
 
-  useEffect(() => {
-    fetchUserProfile();
-  }, []);
+  // Hiển thị loading nếu user chưa tải
+  if (!user) {
+    return <div>Đang tải thông tin người dùng...</div>;
+  }
 
   return (
     <div className="bg-surface-1 rounded-3xl">
@@ -131,7 +143,7 @@ const ViewProfile = () => {
         </div>
         <div className="grid grid-cols-[1fr_auto] gap-6 mt-8">
           <div className="border-r border-outline-variant px-8">
-            <div className="flex justify-end">
+            <div className="flex items-center justify-end">
               {!isEditing ? (
                 <button
                   onClick={() => setIsEditing(true)}
@@ -154,8 +166,8 @@ const ViewProfile = () => {
                 </button>
               )}
             </div>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6 text-surface-on mt-8">
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-6 text-on-surface mt-8">
+              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
                 <label htmlFor="fullName">Họ và tên</label>
                 <input
                   type="text"
@@ -166,7 +178,7 @@ const ViewProfile = () => {
                   className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
                 />
               </div>
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2">
+              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
                 <label htmlFor="email">Email</label>
                 <input
                   type="email"
@@ -176,7 +188,7 @@ const ViewProfile = () => {
                   className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
                 />
               </div>
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2">
+              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
                 <label htmlFor="phone">Số điện thoại</label>
                 <input
                   type="text"
@@ -187,7 +199,7 @@ const ViewProfile = () => {
                   className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
                 />
               </div>
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2">
+              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
                 <label htmlFor="city">Thành phố</label>
                 <input
                   type="text"
@@ -198,7 +210,7 @@ const ViewProfile = () => {
                   className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
                 />
               </div>
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2">
+              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
                 <label htmlFor="district">Quận</label>
                 <input
                   type="text"
@@ -209,14 +221,14 @@ const ViewProfile = () => {
                   className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
                 />
               </div>
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2">
+              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
                 <label>Ngày sinh</label>
                 <div className="flex gap-4">
                   <select
                     value={day}
-                    onChange={(e) => setDay(Number(e.target.value))}
+                    onChange={(e) => setDay(Number(e.target.value) || "")}
                     disabled={!isEditing}
-                    className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-surface-on"
+                    className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-on-surface-bg"
                   >
                     <option value="">Ngày</option>
                     {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
@@ -225,9 +237,9 @@ const ViewProfile = () => {
                   </select>
                   <select
                     value={month}
-                    onChange={(e) => setMonth(Number(e.target.value))}
+                    onChange={(e) => setMonth(Number(e.target.value) || "")}
                     disabled={!isEditing}
-                    className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-surface-on"
+                    className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-on-surface-bg text-surface-on"
                   >
                     <option value="">Tháng</option>
                     {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
@@ -236,9 +248,9 @@ const ViewProfile = () => {
                   </select>
                   <select
                     value={year}
-                    onChange={(e) => setYear(Number(e.target.value))}
+                    onChange={(e) => setYear(Number(e.target.value) || "")}
                     disabled={!isEditing}
-                    className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-surface-on"
+                    className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-on-surface-bg"
                   >
                     <option value="">Năm</option>
                     {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((y) => (
@@ -260,16 +272,16 @@ const ViewProfile = () => {
               </button>
             </form>
           </div>
-          <div className="flex flex-col gap-10 px-10">
+          <div className="flex flex-col gap-4 px-10">
             <motion.div
               initial="initial"
               whileHover="hover"
               className="relative w-32 h-32 rounded-full overflow-hidden cursor-pointer"
             >
               <img
-                src={file ? URL.createObjectURL(file) : userProfile.avatarUrl || "https://via.placeholder.com/150"}
+                src={file ? URL.createObjectURL(file) : userProfile.avatarUrl}
                 alt="Avatar người dùng"
-                className="rounded-full w-full h-full object-cover"
+                className="rounded-full w-full h-full object-cover border border-outline-variant"
               />
               <motion.div
                 variants={{
@@ -293,14 +305,22 @@ const ViewProfile = () => {
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={!isEditing}
-              className={`px-4 py-2 rounded-3xl font-medium ${
+              className={`px-4 py-2 rounded-3xl font-medium mt-6 ${
                 isEditing
                   ? "bg-primary text-primary-on hover:bg-primary-shade duration-200 transition-colors ease-in-out"
                   : "bg-slate-400"
               }`}
             >
-              Chọn ảnh
+              Cập nhật ảnh
             </button>
+            <button 
+              onClick={handleRemoveAvatar}
+              disabled={!isEditing}
+              className={`px-4 py-2 rounded-3xl font-medium ${
+                isEditing
+                  ? "bg-primary text-primary-on hover:bg-primary-shade duration-200 transition-colors ease-in-out"
+                  : "bg-slate-400"
+              }`}>Gỡ ảnh</button>
           </div>
         </div>
       </div>

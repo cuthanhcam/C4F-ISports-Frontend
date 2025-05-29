@@ -7,15 +7,15 @@ import { useState } from "react";
 const Navbar = () => {  
     const { user } = useUser();
     const [activeLink, setActiveLink] = useState<string>("/users/profile");
-    
+    const DEFAULT_AVATAR_URL = "https://res.cloudinary.com/dzgxdkass/image/upload/v1748497926/default-avatar.png";
     return (
         <div className="inset-0 backdrop-blur-md bg-surface/30 p-12 rounded-3xl">
             {/* Avatar user */}
             <Link 
                 to='/users/profile'
                 className="flex items-center gap-4">
-                <div className="p-4 rounded-full border border-outline-variant">
-                    <FiUser className="text-primary text-3xl"/>
+                <div className="rounded-full border border-outline-variant w-[76px] h-[76px]">
+                    <img src={user?.avatarUrl || DEFAULT_AVATAR_URL} alt="" className="w-full h-full rounded-full object-cover"/>
                 </div>
                 <div className="flex flex-col gap-1">
                     <h3 className="text-base font-medium text-primary truncate max-w-[177px]">{user?.fullName}</h3>

@@ -19,7 +19,9 @@ import { useUser } from "../../../context/UserContext";
 const Header = () => {
   // Check if user is authenticated
   const token = localStorage.getItem("token");
+
   const { user } = useUser();
+  const DEFAULT_AVATAR_URL = "https://res.cloudinary.com/dzgxdkass/image/upload/v1748497926/default-avatar.png";
 
   // Đăng xuất
   const handleLogout = async () => {
@@ -96,7 +98,7 @@ const Header = () => {
             <div className="relative group">
                <button className="text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
                   <div className="flex items-center gap-2">
-                    <FiUser className="shrink-0"/>
+                    <img src={user?.avatarUrl || DEFAULT_AVATAR_URL} alt="" className="w-5 h-5 rounded-full object-cover border border-outline-variant"/>
                     {/* Name user */}
                     <span className="text-sm font-medium truncate max-w-[177px]">{user?.fullName}</span>
                   </div>
