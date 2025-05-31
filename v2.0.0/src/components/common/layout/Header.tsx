@@ -4,19 +4,51 @@ import LogoImage from "../../../assets/images/LogoC4F.png";
 import { HiOutlineTranslate } from "react-icons/hi";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
-import { IoIosHelpCircleOutline } from "react-icons/io";
+import { IoIosNotificationsOutline } from "react-icons/io";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@headlessui/react";
+import MenuMobile from "../../ui/MenuMobile";
+import { AnimatePresence } from "framer-motion";
+import { FiUser } from "react-icons/fi";
+import { FaRegHeart } from "react-icons/fa";
+import { IoLogOutOutline } from "react-icons/io5";
+import { authAPI } from "../../../api/auth.api";
+import { useUser } from "../../../context/UserContext";
+import useDarkMode from "../../../hooks/useDarkMode";
+
 
 const Header = () => {
-  const [isOpenDarkMode, setIsOpenDarkMode] = useState<boolean | null>(false);
+  // Check if user is authenticated
+  const token = localStorage.getItem("token");
+
+  const { user } = useUser();
+  const DEFAULT_AVATAR_URL = "https://res.cloudinary.com/dzgxdkass/image/upload/v1748497926/default-avatar.png";
+
+  // Đăng xuất
+  const handleLogout = async () => {
+    try {
+      await authAPI.logout(); 
+      
+      // Xoá token lưu trong localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("re")
+
+      // Điều hướng về trang chủ
+      navigate('/');
+    } catch (err) {
+      console.error('Lỗi khi đăng xuất:', err);
+    }
+  };
+
+  // Dark mode state
+  const { darkMode, setDarkMode } = useDarkMode();
 
   const navigate = useNavigate();
   const location = useLocation();
   // Handle close hamburger menu
   const [isOpen, setIsOpen] = useState<boolean | null>(false);
   return (
-    <header className="bg-surface-2 z-[0]">
+    <header className="dark:bg-surface-2 bg-surface-on z-[100] fixed top-0 left-0 w-full shadow-md">
       <div className="container py-6 flex items-center justify-between">
         {/* Logo website */}
         <div className="flex items-center gap-2">
@@ -33,7 +65,7 @@ const Header = () => {
               >
                 <NavLink
                   to={item.link}
-                  className="relative pb-1 hover:text-primary transition-all duration-300"
+                  className={({isActive}) => `relative pb-1 hover:text-primary transition-all duration-300 ${isActive ? 'text-primary' : 'text-surface-on'}`}
                 >
                   {item.title}
                   <span
@@ -51,24 +83,11 @@ const Header = () => {
           <div className="text-surface-on flex items-center">
             {/* Help me */}
             <button className="hidden lg:block text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
-              <IoIosHelpCircleOutline />
+              <IoIosNotificationsOutline />
             </button>
             {/* Dark mode */}
-            {/* <button
-                            type="button"
-                            onClick={() => setIsOpenDarkMode(!isOpenDarkMode)}
-                            className="w-14 h-7 flex items-center rounded-full p-1 transition-colors duration-400 bg-primary border border-outline-variant"
-                            >
-                            <div
-                                className={`h-[22px] w-[22px] flex items-center justify-center rounded-full shadow-md transform transition-transform duration-300 ${
-                                isOpenDarkMode ? 'translate-x-6 bg-white' : 'translate-x bg-white'
-                                }`}
-                            >
-                                {isOpenDarkMode ? <IoMdMoon className="text-primary-on" /> : <IoMdSunny className="text-primary" />}
-                            </div>
-                        </button> */}
             <button className="text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
-              <IoMdMoon />
+             {darkMode ? <IoMdMoon onClick={() => setDarkMode(!darkMode)}/> : <IoMdSunny onClick={() => setDarkMode(!darkMode)}/>}
             </button>
             {/* Translation */}
             <button className="flex items-center gap-1 text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
@@ -76,28 +95,64 @@ const Header = () => {
               <IoIosArrowDown className="text-sm" />
             </button>
           </div>
-          {/* Login */}
-          <Button
-            onClick={() => {
-              navigate('/auth/login', {
-                state: { backgroundLocation: location }
-              })
-            }}
-            className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
-          >
-            Login
-          </Button>
-          {/* Register*/}
-          <Button
-            onClick={() => {
-              navigate('/auth/register', {
-                state: { backgroundLocation: location }
-              })
-            }}
-            className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
-          >
-            Register
-          </Button>
+          {token ? (
+            <div className="relative group">
+               <button className="text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
+                  <div className="flex items-center gap-2">
+                    <img src={user?.avatarUrl || DEFAULT_AVATAR_URL} alt="" className="w-5 h-5 rounded-full object-cover border border-outline-variant"/>
+                    {/* Name user */}
+                    <span className="text-sm font-medium truncate max-w-[177px]">{user?.fullName}</span>
+                  </div>
+               </button>
+              {/* Dropdown menu */}
+              <div className="w-[180px] absolute top-full right-0 hidden group-hover:block bg-surface-3 text-sm rounded z-[10]">
+                <div className='px-4 py-2.5 flex flex-col items-start gap-4 w-full'>
+                  <Link to='/users/profile' className="text-primary flex items-center gap-2 border-b border-outline-variant p-2 w-full 
+                  hover:bg-primary hover:text-primary-on rounded-md transition-colors duration-200 ease-in-out">
+                    <FiUser className="text-lg shrink-0"/>
+                    <span>Tài khoản của tôi</span>
+                  </Link>
+                  <button className="text-primary flex items-center gap-2 border-b border-outline-variant p-2 w-full 
+                  hover:bg-primary hover:text-primary-on rounded-md transition-colors duration-200 ease-in-outl">
+                    <FaRegHeart className="text-lg shrink-0" />
+                    <span>Sân yêu thích</span>
+                  </button>
+                  <button 
+                    onClick={handleLogout}
+                    className="text-primary truncate flex items-center gap-2 p-2 w-full 
+                  hover:bg-primary hover:text-primary-on rounded-md transition-colors duration-200 ease-in-out">
+                    <IoLogOutOutline className="text-lg shrink-0" />
+                    <span>Đăng xuất</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              {/* Login */}
+              <Button
+                onClick={() => {
+                  navigate('/auth/login', {
+                    state: { backgroundLocation: location }
+                  })
+                }}
+                className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
+              >
+                Login
+              </Button>
+              {/* Register*/}
+              <Button
+                onClick={() => {
+                  navigate('/auth/register', {
+                    state: { backgroundLocation: location }
+                  })
+                }}
+                className="hidden lg:block text-base text-surface-on font-medium px-4 py-1 border border-primary rounded-md"
+              >
+                Register
+              </Button>
+            </div>
+          )}
           {/* Repositive menu mobile */}
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -119,6 +174,10 @@ const Header = () => {
               }`}
             />
           </button>
+          {/* Repositive menu layout  */}
+          <AnimatePresence>
+            {isOpen && (<MenuMobile key="menu-mobile"/>)}
+          </AnimatePresence>
         </div>
       </div>
     </header>
