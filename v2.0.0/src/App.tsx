@@ -4,11 +4,16 @@ import './App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from "./routes/PrivateRoute";
-import Fields from "./pages/dashboard/user/fields";
+import DashBoard from "./pages/dashboard/DashBoard";
 import Profile from "./pages/dashboard/user/Profile/Profile";
 import ViewProfile from "./pages/dashboard/user/Profile/ViewProfile";
 import ChangePassword from "./pages/auth/ChangePassword";
 import LoyaltyPoints from "./pages/dashboard/user/Profile/LoyaltyPoints";
+import MainContent from "./pages/dashboard/admin/MainContent";
+import ManagementYard from "./pages/dashboard/admin/ManagementYard";
+import SetYard from "./pages/dashboard/admin/SetYard";
+import Statistical from "./pages/dashboard/admin/Statistical";
+import Setting from "./pages/dashboard/admin/Setting";
 
 
 const App = () => {
@@ -24,15 +29,19 @@ const App = () => {
             />
           ))}
           {/* Fields */}
-          <Route path="/fields" element={<PrivateRoute><Fields/></PrivateRoute>}></Route>
+          <Route path="/dashboard" element={<PrivateRoute><DashBoard/></PrivateRoute>}>
+            <Route index element={<MainContent/>}/>
+            <Route path="management-yard" element={<ManagementYard/>}/>
+            <Route path="set-yard" element={<SetYard/>}/>
+            <Route path="statistical" element={<Statistical/>}/>
+            <Route path="setting" element={<Setting/>}/>
+          </Route>
           {/* User */}
           <Route path="/users" element={<PrivateRoute><Profile/></PrivateRoute>}>
             <Route path="profile" element={<ViewProfile/>}/>
             <Route path="change-password" element={<ChangePassword/>}/>
             <Route path="loyalty-points" element={<LoyaltyPoints/>}/>
           </Route>
-
-
         </Routes>
         
 

@@ -14,6 +14,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { IoLogOutOutline } from "react-icons/io5";
 import { authAPI } from "../../../api/auth.api";
 import { useUser } from "../../../context/UserContext";
+import useDarkMode from "../../../hooks/useDarkMode";
 
 
 const Header = () => {
@@ -40,14 +41,14 @@ const Header = () => {
   };
 
   // Dark mode state
-  const [isOpenDarkMode, setIsOpenDarkMode] = useState<boolean | null>(false);
+  const { darkMode, setDarkMode } = useDarkMode();
 
   const navigate = useNavigate();
   const location = useLocation();
   // Handle close hamburger menu
   const [isOpen, setIsOpen] = useState<boolean | null>(false);
   return (
-    <header className="bg-surface-2 z-[100] fixed top-0 left-0 w-full shadow-md">
+    <header className="dark:bg-surface-2 bg-surface-on z-[100] fixed top-0 left-0 w-full shadow-md">
       <div className="container py-6 flex items-center justify-between">
         {/* Logo website */}
         <div className="flex items-center gap-2">
@@ -86,7 +87,7 @@ const Header = () => {
             </button>
             {/* Dark mode */}
             <button className="text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">
-              <IoMdMoon />
+             {darkMode ? <IoMdMoon onClick={() => setDarkMode(!darkMode)}/> : <IoMdSunny onClick={() => setDarkMode(!darkMode)}/>}
             </button>
             {/* Translation */}
             <button className="flex items-center gap-1 text-xl text-primary px-3.5 py-1 rounded-md hover:text-primary-on hover:bg-primary duration-200 transition-transform">

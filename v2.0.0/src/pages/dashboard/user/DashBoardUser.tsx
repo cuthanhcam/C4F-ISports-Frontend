@@ -1,12 +1,13 @@
 import Layout from "../../../components/common/layout/Layout"
 
-const Fields = () => {
+const DashBoardUser = () => {
     return (
       <Layout>
-        <h1>Fields</h1>
-        <p>This is the Fields page.</p>   
+        <div>
+          <h1>Users</h1>
+        </div>
       </Layout>
     )
 }
 
-export default Fields
+export default DashBoardUser

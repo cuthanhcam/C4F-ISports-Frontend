@@ -32,7 +32,10 @@ const Login = () => {
       // Kiểm tra nếu đăng nhập thành công thì lưu token vào localStorage
       localStorage.setItem('token', res.data.token);
 
-      // 
+      // Lưu role 
+      localStorage.setItem('role', res.data.role);
+
+      // Lưu refreshToken
       localStorage.setItem("refreshToken", res.data.refreshToken);
       
       // Thông bao đăng nhập thành công
@@ -40,8 +43,8 @@ const Login = () => {
 
       
 
-      // Chuyển hướng về fields
-      navigate('/fields');
+      // Chuyển hướng về dashboard
+      navigate('/dashboard');
     } catch (err) {
       console.error(err);
       toast.error('Đăng nhập thất bại');
