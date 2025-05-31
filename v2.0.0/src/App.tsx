@@ -1,3 +1,5 @@
+//App.tsx
+
 import { Routes, Route} from "react-router-dom";
 import { appRoutes } from "./routes/Routes";
 import './App.css';
@@ -9,11 +11,13 @@ import Profile from "./pages/dashboard/user/Profile/Profile";
 import ViewProfile from "./pages/dashboard/user/Profile/ViewProfile";
 import ChangePassword from "./pages/auth/ChangePassword";
 import LoyaltyPoints from "./pages/dashboard/user/Profile/LoyaltyPoints";
+import { useDarkMode } from "./hooks/useDarkMode";
 
 
 const App = () => {
+  const { darkMode, setDarkMode } = useDarkMode();
   return (
-    <div>
+    <div className={darkMode ? "dark" : ""}>
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
           {appRoutes.map((route) => (
@@ -31,7 +35,6 @@ const App = () => {
             <Route path="change-password" element={<ChangePassword/>}/>
             <Route path="loyalty-points" element={<LoyaltyPoints/>}/>
           </Route>
-
 
         </Routes>
         

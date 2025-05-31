@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: 'class', // Enable class-based dark mode
   theme: {
     extend: {
       fontFamily: {
@@ -10,46 +11,89 @@ export default {
       },
       colors: {
         primary: {
-          DEFAULT: "#abc7ff",
-          shade: "#82acff",
-          tint: "#d4e2ff",
-          rgb: "171, 199, 255",
-          container: "#00458f",
-          on: "#002f65",
-          onContainer: "#d7e3ff",
-          inverse: "#005cbb",
+          DEFAULT: "#2563eb", // Light mode - blue-600
+          shade: "#1d4ed8", // blue-700
+          tint: "#60a5fa", // blue-400
+          rgb: "37, 99, 235",
+          container: "#dbeafe", // blue-100
+          on: "#1e40af", // blue-800
+          onContainer: "#1e3a8a", // blue-900
+          inverse: "#3b82f6", // blue-500
         },
         secondary: {
-          DEFAULT: "#bec6dc",
-          container: "#3e4759",
-          on: "#283041",
-          onContainer: "#dae2f9",
+          DEFAULT: "#64748b", // slate-500
+          container: "#f1f5f9", // slate-100
+          on: "#334155", // slate-700
+          onContainer: "#0f172a", // slate-900
         },
         surface: {
-          DEFAULT: "#1a1b1f",
-          0: "#141518",
-          1: "#21242a",
-          2: "#262931",
-          3: "#2a2e38",
-          4: "#2b303a",
-          5: "#2e333e",
-          variant: "#44474e",
-          on: "#e3e2e6",
-          onVariant: "#c4c6d0",
-          inverse: "#e3e2e6",
-          inverseOn: "#2f3033",
+          DEFAULT: "#ffffff", // white
+          0: "#f8fafc", // slate-50
+          1: "#f1f5f9", // slate-100
+          2: "#e2e8f0", // slate-200
+          3: "#cbd5e1", // slate-300
+          4: "#94a3b8", // slate-400
+          5: "#64748b", // slate-500
+          variant: "#e2e8f0", // slate-200
+          on: "#0f172a", // slate-900
+          onVariant: "#475569", // slate-600
+          inverse: "#1e293b", // slate-800
+          inverseOn: "#f8fafc", // slate-50
         },
         outline: {
-          DEFAULT: "#8e9099",
-          variant: "#44474e",
+          DEFAULT: "#cbd5e1", // slate-300
+          variant: "#e2e8f0", // slate-200
         },
-        code: "#d3bbff",
-        red: "#ffb4aa",
-        green: "#55e16b",
-        orange: "#ffb874",
+        code: "#7c3aed", // violet-600
+        red: "#ef4444", // red-500
+        green: "#10b981", // emerald-500
+        orange: "#f59e0b", // amber-500
+        
+        // Dark mode colors
+        dark: {
+          primary: {
+            DEFAULT: "#abc7ff", // Keep your original dark primary
+            shade: "#82acff",
+            tint: "#d4e2ff",
+            rgb: "171, 199, 255",
+            container: "#00458f",
+            on: "#002f65",
+            onContainer: "#d7e3ff",
+            inverse: "#005cbb",
+          },
+          secondary: {
+            DEFAULT: "#bec6dc",
+            container: "#3e4759",
+            on: "#283041",
+            onContainer: "#dae2f9",
+          },
+          surface: {
+            DEFAULT: "#1a1b1f", // Keep your original dark surface
+            0: "#141518",
+            1: "#21242a",
+            2: "#262931",
+            3: "#2a2e38",
+            4: "#2b303a",
+            5: "#2e333e",
+            variant: "#44474e",
+            on: "#e3e2e6",
+            onVariant: "#c4c6d0",
+            inverse: "#e3e2e6",
+            inverseOn: "#2f3033",
+          },
+          outline: {
+            DEFAULT: "#8e9099",
+            variant: "#44474e",
+          },
+          code: "#d3bbff",
+          red: "#ffb4aa",
+          green: "#55e16b",
+          orange: "#ffb874",
+        }
       },
       boxShadow: {
-        'navigation': '0px 0px 8px 0px rgba(171, 199, 255, 0.53)',
+        'navigation': '0px 0px 8px 0px rgba(37, 99, 235, 0.3)', // Updated for light mode
+        'navigation-dark': '0px 0px 8px 0px rgba(171, 199, 255, 0.53)', // Keep for dark mode
         'javascript': '0 0 4px 2px rgba(250, 197, 43, 0.6), 0 0 8px 6px rgba(250, 197, 43, 0.4), 0 0 16px 12px rgba(250, 197, 43, 0.2), 0 0 24px 20px rgba(250, 197, 43, 0.1)',
         'typescript': '0 0 4px 2px rgba(49, 120, 198, 0.6),0 0 8px 6px rgba(49, 120, 198, 0.4),0 0 16px 12px rgba(49, 120, 198, 0.2),0 0 24px 20px rgba(49, 120, 198, 0.1)',
         'tailwindCSS': '0 0 4px 2px rgba(0, 166, 244, 0.6), 0 0 8px 6px rgba(0, 166, 244, 0.4), 0 0 16px 12px rgba(0, 166, 244, 0.2),0 0 24px 20px rgba(0, 166, 244, 0.1)',
