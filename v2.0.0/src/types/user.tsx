@@ -7,3 +7,18 @@ export interface userUpdate {
     dateOfBirth: string;
     avatarUrl: string;
 };
+
+
+export interface FavoriteField {
+  fieldId: number;
+  fieldName: string;
+  address: string;
+  averageRating: number;
+}
+
+export interface FavoritesResponse {
+  data: FavoriteField[];
+  total: number;
+  page: number;
+  pageSize: number;
+}

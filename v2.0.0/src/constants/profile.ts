@@ -46,7 +46,7 @@ export const ProfileItems: IProfile[] = [
         icon: MdOutlineHistory,
         features: [
             { id: 1, name: 'Lịch sử đặt sân', link: '/' },
-            { id: 2, name: 'Sân bóng yêu thích', link: '/' },
+            { id: 2, name: 'Sân bóng yêu thích', link: '/users/favorites' },
             { id: 2, name: 'Lịch sử tìm kiếm', link: '/'},
         ]
     },

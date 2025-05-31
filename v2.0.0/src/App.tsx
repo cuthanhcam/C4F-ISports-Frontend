@@ -14,6 +14,7 @@ import ManagementYard from "./pages/dashboard/admin/ManagementYard";
 import SetYard from "./pages/dashboard/admin/SetYard";
 import Statistical from "./pages/dashboard/admin/Statistical";
 import Setting from "./pages/dashboard/admin/Setting";
+import Favorites from "./pages/dashboard/user/Profile/Favorites";
 
 
 const App = () => {
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="profile" element={<ViewProfile/>}/>
             <Route path="change-password" element={<ChangePassword/>}/>
             <Route path="loyalty-points" element={<LoyaltyPoints/>}/>
+            <Route path="favorites" element={<Favorites/>}/>
           </Route>
         </Routes>
         

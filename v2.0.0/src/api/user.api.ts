@@ -19,13 +19,14 @@ export const userAPI = {
         return axiosClient.get('users/bookings');
     },
     // Lấy thông tin các sân yêu thích của người dùng
-    getUserFavorites() {
-        return axiosClient.get('users/favorites');
+    getUserFavorites(params?: { page?: number; pageSize?: number; sort?: string }) {
+        return axiosClient.get('users/favorites', { params });
+    },
+    // Xóa thông tin sân yêu thích
+    deleteUserFavorites(fieldId: number) {
+        return axiosClient.delete(`users/favorites/${fieldId}`);
     },
     // Thêm sân vào danh sách yêu thích
-    postUserFavorites() {
-        
-    },
     getUserLoyaltyPoints() {
         return axiosClient.get('users/loyalty-points');
     }
