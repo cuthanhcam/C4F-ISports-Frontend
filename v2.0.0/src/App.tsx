@@ -15,9 +15,9 @@ import SetYard from "./pages/dashboard/admin/SetYard";
 import Statistical from "./pages/dashboard/admin/Statistical";
 import Setting from "./pages/dashboard/admin/Setting";
 import Favorites from "./pages/dashboard/user/Profile/Favorites";
+
 import useDarkMode from "./hooks/useDarkMode";
-
-
+import DashBoardDetail from "./pages/dashboard/user/DashBoardDetail";
 const App = () => {
   const { darkMode, setDarkMode } = useDarkMode();
   return (
@@ -40,6 +40,7 @@ const App = () => {
             <Route path="statistical" element={<Statistical/>}/>
             <Route path="setting" element={<Setting/>}/>
           </Route>
+          <Route path="/dashboard/:fieldId" element={<PrivateRoute><DashBoardDetail /></PrivateRoute>} />
           {/* User */}
           <Route path="/users" element={<PrivateRoute><Profile/></PrivateRoute>}>
             <Route path="profile" element={<ViewProfile/>}/>

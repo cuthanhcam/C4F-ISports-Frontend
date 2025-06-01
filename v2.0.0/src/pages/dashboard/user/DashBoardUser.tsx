@@ -9,6 +9,11 @@ import { ProvincesAPI, type District, type Province } from "../../../api/Provinc
 import type { SportsSection } from "../../../constants/sports";
 import { sportsAPI } from "../../../api/sports";
 
+
+import { IoFilter } from "react-icons/io5";
+import { Link, Outlet } from "react-router-dom";
+
+
 const FieldStatus = ({ openTime, closeTime }: { openTime: string; closeTime: string }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -84,6 +89,7 @@ const DashBoardUser = () => {
     };
     fetchProvinceCity();
   }, []);
+
 
   const handleCityChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const cityId = e.target.value === "" ? "" : Number(e.target.value);
@@ -280,42 +286,43 @@ const DashBoardUser = () => {
                 {/* Card */}
                 <ul className="grid grid-cols-4 gap-4">
                   {filteredFields?.map((field) => (
-                    <li
-                      key={field.fieldId}
-                      className="border border-outline-variant dark:border-dark-outline-variant rounded-3xl p-6 cursor-pointer bg-surface-1 dark:bg-dark-surface-1 shadow-navigation dark:shadow-navigation-dark hover:shadow-xl dark:hover:shadow-navigation-dark transition-all"
-                    >
-                      <div className="relative group w-full h-64">
-                        <img
-                          src={field.images?.[0]?.imageUrl ?? "/fallback.jpg"}
-                          alt={field.fieldName}
-                          className="w-full h-64 object-cover rounded-xl"
-                        />
-                        <div className="absolute inset-0 bg-black/60 flex flex-col items-start p-4 gap-2 opacity-0 group-hover:opacity-100 transition duration-300 rounded-xl">
-                          <p className="text-surface-1 dark:text-dark-surface-on text-base font-semibold">{field.fieldName}</p>
-                          <div className="flex items-start gap-2 text-sm line-clamp-2 h-[45.5px]">
-                            <FaLocationDot className="shrink-0 text-primary dark:text-dark-primary translate-y-0.5" />
-                            <span className="text-surface-onVariant dark:text-dark-surface-onVariant leading-relaxed">
-                              {field.address}
-                            </span>
+                    <Link to={`/dashboard/${field.fieldId}`} key={field.fieldId}>
+                      <li
+                        className="border border-outline-variant dark:border-dark-outline-variant rounded-3xl p-6 cursor-pointer bg-surface-1 dark:bg-dark-surface-1 shadow-navigation dark:shadow-navigation-dark hover:shadow-xl dark:hover:shadow-navigation-dark transition-all"
+                      >
+                        <div className="relative group w-full h-64">
+                          <img
+                            src={field.images?.[0]?.imageUrl ?? "/fallback.jpg"}
+                            alt={field.fieldName}
+                            className="w-full h-64 object-cover rounded-xl"
+                          />
+                          <div className="absolute inset-0 bg-black/60 flex flex-col items-start p-4 gap-2 opacity-0 group-hover:opacity-100 transition duration-300 rounded-xl">
+                            <p className="text-surface-1 dark:text-dark-surface-on text-base font-semibold">{field.fieldName}</p>
+                            <div className="flex items-start gap-2 text-sm line-clamp-2 h-[45.5px]">
+                              <FaLocationDot className="shrink-0 text-primary dark:text-dark-primary translate-y-0.5" />
+                              <span className="text-surface-onVariant dark:text-dark-surface-onVariant leading-relaxed">
+                                {field.address}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm">
+                              <GoClock className="shrink-0 text-primary dark:text-dark-primary" />
+                              <span className="text-surface-onVariant dark:text-dark-surface-onVariant">
+                                {field.openTime} - {field.closeTime}
+                              </span>
+                            </div>
+                            <FieldStatus openTime={field.openTime} closeTime={field.closeTime} />
                           </div>
-                          <div className="flex items-center gap-2 text-sm">
-                            <GoClock className="shrink-0 text-primary dark:text-dark-primary" />
-                            <span className="text-surface-onVariant dark:text-dark-surface-onVariant">
-                              {field.openTime} - {field.closeTime}
-                            </span>
-                          </div>
-                          <FieldStatus openTime={field.openTime} closeTime={field.closeTime} />
                         </div>
-                      </div>
-                      <div className="flex flex-col gap-2 mt-8">
-                        <h1 className="text-2xl text-surface-on dark:text-dark-surface-on font-medium text-center line-clamp-2 h-[64px]">
-                          {field.fieldName}
-                        </h1>
-                        <p className="text-surface-onVariant dark:text-dark-surface-onVariant text-center leading-relaxed line-clamp-2 h-[52px]">
-                          {field.description}
-                        </p>
-                      </div>
-                    </li>
+                        <div className="flex flex-col gap-2 mt-8">
+                          <h1 className="text-2xl text-surface-on dark:text-dark-surface-on font-medium text-center line-clamp-2 h-[64px]">
+                            {field.fieldName}
+                          </h1>
+                          <p className="text-surface-onVariant dark:text-dark-surface-onVariant text-center leading-relaxed line-clamp-2 h-[52px]">
+                            {field.description}
+                          </p>
+                        </div>
+                      </li>
+                    </Link>
                   ))}
                 </ul>
               </div>
@@ -348,6 +355,7 @@ const DashBoardUser = () => {
           </div>
         </div>
       </div>
+      <Outlet />
     </Layout>
   );
 };
