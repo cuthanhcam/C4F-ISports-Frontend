@@ -39,7 +39,6 @@ const ViewProfile = () => {
         avatarUrl: user.avatarUrl || "",
       };
       setUserProfile(profile);
-      console.log("Updated userProfile:", profile); // Log để debug
       if (user.dateOfBirth) {
         const date = new Date(user.dateOfBirth);
         if (!isNaN(date.getTime())) {
@@ -60,11 +59,10 @@ const ViewProfile = () => {
   const handleRemoveAvatar = () => {
     setUserProfile((prev) => ({
       ...prev,
-      avatarUrl: "", // Gán avatarUrl thành chuỗi rỗng
+      avatarUrl: "",
     }));
     setFile(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
-    console.log("Avatar removed, new userProfile:", { ...userProfile, avatarUrl: "" }); // Log để debug
   };
 
   const uploadAvatar = async () => {
@@ -118,10 +116,9 @@ const ViewProfile = () => {
           throw new Error("Không thể tải ảnh lên.");
         }
       } else if (updatedProfile.avatarUrl === "") {
-        updatedProfile = { ...updatedProfile, avatarUrl: DEFAULT_AVATAR_URL }; // Gửi null nếu gỡ ảnh
+        updatedProfile = { ...updatedProfile, avatarUrl: DEFAULT_AVATAR_URL };
       }
 
-      console.log("Sending updatedProfile:", updatedProfile);
       await userAPI.updateUserProfile(updatedProfile);
       setUser(updatedProfile);
       toast.success("Cập nhật thành công!");
@@ -147,16 +144,16 @@ const ViewProfile = () => {
   }, [day, month, year]);
 
   if (loading) {
-    return <div>Đang tải thông tin người dùng...</div>;
+    return <div className="text-surface-on dark:text-dark-surface-on">Đang tải thông tin người dùng...</div>;
   }
 
   if (error) {
     return (
-      <div>
-        <p>{error}</p>
+      <div className="flex flex-col gap-4">
+        <p className="text-surface-on dark:text-dark-surface-on">{error}</p>
         <button
           onClick={retryFetchUser}
-          className="px-4 py-2 bg-primary text-primary-on rounded-3xl hover:bg-primary-shade"
+          className="px-4 py-2 bg-primary dark:bg-dark-primary text-surface-1 dark:text-dark-surface-on rounded-3xl hover:bg-primary-shade dark:hover:bg-dark-primary-shade transition-colors duration-200"
         >
           Thử lại
         </button>
@@ -165,28 +162,30 @@ const ViewProfile = () => {
   }
 
   if (!user) {
-    return <div>Không tìm thấy thông tin người dùng.</div>;
+    return <div className="text-surface-on dark:text-dark-surface-on">Không tìm thấy thông tin người dùng.</div>;
   }
 
   return (
-    <div className="bg-surface-1 rounded-3xl">
-      <div className="px-12 py-6">
-        <div className="py-6 border-b border-outline-variant flex flex-col gap-2">
-          <h1 className="text-3xl text-surface-on font-medium">Thông tin cá nhân</h1>
-          <p className="text-base text-surface-onVariant">
+    <div className="bg-surface-1/30 dark:bg-dark-surface-1/30 backdrop-blur-md rounded-3xl shadow-navigation dark:shadow-navigation-dark border border-outline-variant dark:border-dark-outline-variant">
+      <div className="p-4 sm:p-6 md:p-8 lg:p-12">
+        <div className="py-4 sm:py-6 border-b border-outline-variant dark:border-dark-outline-variant flex flex-col gap-2">
+          <h1 className="text-xl sm:text-2xl md:text-3xl text-surface-on dark:text-dark-surface-on font-medium">
+            Thông tin cá nhân
+          </h1>
+          <p className="text-sm sm:text-base text-surface-onVariant dark:text-dark-surface-onVariant">
             Quản lý thông tin hồ sơ để bảo mật tài khoản
           </p>
         </div>
-        <div className="grid grid-cols-[1fr_auto] gap-6 mt-8">
-          <div className="border-r border-outline-variant px-8">
+        <div className="flex flex-col lg:grid lg:grid-cols-[1fr_auto] gap-6 mt-6 sm:mt-8">
+          <div className="border-r border-outline-variant dark:border-dark-outline-variant px-0 sm:px-6 md:px-8">
             <div className="flex items-center justify-end">
               {!isEditing ? (
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="flex items-center gap-2 bg-primary px-4 py-2 rounded-3xl text-primary-on font-medium hover:bg-primary-shade duration-200 transition-all ease-in-out"
+                  className="flex items-center gap-2 bg-primary dark:bg-dark-primary text-surface-1 dark:text-dark-primary-on px-3 sm:px-4 py-1.5 sm:py-2 rounded-3xl font-medium hover:bg-primary-shade dark:hover:bg-dark-primary-shade transition-colors duration-200"
                 >
-                  <CiEdit />
-                  <span>Chỉnh sửa</span>
+                  <CiEdit className="text-lg sm:text-xl" />
+                  <span className="text-sm sm:text-base">Chỉnh sửa</span>
                 </button>
               ) : (
                 <button
@@ -195,76 +194,88 @@ const ViewProfile = () => {
                     setFile(null);
                     if (fileInputRef.current) fileInputRef.current.value = "";
                   }}
-                  className="flex items-center gap-2 bg-primary px-4 py-2 rounded-3xl text-primary-on font-medium hover:bg-primary-shade duration-200 transition-all ease-in-out"
+                  className="flex items-center gap-2 bg-primary dark:bg-dark-primary text-surface-1 dark:text-dark-primary-on px-3 sm:px-4 py-1.5 sm:py-2 rounded-3xl font-medium hover:bg-primary-shade dark:hover:bg-dark-primary-shade transition-colors duration-200"
                 >
-                  <CiEdit />
-                  <span>Hủy</span>
+                  <CiEdit className="text-lg sm:text-xl" />
+                  <span className="text-sm sm:text-base">Hủy</span>
                 </button>
               )}
             </div>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6 text-on-surface mt-8">
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
-                <label htmlFor="fullName">Họ và tên</label>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:gap-6 text-surface-on dark:text-dark-surface-on mt-6 sm:mt-8">
+              <div className="flex flex-col sm:grid sm:grid-cols-[150px_1fr] sm:items-center gap-4 sm:gap-6">
+                <label htmlFor="fullName" className="text-sm sm:text-base text-surface-onVariant dark:text-dark-surface-onVariant">
+                  Họ và tên
+                </label>
                 <input
                   type="text"
                   name="fullName"
                   value={userProfile.fullName}
                   onChange={(e) => setUserProfile({ ...userProfile, fullName: e.target.value })}
                   disabled={!isEditing}
-                  className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
+                  className="w-full rounded-md p-2 sm:p-3 outline-none bg-surface dark:bg-dark-surface border border-outline-variant dark:border-dark-outline-variant text-surface-on dark:text-dark-surface-on focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary text-sm sm:text-base"
                 />
               </div>
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
-                <label htmlFor="email">Email</label>
+              <div className="flex flex-col sm:grid sm:grid-cols-[150px_1fr] sm:items-center gap-4 sm:gap-6">
+                <label htmlFor="email" className="text-sm sm:text-base text-surface-onVariant dark:text-dark-surface-onVariant">
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
                   value={userProfile.email}
                   disabled={true}
-                  className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
+                  className="w-full rounded-md p-2 sm:p-3 outline-none bg-surface dark:bg-dark-surface border border-outline-variant dark:border-dark-outline-variantテキスト-surface-on dark:text-dark-surface-on text-sm sm:text-base opacity-60"
                 />
               </div>
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
-                <label htmlFor="phone">Số điện thoại</label>
+              <div className="flex flex-col sm:grid sm:grid-cols-[150px_1fr] sm:items-center gap-4 sm:gap-6">
+                <label htmlFor="phone" className="text-sm sm:text-base text-surface-onVariant dark:text-dark-surface-onVariant">
+                  Số điện thoại
+                </label>
                 <input
                   type="text"
                   name="phone"
                   value={userProfile.phone}
                   onChange={(e) => setUserProfile({ ...userProfile, phone: e.target.value })}
                   disabled={!isEditing}
-                  className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
+                  className="w-full rounded-md p-2 sm:p-3 outline-none bg-surface dark:bg-dark-surface border border-outline-variant dark:border-dark-outline-variant text-surface-on dark:text-dark-surface-on focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary text-sm sm:text-base"
                 />
               </div>
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
-                <label htmlFor="city">Thành phố</label>
+              <div className="flex flex-col sm:grid sm:grid-cols-[150px_1fr] sm:items-center gap-4 sm:gap-6">
+                <label htmlFor="city" className="text-sm sm:text-base text-surface-onVariant dark:text-dark-surface-onVariant">
+                  Thành phố
+                </label>
                 <input
                   type="text"
                   name="city"
                   value={userProfile.city}
                   onChange={(e) => setUserProfile({ ...userProfile, city: e.target.value })}
                   disabled={!isEditing}
-                  className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
+                  className="w-full rounded-md p-2 sm:p-3 outline-none bg-surface dark:bg-dark-surface border border-outline-variant dark:border-dark-outline-variant text-surface-on dark:text-dark-surface-on focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary text-sm sm:text-base"
                 />
               </div>
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
-                <label htmlFor="district">Quận</label>
+              <div className="flex flex-col sm:grid sm:grid-cols-[150px_1fr] sm:items-center gap-4 sm:gap-6">
+                <label htmlFor="district" className="text-sm sm:text-base text-surface-onVariant dark:text-dark-surface-onVariant">
+                  Quận
+                </label>
                 <input
                   type="text"
                   name="district"
                   value={userProfile.district}
                   onChange={(e) => setUserProfile({ ...userProfile, district: e.target.value })}
                   disabled={!isEditing}
-                  className="w-full rounded-md p-2 outline-none bg-surface border border-outline-variant"
+                  className="w-full rounded-md p-2 sm:p-3 outline-none bg-surface dark:bg-dark-surface border border-outline-variant dark:border-dark-outline-variant text-surface-on dark:text-dark-surface-on focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary text-sm sm:text-base"
                 />
               </div>
-              <div className="grid grid-cols-[150px_1fr] items-center gap-2 text-surface-on">
-                <label>Ngày sinh</label>
+              <div className="flex flex-col sm:grid sm:grid-cols-[150px_1fr] sm:items-center gap-4 sm:gap-6">
+                <label className="text-sm sm:text-base text-surface-onVariant dark:text-dark-surface-onVariant">
+                  Ngày sinh
+                </label>
                 <div className="flex gap-4">
                   <select
                     value={day}
                     onChange={(e) => setDay(Number(e.target.value) || "")}
                     disabled={!isEditing}
-                    className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-on-surface-bg"
+                    className="px-3 sm:px-4 py-2 sm:py-3 border border-outline-variant dark:border-dark-outline-variant rounded-md bg-surface dark:bg-dark-surface text-surface-on dark:text-dark-surface-on text-sm sm:text-base focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary"
                   >
                     <option value="">Ngày</option>
                     {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
@@ -275,7 +286,7 @@ const ViewProfile = () => {
                     value={month}
                     onChange={(e) => setMonth(Number(e.target.value) || "")}
                     disabled={!isEditing}
-                    className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-on-surface-bg text-surface-on"
+                    className="px-3 sm:px-4 py-2 sm:py-3 border border-outline-variant dark:border-dark-outline-variant rounded-md bg-surface dark:bg-dark-surface text-surface-on dark:text-dark-surface-on text-sm sm:text-base focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary"
                   >
                     <option value="">Tháng</option>
                     {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
@@ -286,7 +297,7 @@ const ViewProfile = () => {
                     value={year}
                     onChange={(e) => setYear(Number(e.target.value) || "")}
                     disabled={!isEditing}
-                    className="px-4 py-2 border border-outline-variant rounded-md bg-surface text-on-surface-bg"
+                    className="px-3 sm:px-4 py-2 sm:py-3 border border-outline-variant dark:border-dark-outline-variant rounded-md bg-surface dark:bg-dark-surface text-surface-on dark:text-dark-surface-on text-sm sm:text-base focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary"
                   >
                     <option value="">Năm</option>
                     {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((y) => (
@@ -298,26 +309,27 @@ const ViewProfile = () => {
               <button
                 type="submit"
                 disabled={!isEditing}
-                className={`px-8 py-2 rounded-3xl font-medium w-fit my-8 ${
+                className={`px-6 sm:px-8 py-2 sm:py-3 rounded-3xl font-medium w-fit mt-6 sm:mt-8 ${
                   isEditing
-                    ? "bg-primary text-primary-on hover:bg-primary-shade duration-200 transition-colors ease-in-out"
-                    : "bg-slate-400"
+                    ? "bg-primary dark:bg-dark-primary text-surface-1 dark:text-dark-primary-on hover:bg-primary-shade dark:hover:bg-dark-primary-shade transition-colors duration-200"
+                    : "bg-surface-4 dark:bg-dark-surface-4 text-surface-on dark:text-dark-surface-on opacity-60 cursor-not-allowed"
                 }`}
               >
                 Lưu
               </button>
             </form>
           </div>
-          <div className="flex flex-col gap-4 px-10">
+          <div className="flex flex-col gap-4 px-0 sm:px-6 md:px-10">
             <motion.div
               initial="initial"
               whileHover="hover"
-              className="relative w-32 h-32 rounded-full overflow-hidden cursor-pointer"
+              className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden cursor-pointer"
             >
               <img
                 src={file ? URL.createObjectURL(file) : userProfile.avatarUrl || DEFAULT_AVATAR_URL}
                 alt="Avatar người dùng"
-                className="rounded-full w-full h-full object-cover border border-outline-variant"
+                loading="lazy"
+                className="rounded-full w-full h-full object-cover border border-outline-variant dark:border-dark-outline-variant"
               />
               <motion.div
                 variants={{
@@ -325,18 +337,18 @@ const ViewProfile = () => {
                   hover: { y: "0%" },
                 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
-                className="absolute top-0 left-0 w-full h-full rounded-full flex justify-center items-center backdrop-blur-md"
+                className="absolute top-0 left-0 w-full h-full rounded-full flex justify-center items-center backdrop-blur-md bg-surface/30 dark:bg-dark-surface/30"
               >
-                <CiCamera className="text-6xl text-white" />
+                <CiCamera className="text-4xl sm:text-6xl text-surface-on dark:text-dark-surface-on" />
               </motion.div>
             </motion.div>
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={!isEditing}
-              className={`px-4 py-2 rounded-3xl font-medium mt-6 ${
+              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-3xl font-medium mt-4 sm:mt-6 ${
                 isEditing
-                  ? "bg-primary text-primary-on hover:bg-primary-shade duration-200 transition-colors ease-in-out"
-                  : "bg-slate-400"
+                  ? "bg-primary dark:bg-dark-primary text-surface-1 dark:text-dark-primary-on hover:bg-primary-shade dark:hover:bg-dark-primary-shade transition-colors duration-200"
+                  : "bg-surface-4 dark:bg-dark-surface-4 text-surface-on dark:text-dark-surface-on opacity-60 cursor-not-allowed"
               }`}
             >
               Cập nhật ảnh
@@ -344,10 +356,10 @@ const ViewProfile = () => {
             <button
               onClick={handleRemoveAvatar}
               disabled={!isEditing || userProfile.avatarUrl === ""}
-              className={`px-4 py-2 rounded-3xl font-medium ${
+              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-3xl font-medium ${
                 isEditing && userProfile.avatarUrl !== ""
-                  ? "bg-red-500 text-white hover:bg-red-600 duration-200 transition-colors ease-in-out"
-                  : "bg-slate-400"
+                  ? "bg-red dark:bg-dark-red text-surface-1 dark:text-dark-surface-on hover:bg-red-shade dark:hover:bg-dark-red-shade transition-colors duration-200"
+                  : "bg-surface-4 dark:bg-dark-surface-4 text-surface-on dark:text-dark-surface-on opacity-60 cursor-not-allowed"
               }`}
             >
               Gỡ ảnh
