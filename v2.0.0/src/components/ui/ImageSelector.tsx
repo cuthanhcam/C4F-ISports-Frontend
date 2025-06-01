@@ -42,7 +42,7 @@ function ImageSelector({ d }) {
         <button 
         onClick={handlePrevImage} 
         disabled={totalImages <= 1}
-        className="p-4 text-primary border border-outline-variant rounded-lg disabled:opacity-50 absolute top-1/3 translate-y-1/2 -left-6  shadow-xunit group"
+        className="p-4 text-dark-primary border border-dark-outline-variant rounded-lg disabled:opacity-50 absolute top-1/3 translate-y-1/2 -left-6  shadow-xunit group"
         >
             <FaChevronLeft className='group-hover:-translate-x-1 duration-200 transition-all'/>
         </button>
@@ -55,12 +55,12 @@ function ImageSelector({ d }) {
         <button 
         onClick={handleNextImage} 
         disabled={totalImages <= 1}
-        className="p-4 text-primary border border-outline-variant rounded-lg disabled:opacity-50 absolute top-1/3 translate-y-1/2 -right-6 shadow-xunit group"
+        className="p-4 text-dark-primary border border-dark-outline-variant rounded-lg disabled:opacity-50 absolute top-1/3 translate-y-1/2 -right-6 shadow-xunit group"
         >
         <FaChevronRight className='group-hover:translate-x-1 duration-200 transition-all'/>
         </button>
         {/* Danh sách ảnh thumbnail */}
-        <div className="flex gap-2  bg-surface-1 p-4 w-full rounded-b-xl">
+        <div className="flex gap-2  bg-dark-surface-1 p-4 w-full rounded-b-xl">
           {d.images.map((img, index) => (
             <img 
               key={img.imageUrl}

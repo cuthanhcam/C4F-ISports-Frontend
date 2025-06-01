@@ -78,34 +78,34 @@ const DashBoardDetail = () => {
 
   return (
     <Layout>
-      <div className="bg-surface">
+      <div className="bg-dark-surface">
         <div className="container py-6 relative z-[0]">
           <div className="home-header-light-blue" />
           <div className="home-header-light-pink" />
           <div className="mt-[142px] md:mt-[162px] lg:mt-[182px]">
             <button 
               onClick={() => navigate('/dashboard')}
-              className="flex items-center justify-center gap-2 px-6 py-2 border border-outline-variant rounded-md shadow-xunit group my-12 md:my-20"
+              className="flex items-center justify-center gap-2 px-6 py-2 border border-dark-outline-variant rounded-md shadow-xunit group my-12 md:my-20"
             >
               <IoArrowBack className="text-primary text-xl group-hover:-translate-x-1.5 duration-300 transition-all ease-in-out"/>
-              <span className="text-surface-onVariant font-medium text-sm">Quay lại</span>
+              <span className="text-dark-surface-onVariant font-medium text-sm">Quay lại</span>
             </button>
             <div>
               {dataFieldsDetail.map((d) => (
                 <li key={d.fieldId}>
                   <div className="my-12 md:my-20">
-                    <h1 className="text-5xl text-surface-on font-bold mb-6">Hình ảnh sân</h1>
+                    <h1 className="text-5xl text-dark-surface-on font-bold mb-6">Hình ảnh sân</h1>
                     <div className="relative">
                       <ImageSelector d={d} />
                     </div>
                   </div>
-                  <div className="bg-surface-1 p-6 rounded-3xl flex flex-col gap-4 relative">
-                    <h1 className="text-5xl text-surface-on font-bold mb-6">Thông tin chi tiết</h1>
+                  <div className="bg-dark-surface-1 p-6 rounded-3xl flex flex-col gap-4 relative">
+                    <h1 className="text-5xl text-dark-surface-on font-bold mb-6">Thông tin chi tiết</h1>
                     <div className="flex items-center gap-2">
                       <FaLocationDot className="shrink-0 text-primary"/>
-                      <span className="text-surface-onVariant">{d.address}</span>
+                      <span className="text-dark-surface-onVariant">{d.address}</span>
                     </div>
-                    <div className="text-surface-onVariant flex items-center gap-2">
+                    <div className="text-dark-surface-onVariant flex items-center gap-2">
                       <div className="flex items-center gap-2">
                         <GoClock/>
                         <span>Mở cửa: </span>
@@ -115,20 +115,20 @@ const DashBoardDetail = () => {
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-surface-onVariant">Hiện tại: </span>
+                      <span className="text-dark-surface-onVariant">Hiện tại: </span>
                       <FieldStatus openTime={d.openTime} closeTime={d.closeTime}/>
                     </div>
-                    <p className="text-surface-onVariant">{d.description}</p>
+                    <p className="text-dark-surface-onVariant">{d.description}</p>
                     <div className="absolute top-8 right-8 flex flex-col gap-2">
                       <div className="flex items-center gap-2">
                         <StarRating rating={d.averageRating}/>
-                        <span className="text-xl text-surface-onVariant">{d.averageRating}</span>
+                        <span className="text-xl text-dark-surface-onVariant">{d.averageRating}</span>
                       </div>
-                      <span className="text-surface-onVariant text-sm">Lượt đánh giá</span>
+                      <span className="text-dark-surface-onVariant text-sm">Lượt đánh giá</span>
                     </div>
                   </div>
                   <div className="my-14 md:my-20">
-                    <h1 className="text-5xl text-surface-on font-bold mb-16">Đặt sân tại đây</h1>
+                    <h1 className="text-5xl text-dark-surface-on font-bold mb-16">Đặt sân tại đây</h1>
                     <FieldBookingSection fieldData={d} />
                   </div>
                 </li>

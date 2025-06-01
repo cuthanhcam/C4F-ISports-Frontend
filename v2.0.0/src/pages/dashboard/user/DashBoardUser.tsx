@@ -10,9 +10,24 @@ import type { SportsSection } from "../../../constants/sports";
 import { sportsAPI } from "../../../api/sports";
 
 
-import { IoFilter } from "react-icons/io5";
 import { Link, Outlet } from "react-router-dom";
 
+export interface Province {
+  name: string;
+  code: number;
+  division_type: string;
+  codename: string;
+  phone_code: number;
+  districts: District[];
+  shortName?: string; // Thêm shortName cho tỉnh/thành phố
+}
+
+export interface District {
+  name: string;
+  code: number;
+  division_type: string;
+  codename: string;
+}
 
 const FieldStatus = ({ openTime, closeTime }: { openTime: string; closeTime: string }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,8 +62,25 @@ const FieldStatus = ({ openTime, closeTime }: { openTime: string; closeTime: str
 const PAGE_SIZE = 12;
 
 const DashBoardUser = () => {
+  // Dữ liệu gốc
   const [formFields, setFormFields] = useState<SportFieldResponse>();
+  // Dữ liệu sao khi filter
+  const [fieldsFilter, setFieldsFilter] = useState<SportFieldResponse>();
+  // Lưu dữ liệu Tỉnh Thành
+  const [provincesCity, setProvincesCity] = useState<Province[]>([]);
+  const [selectedCity, setSelectedCity] = useState<string>('');
+  // Lưu dữ liệu Quận Huyện
+  const [districts, setDistricts] = useState<District[]>([]);
+  const [selectedDistrict, setSelectedDistrict] = useState<string>('');
+  // Dữ liệu loại thể thao
   const [formSports, setFormSports] = useState<SportsSection>();
+  // const [pagramCity, setPagramCity] = useState<string>('');
+  // const [pagramDistrict, setPagramDistrict] = useState<string>('');
+
+  // Chọn 
+  //const [selectedSport, setSelectedSport] = useState<number | "">("");  
+console.log(selectedCity, selectedDistrict);
+
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
 
@@ -59,9 +91,9 @@ const DashBoardUser = () => {
       const res = await fieldsAPI.getFields({
         page: pageNumber,
         pageSize: PAGE_SIZE,
+        city: selectedCity,
+        district: selectedDistrict === 'Thành phố Thủ Đức' ? 'Thủ Đức' : selectedDistrict
       });
-      setOriginalFields(res.data.data);
-      setFilteredFields(res.data.data);
       setFormFields(res.data);
       setPage(res.data.page);
       setTotal(res.data.total);
@@ -69,14 +101,6 @@ const DashBoardUser = () => {
       console.error(err);
     }
   };
-
-  const [provincesCity, setProvincesCity] = useState<Province[]>([]);
-  const [districts, setDistricts] = useState<District[]>([]);
-  const [selectedCity, setSelectedCity] = useState<number | "">("");
-  const [selectedDistrict, setSelectedDistrict] = useState<number | "">("");
-  const [selectedSport, setSelectedSport] = useState<number | "">("");
-  const [originalFields, setOriginalFields] = useState<SportFieldResponse["data"]>([]);
-  const [filteredFields, setFilteredFields] = useState<SportFieldResponse["data"]>([]);
 
   useEffect(() => {
     const fetchProvinceCity = async () => {
@@ -88,58 +112,48 @@ const DashBoardUser = () => {
       }
     };
     fetchProvinceCity();
-  }, []);
-
+  }, []);  
 
   const handleCityChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const cityId = e.target.value === "" ? "" : Number(e.target.value);
-    setSelectedCity(cityId);
-    setSelectedDistrict("");
-    if (cityId !== "") {
+    const cityId = e.target.value === '' ? '' : Number(e.target.value);
+    
+    const selectedProvince = provincesCity.find((province) => province.code === cityId);
+    const cityName = selectedProvince ? selectedProvince.shortName || selectedProvince.name : '';
+
+    setSelectedCity(cityName); 
+    setSelectedDistrict('');
+    setDistricts([]);
+
+    if (cityId !== '') {
       try {
         const res = await ProvincesAPI.ProvinceDistrict(cityId);
         setDistricts(res.data.districts || []);
       } catch (err) {
         console.error(err);
       }
-    } else {
-      setDistricts([]);
     }
+
+    // In ra để kiểm tra
+    console.log('selectedCity:', cityName, 'selectedDistrict:', '');
   };
 
   const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedDistrict(e.target.value === "" ? "" : Number(e.target.value));
+    const districtId = e.target.value === '' ? '' : Number(e.target.value);
+    // Tìm district tương ứng để lấy name
+    const selectedDistrictData = districts.find((district) => district.code === districtId);
+    const districtName = selectedDistrictData ? selectedDistrictData.name : '';
+    setSelectedDistrict(districtName); // Lưu name (ví dụ: "Quận 12")
+
+    // In ra để kiểm tra
+    console.log('selectedCity:', selectedCity, 'selectedDistrict:', selectedDistrict);
   };
 
-  const handleSportChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedSport(e.target.value === "" ? "" : Number(e.target.value));
-  };
+  // const handleSportChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   const sportId = e.target.value === "" ? "" : Number(e.target.value);
+  //   setSelectedSport(sportId);
+  // };
 
-  const handleFilter = () => {
-    let filtered = [...originalFields];
 
-    if (selectedCity !== "") {
-      filtered = filtered.filter((field) =>
-        field.address.includes(provincesCity.find((p) => p.code === selectedCity)?.name || "")
-      );
-
-      if (selectedDistrict !== "") {
-        filtered = filtered.filter((field) =>
-          field.address.includes(districts.find((d) => d.code === selectedDistrict)?.name || "")
-        );
-      }
-
-      if (selectedSport !== "") {
-        filtered = filtered.filter((field) => field.sportId === selectedSport);
-      }
-    } else if (selectedSport !== "") {
-      filtered = filtered.filter((field) => Number(field.sportId) === selectedSport);
-    }
-
-    setFilteredFields(filtered);
-    setTotal(filtered.length);
-    setPage(1);
-  };
 
   const fetchSports = async (pageNumber: number) => {
     try {
@@ -161,8 +175,8 @@ const DashBoardUser = () => {
   }, []);
 
   useEffect(() => {
-    fetchFields(page);
-  }, [page]);
+  fetchFields(page);
+}, [page, selectedCity, selectedDistrict]);
 
   const generatePageNumbers = (): (number | string)[] => {
     const pages: (number | string)[] = [];
@@ -222,20 +236,20 @@ const DashBoardUser = () => {
               <div className="flex items-center justify-around gap-4">
                 {/* Thành phố | Tỉnh */}
                 <select
-                  value={selectedCity}
+                  value={provincesCity.find((p) => p.shortName === selectedCity)?.code || ''}
                   onChange={handleCityChange}
                   className="border bg-surface dark:bg-dark-surface border-outline-variant dark:border-dark-outline-variant outline-none text-surface-on dark:text-dark-surface-on rounded-xl px-4 py-2.5 w-1/4 focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary"
                 >
                   <option value="">Tỉnh Thành</option>
                   {provincesCity.map((province) => (
                     <option key={province.code} value={province.code}>
-                      {province.name}
+                      {province.shortName || province.name}
                     </option>
                   ))}
                 </select>
                 {/* Quận | Huyện */}
                 <select
-                  value={selectedDistrict}
+                  value={districts.find((d) => d.name === selectedDistrict)?.code || ''}
                   onChange={handleDistrictChange}
                   className="border bg-surface dark:bg-dark-surface border-outline-variant dark:border-dark-outline-variant outline-none text-surface-on dark:text-dark-surface-on rounded-xl px-4 py-2.5 w-1/4 focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary"
                 >
@@ -248,8 +262,8 @@ const DashBoardUser = () => {
                 </select>
                 {/* Tất cả môn thể thao */}
                 <select
-                  value={selectedSport}
-                  onChange={handleSportChange}
+                  // value={selectedSport}
+                  // onChange={}
                   className="border bg-surface dark:bg-dark-surface border-outline-variant dark:border-dark-outline-variant outline-none text-surface-on dark:text-dark-surface-on rounded-xl px-4 py-2.5 w-1/4 focus:ring-2 focus:ring-primary dark:focus:ring-dark-primary focus:border-primary dark:focus:border-dark-primary"
                 >
                   <option value="">Tất cả môn thể thao</option>
@@ -260,7 +274,7 @@ const DashBoardUser = () => {
               </div>
               <div className="flex justify-end mt-8">
                 <button
-                  onClick={handleFilter}
+                  onClick={() => fetchFields(1)}
                   className="flex items-center gap-2 bg-primary dark:bg-dark-primary px-6 py-2 rounded-md text-surface-1 dark:text-dark-primary-on font-medium hover:bg-primary-shade dark:hover:bg-dark-primary-shade duration-200 transition-all ease-in-out"
                 >
                   <IoFilter className="text-xl" />
@@ -285,7 +299,7 @@ const DashBoardUser = () => {
               <div>
                 {/* Card */}
                 <ul className="grid grid-cols-4 gap-4">
-                  {filteredFields?.map((field) => (
+                  {formFields?.data.map((field) => (
                     <Link to={`/dashboard/${field.fieldId}`} key={field.fieldId}>
                       <li
                         className="border border-outline-variant dark:border-dark-outline-variant rounded-3xl p-6 cursor-pointer bg-surface-1 dark:bg-dark-surface-1 shadow-navigation dark:shadow-navigation-dark hover:shadow-xl dark:hover:shadow-navigation-dark transition-all"
