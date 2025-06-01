@@ -209,7 +209,6 @@ const Register = () => {
                   <option value="">Chọn vai trò</option>
                   <option value="User">User</option>
                   <option value="Owner">Owner</option>
-                  <option value="Admin">Admin</option>
                 </select>
                 {/* Submit */}
                 <button
