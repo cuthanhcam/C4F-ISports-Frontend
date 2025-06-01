@@ -79,7 +79,6 @@ const DashBoardUser = () => {
 
   // Chọn 
   //const [selectedSport, setSelectedSport] = useState<number | "">("");  
-console.log(selectedCity, selectedDistrict);
 
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
