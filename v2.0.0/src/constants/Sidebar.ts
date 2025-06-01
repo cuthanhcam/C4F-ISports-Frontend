@@ -13,8 +13,8 @@ export interface ISidebar {
 
 export const SidebarItem: ISidebar[] = [
     { id: 1, title: 'Dashboard', icon: HomeIcon, link: '/dashboard' },
-    { id: 2, title: 'Quản lý sân', icon: ManagementIcon, link: '/management-yard' },
-    { id: 3, title: 'Đặt sân', icon: BookingIcons, link: '/set-yard' },
-    { id: 4, title: 'Thống kê', icon: StatisticIcon, link: '/statistical' },
-    { id: 5, title: 'Cài đặt', icon: SettingIcon, link: '/setting' },
+    { id: 2, title: 'Quản lý sân', icon: ManagementIcon, link: '/dashboard/management-yard' },
+    { id: 3, title: 'Đặt sân', icon: BookingIcons, link: '/dashboard/set-yard' },
+    { id: 4, title: 'Thống kê', icon: StatisticIcon, link: '/dashboard/statistical' },
+    { id: 5, title: 'Cài đặt', icon: SettingIcon, link: '/dashboard/setting' },
 ];
