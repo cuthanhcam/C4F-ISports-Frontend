@@ -5,7 +5,7 @@ import Navbar from "./navbar";
 const Profile = () => {
     return (
         <Layout>
-            <div className="bg-surface">
+            <div className="bg-surface dark:bg-dark-surface">
                 <div className="container py-6 relative z-[0]">
                     <div className="home-header-light-blue"/>
                     <div className="home-header-light-pink"/>

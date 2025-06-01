@@ -15,11 +15,14 @@ import SetYard from "./pages/dashboard/admin/SetYard";
 import Statistical from "./pages/dashboard/admin/Statistical";
 import Setting from "./pages/dashboard/admin/Setting";
 import Favorites from "./pages/dashboard/user/Profile/Favorites";
+import useDarkMode from "./hooks/useDarkMode";
 
 
 const App = () => {
+  const { darkMode, setDarkMode } = useDarkMode();
   return (
-    <div>
+
+    <div className={darkMode ? "dark" : ""}>
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
           {appRoutes.map((route) => (

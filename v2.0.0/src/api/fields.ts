@@ -9,5 +9,5 @@ export const fieldsAPI = {
     getFieldsDetail(FieldId: number) {
         return axiosClient.get(`fields/${FieldId}`);
     }
-    // 
+    //
 }
