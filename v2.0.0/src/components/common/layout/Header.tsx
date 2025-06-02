@@ -20,7 +20,7 @@ import useDarkMode from "../../../hooks/useDarkMode";
 const Header = () => {
   // Check if user is authenticated
   const token = localStorage.getItem("token");
-  const { user } = useUser();
+  const { user, logout } = useUser();
   const DEFAULT_AVATAR_URL =
     "https://res.cloudinary.com/dzgxdkass/image/upload/v1748497926/default-avatar.png";
 
@@ -34,8 +34,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await authAPI.logout();
-      localStorage.removeItem("token");
-      localStorage.removeItem("re");
+      logout();
       navigate("/");
     } catch (err) {
       console.error("Lỗi khi đăng xuất:", err);

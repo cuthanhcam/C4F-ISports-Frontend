@@ -9,10 +9,12 @@ import { useState } from 'react';
 import { LuEye, LuEyeClosed } from 'react-icons/lu';
 import { authAPI } from '../../api/auth.api';
 import { toast } from 'react-toastify';
+import { useUser } from '../../context/UserContext';
 
 const Login = () => {
   // Routing
   const navigate = useNavigate();
+  const { retryFetchUser } = useUser();
 
   // Open show password
   const [isOpenPassword, setIsOpenPassword] = useState<boolean>(false);
@@ -22,28 +24,32 @@ const Login = () => {
   const [password, setPassword] = useState<string>('');
 
   // Xử lý sự kiện đăng nhập
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       const res = await authAPI.login({ email, password });
 
-      // Kiểm tra nếu đăng nhập thành công thì lưu token vào localStorage
       localStorage.setItem('token', res.data.token);
-
-      // Lưu role
       localStorage.setItem('role', res.data.role);
-
-      // Lưu refreshToken
       localStorage.setItem('refreshToken', res.data.refreshToken);
 
-      // Thông báo đăng nhập thành công
       toast.success('Đăng nhập thành công!');
 
-      // Chuyển hướng về dashboard
+      try {
+        if (retryFetchUser) {
+          await retryFetchUser();
+        } else {
+          console.warn('retryFetchUser không tồn tại');
+        }
+      } catch (fetchErr) {
+        console.error('Fetch user failed:', fetchErr);
+        toast.warn('Đăng nhập thành công, nhưng không lấy được thông tin người dùng.');
+      }
+
       navigate('/dashboard');
     } catch (err) {
-      console.error(err);
+      console.error('Lỗi đăng nhập:', err);
       toast.error('Đăng nhập thất bại');
     }
   };

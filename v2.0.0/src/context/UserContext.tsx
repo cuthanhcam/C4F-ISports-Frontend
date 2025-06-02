@@ -8,6 +8,7 @@ interface UserContextType {
   loading: boolean;
   error: string | null;
   retryFetchUser: () => void;
+  logout: () => void;
 }
 
 const UserContext = createContext<UserContextType>({
@@ -16,6 +17,8 @@ const UserContext = createContext<UserContextType>({
   loading: false,
   error: null,
   retryFetchUser: () => {},
+  logout: () => {},
+  
 });
 
 export const useUser = () => useContext(UserContext);
@@ -25,7 +28,21 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+
+  const logout = () => {
+    // Xóa token nếu có
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    sessionStorage.removeItem("refreshToken");
+    localStorage.removeItem("role");
+    // Reset state
+    setUser(null);
+  };
+
+
   const fetchUser = async (retries = 3, delay = 1000) => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
     setLoading(true);
     setError(null);
 
@@ -68,11 +85,15 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token && !user) {
     fetchUser();
-  }, []);
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, loading, error, retryFetchUser: fetchUser }}>
+    <UserContext.Provider value={{ user, setUser, loading, error, retryFetchUser: fetchUser, logout }}>
       {children}
     </UserContext.Provider>
   );

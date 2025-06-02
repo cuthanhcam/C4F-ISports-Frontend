@@ -6,11 +6,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { UserProvider } from './context/UserContext.tsx';
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
     <Router>
       <UserProvider>
         <App />
       </UserProvider>
     </Router>
-  </StrictMode>,
 )

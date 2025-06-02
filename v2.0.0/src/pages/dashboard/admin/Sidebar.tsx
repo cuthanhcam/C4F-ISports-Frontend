@@ -17,7 +17,7 @@ const Sidebar = () => {
           
           // Xoá token lưu trong localStorage
           localStorage.removeItem("token");
-          localStorage.removeItem("re")
+          localStorage.removeItem("refreshToken");
     
           // Điều hướng về trang chủ
           navigate('/');
