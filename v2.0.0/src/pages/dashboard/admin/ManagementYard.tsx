@@ -54,6 +54,7 @@ const ManagementYard = () => {
             page: pageNumber,
             pageSize: PAGE_SIZE,
           });
+          console.log(res.data);
           setFormFields(res.data);
           setPage(res.data.page);
           setTotal(res.data.total);
@@ -62,8 +63,8 @@ const ManagementYard = () => {
         }
     };
     useEffect(() => {
-        fetchFields(1);
-    }, []);
+        fetchFields(page);
+    }, [page]);
     const generatePageNumbers = (): (number | string)[] => {
     const pages: (number | string)[] = [];
     if (totalPages <= 6) {
@@ -126,7 +127,7 @@ const ManagementYard = () => {
                               >
                               <div className="relative group w-full h-64">
                                   <img
-                                  src={field.images?.[0]?.imageUrl ?? "/fallback.jpg"}
+                                  src={field.primaryImage}
                                   alt={field.fieldName}
                                   className="w-full h-44 object-cover rounded-xl"
                                   />
