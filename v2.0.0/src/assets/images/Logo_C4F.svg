@@ -1,0 +1,109 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient definitions -->
+    <radialGradient id="bgGradient" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="50%" stop-color="#1E40AF"/>
+      <stop offset="100%" stop-color="#1E3A8A"/>
+    </radialGradient>
+    
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="50%" stop-color="#F1F5F9"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+    
+    <linearGradient id="ballGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F8FAFC"/>
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Main background circle with gradient -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGradient)" filter="url(#shadow)"/>
+  
+  <!-- Inner glow ring -->
+  <circle cx="256" cy="256" r="200" fill="none" stroke="#60A5FA" stroke-width="2" opacity="0.4"/>
+  
+  <!-- Decorative geometric elements -->
+  <path d="M 100 256 Q 180 200 256 256 Q 332 312 412 256" stroke="#60A5FA" stroke-width="3" fill="none" opacity="0.3"/>
+  <path d="M 256 100 Q 312 180 256 256 Q 200 332 256 412" stroke="#60A5FA" stroke-width="3" fill="none" opacity="0.3"/>
+  
+  <!-- Main C4F text with enhanced styling -->
+  <text x="256" y="285" font-family="Arial Black, Arial, sans-serif" font-size="92" font-weight="900" 
+        text-anchor="middle" fill="url(#textGradient)" filter="url(#glow)" letter-spacing="4px">C4F</text>
+  
+  <!-- Text shadow effect -->
+  <text x="258" y="287" font-family="Arial Black, Arial, sans-serif" font-size="92" font-weight="900" 
+        text-anchor="middle" fill="#1E40AF" opacity="0.3" letter-spacing="4px">C4F</text>
+  
+  <!-- Enhanced Soccer Ball (top left) -->
+  <g transform="translate(170, 160)">
+    <circle r="35" fill="url(#ballGradient)" filter="url(#shadow)"/>
+    <!-- Pentagon pattern -->
+    <polygon points="0,-20 19,-6 12,16 -12,16 -19,-6" fill="#1E40AF" opacity="0.8"/>
+    <path d="M 0,-35 L 0,-20 M 19,-6 L 30,-18 M 12,16 L 18,32 M -12,16 L -18,32 M -19,-6 L -30,-18" 
+          stroke="#1E40AF" stroke-width="2.5" opacity="0.7"/>
+    <path d="M 19,-6 L 12,16 M 12,16 L -12,16 M -12,16 L -19,-6 M -19,-6 L 0,-20 M 0,-20 L 19,-6" 
+          stroke="#1E40AF" stroke-width="2" opacity="0.8"/>
+  </g>
+  
+  <!-- Enhanced Shuttlecock (top right) -->
+  <g transform="translate(342, 160)">
+    <!-- Cork base -->
+    <ellipse rx="15" ry="22" fill="url(#ballGradient)" filter="url(#shadow)"/>
+    <!-- Feathers with gradient -->
+    <path d="M 0,-22 L -8,-45 M 0,-22 L 0,-48 M 0,-22 L 8,-45 M 0,-22 L -4,-46 M 0,-22 L 4,-46" 
+          stroke="#F1F5F9" stroke-width="3" opacity="0.9"/>
+    <path d="M 0,-22 L -6,-40 M 0,-22 L 6,-40 M 0,-22 L -2,-42 M 0,-22 L 2,-42" 
+          stroke="#FFFFFF" stroke-width="1.5"/>
+    <!-- Cork details -->
+    <ellipse rx="12" ry="18" fill="none" stroke="#1E40AF" stroke-width="1.5" opacity="0.6"/>
+    <path d="M -12,0 L 12,0 M -8,-8 L 8,-8 M -8,8 L 8,8" stroke="#1E40AF" stroke-width="1" opacity="0.5"/>
+  </g>
+  
+  <!-- Enhanced Badminton Racket (bottom) -->
+  <g transform="translate(256, 360)">
+    <!-- Racket head -->
+    <ellipse rx="32" ry="45" fill="none" stroke="url(#ballGradient)" stroke-width="5" filter="url(#shadow)"/>
+    <ellipse rx="28" ry="41" fill="none" stroke="#60A5FA" stroke-width="2" opacity="0.6"/>
+    
+    <!-- Handle -->
+    <rect x="-6" y="35" width="12" height="50" rx="6" fill="url(#ballGradient)" filter="url(#shadow)"/>
+    <rect x="-4" y="37" width="8" height="46" rx="4" fill="#F8FAFC"/>
+    
+    <!-- Strings with better pattern -->
+    <g opacity="0.8">
+      <path d="M -25,-35 L 25,-35 M -25,-20 L 25,-20 M -25,-5 L 25,-5 M -25,10 L 25,10 M -25,25 L 25,25" 
+            stroke="#1E40AF" stroke-width="1.5"/>
+      <path d="M -20,-40 L -20,30 M -10,-42 L -10,32 M 0,-45 L 0,35 M 10,-42 L 10,32 M 20,-40 L 20,30" 
+            stroke="#1E40AF" stroke-width="1.5"/>
+    </g>
+    
+    <!-- Handle grip -->
+    <rect x="-6" y="75" width="12" height="8" rx="2" fill="#1E40AF" opacity="0.7"/>
+  </g>
+  
+  <!-- Subtle light rays -->
+  <g opacity="0.2">
+    <path d="M 256,50 L 256,150" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M 256,362 L 256,462" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M 50,256 L 150,256" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M 362,256 L 462,256" stroke="#FFFFFF" stroke-width="2"/>
+  </g>
+  
+  <!-- Final highlight -->
+  <ellipse cx="200" cy="150" rx="80" ry="40" fill="white" opacity="0.1" transform="rotate(-25 200 150)"/>
+</svg>

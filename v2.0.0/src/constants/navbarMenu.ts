@@ -9,4 +9,5 @@ export const  NavbarMenu: NavbarItem[] = [
     { id: 2, title: "About", link: "/about" },
     { id: 3, title: "Service", link: "/service" },
     { id: 4, title: "Contact", link: "/contact" },
+    { id: 5, title: "Dashboard", link: "/dashboard" },
 ];

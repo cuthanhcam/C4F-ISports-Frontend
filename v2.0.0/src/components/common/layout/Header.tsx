@@ -18,8 +18,16 @@ import { useUser } from "../../../context/UserContext";
 import useDarkMode from "../../../hooks/useDarkMode";
 
 const Header = () => {
-  // Check if user is authenticated
+  
   const token = localStorage.getItem("token");
+  const filteredMenu = NavbarMenu.filter(item => {
+  if (item.title === 'Dashboard') {
+    return !!token; // chỉ giữ Dashboard nếu có token
+  }
+  return true; // các mục khác luôn giữ
+});
+
+  // Check if user is authenticated
   const { user, logout } = useUser();
   const DEFAULT_AVATAR_URL =
     "https://res.cloudinary.com/dzgxdkass/image/upload/v1748497926/default-avatar.png";
@@ -64,7 +72,7 @@ const Header = () => {
         {/* Path page */}
         <div className="hidden lg:block">
           <ul className="flex items-center gap-8">
-            {NavbarMenu.map((item) => (
+            {filteredMenu.map((item) => (
               <li
                 key={item.id}
                 className="group relative text-base text-surface-on dark:text-dark-surface-on font-medium"

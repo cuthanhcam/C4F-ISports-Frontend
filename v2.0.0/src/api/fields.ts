@@ -13,5 +13,17 @@ export const fieldsAPI = {
     // Thêm sân mới
     createFields(data: SportField) {
         return axiosClient.post('/fields', data);
+    },
+    // Lấy thông tin sân của owner
+    getMyFields(params?: { page?: number; pageSize?: number}) {
+        return axiosClient.get('/fields/my-fields', { params });
+    },
+    // Cập nhật
+    updateField(fieldId: number) {
+        return axiosClient.put(`/fields/${fieldId}`);
+    },
+    // Xóa sân
+    deleteField(fieldId: number) {
+        return axiosClient.delete(`/fields/${fieldId}`);
     }
 }

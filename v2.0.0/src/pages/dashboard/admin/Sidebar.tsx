@@ -4,11 +4,14 @@ import { useUser } from "../../../context/UserContext"
 import { IoLogOutOutline } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { authAPI } from "../../../api/auth.api";
+import { useState } from "react";
+import Logo from '../../../assets/images/Logo_C4F.svg';
 const Sidebar = () => {
     const { user } = useUser();
     const DEFAULT_AVATAR_URL = "https://res.cloudinary.com/dzgxdkass/image/upload/v1748497926/default-avatar.png";
     const role = localStorage.getItem('role');
     const navigate = useNavigate();
+    const [active, setActive] = useState<number>(1);
 
     // Đăng xuất
       const handleLogout = async () => {
@@ -31,7 +34,7 @@ const Sidebar = () => {
             <div className="min-w-[274px] h-full px-4 py-6 flex flex-col justify-between">
                 <div className="flex flex-col gap-8">
                     {/* Logo */}
-                    <img src="" alt="" className="w-12 h-12 object-cover border border-outline-variant"/>
+                    <img src={Logo} alt="" className="w-12 h-12 object-cover"/>
                     {/* Tìm kiếm chức năng */}
                     <div className="relative">
                         <input type="search" placeholder="Search" className="outline-none w-full pl-2.5 pr-10 py-1.5 rounded-full"/>
@@ -46,11 +49,12 @@ const Sidebar = () => {
                                 <li key={item.id}>
                                     <Link 
                                         to={item.link}
-                                        className="flex items-center gap-2"
+                                        onClick={() => setActive(item.id)}
+                                        className={`flex items-center gap-2 p-2 rounded-md ${active === item.id ? 'bg-primary border border-primary-inverse' : ''}`}
                                     >
                                        
                                         <img src={item.icon} alt="" className="w-5 h-5 object-cover"/>
-                                        <span className="text-surface-on">{item.title}</span>
+                                        <span className={`font-semibold ${item.id === active ? 'text-white' : 'text-surface-on'}`}>{item.title}</span>
                                     </Link>
                                 </li>
                             ))}

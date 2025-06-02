@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6"
 import { GoClock } from "react-icons/go"
-import { IoFilter, IoSearchOutline } from "react-icons/io5"
 import { Link } from "react-router-dom"
 import type { SportFieldResponse } from "../../../constants/fields";
 import { fieldsAPI } from "../../../api/fields";
+import { AiOutlineDelete } from "react-icons/ai";
+import { CiEdit } from "react-icons/ci";
+import { toast } from "react-toastify";
 
 
 
@@ -48,7 +50,7 @@ const ManagementYard = () => {
     const totalPages = Math.ceil(total / PAGE_SIZE);
     const fetchFields = async (pageNumber: number) => {
         try {
-          const res = await fieldsAPI.getFields({
+          const res = await fieldsAPI.getMyFields({
             page: pageNumber,
             pageSize: PAGE_SIZE,
           });
@@ -77,6 +79,20 @@ const ManagementYard = () => {
     }
     return pages;
   };
+
+
+  const handleDelete = async (fieldId: number) => {
+    const isConfirmed = window.confirm("Bạn có chắc chắn muốn xóa sân này khỏi danh sách?");
+    if (!isConfirmed) return;
+    toast.success('Xóa thành công!');
+    try {
+      await fieldsAPI.deleteField(fieldId);
+      await fetchFields(1);
+    } catch (err) {
+      console.error(err);
+      toast.success('Xóa thất bại!');
+    }
+  }
     return (
         <div className="container py-6">
             <Link 
@@ -87,7 +103,7 @@ const ManagementYard = () => {
             </Link>
             {/* Danh sách sân */}
             <div>
-                 <div className="container py-6 relative z-[0]">
+                 <div className="max-w-6xl mx-auto py-6 relative z-[0]">
                     <div className="home-header-light-blue dark:bg-[radial-gradient(closest-side_at_50%_50%,_#4b6cb7,_transparent)]" />
                     <div className="home-header-light-pink dark:bg-[radial-gradient(closest-side_at_50%_50%,_#9b59b6,_transparent)]" />
                     <div className="mt-[142px] md:mt-[162px] lg:mt-[182px]">
@@ -104,43 +120,49 @@ const ManagementYard = () => {
                         {/* Card */}
                         <ul className="grid grid-cols-4 gap-4">
                             {formFields?.data.map((field) => (
-                            <Link to={`/dashboard/${field.fieldId}`} key={field.fieldId}>
-                                <li
-                                className="border border-outline-variant dark:border-dark-outline-variant rounded-3xl p-6 cursor-pointer bg-surface-1 dark:bg-dark-surface-1 shadow-navigation dark:shadow-navigation-dark hover:shadow-xl dark:hover:shadow-navigation-dark transition-all"
-                                >
-                                <div className="relative group w-full h-64">
-                                    <img
-                                    src={field.images?.[0]?.imageUrl ?? "/fallback.jpg"}
-                                    alt={field.fieldName}
-                                    className="w-full h-64 object-cover rounded-xl"
-                                    />
-                                    <div className="absolute inset-0 bg-black/60 flex flex-col items-start p-4 gap-2 opacity-0 group-hover:opacity-100 transition duration-300 rounded-xl">
-                                    <p className="text-surface-1 dark:text-dark-surface-on text-base font-semibold">{field.fieldName}</p>
-                                    <div className="flex items-start gap-2 text-sm line-clamp-2 h-[45.5px]">
-                                        <FaLocationDot className="shrink-0 text-primary dark:text-dark-primary translate-y-0.5" />
-                                        <span className="text-surface-onVariant dark:text-dark-surface-onVariant leading-relaxed">
-                                        {field.address}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center gap-2 text-sm">
-                                        <GoClock className="shrink-0 text-primary dark:text-dark-primary" />
-                                        <span className="text-surface-onVariant dark:text-dark-surface-onVariant">
-                                        {field.openTime} - {field.closeTime}
-                                        </span>
-                                    </div>
-                                    <FieldStatus openTime={field.openTime} closeTime={field.closeTime} />
-                                    </div>
-                                </div>
-                                <div className="flex flex-col gap-2 mt-8">
-                                    <h1 className="text-2xl text-surface-on dark:text-dark-surface-on font-medium text-center line-clamp-2 h-[64px]">
-                                    {field.fieldName}
-                                    </h1>
-                                    <p className="text-surface-onVariant dark:text-dark-surface-onVariant text-center leading-relaxed line-clamp-2 h-[52px]">
-                                    {field.description}
-                                    </p>
-                                </div>
-                                </li>
-                            </Link>
+                              <li
+                              key={field.fieldId}
+                              className="border border-outline-variant dark:border-dark-outline-variant rounded-3xl p-2                                                                                                                 2xl:p-6 cursor-pointer bg-surface-1 dark:bg-dark-surface-1 shadow-navigation dark:shadow-navigation-dark hover:shadow-xl dark:hover:shadow-navigation-dark transition-all"
+                              >
+                              <div className="relative group w-full h-64">
+                                  <img
+                                  src={field.images?.[0]?.imageUrl ?? "/fallback.jpg"}
+                                  alt={field.fieldName}
+                                  className="w-full h-44 object-cover rounded-xl"
+                                  />
+                                  <div className="absolute inset-0 bg-black/60 flex flex-col items-start p-4 gap-2 opacity-0 group-hover:opacity-100 transition duration-300 rounded-xl">
+                                  <span className="text-white text-sm">STT {field.fieldId}</span>
+                                  <h1 className="text-white text-sm">{field.fieldName}</h1>
+                                  <div className="flex items-start gap-2 text-sm line-clamp-2 h-[45.5px]">
+                                      <FaLocationDot className="shrink-0 text-primary dark:text-dark-primary translate-y-0.5" />
+                                      <span className="text-surface-onVariant dark:text-dark-surface-onVariant leading-relaxed">
+                                      {field.address}
+                                      </span>
+                                  </div>
+                                  <span className="text-white text-sm">Ngày tạo sân: {field.createdAt.slice(0, 10)}</span> 
+                                  <span className="text-white text-sm">Ngày cập nhật sân gần nhất:  {field.updatedAt.slice(0, 10)}</span> 
+                                  </div>
+                              </div>
+                              <div className="flex flex-col gap-2 my-8">
+                                  <h1 className="text-xl text-surface-on dark:text-dark-surface-on font-medium text-center line-clamp-2 h-[64px]">
+                                  {field.fieldName}
+                                  </h1>
+                                  <div className="text-white flex items-center gap-2 justify-end">
+                                    <Link 
+                                      to={`update/${field.fieldId}`}
+                                      className="flex items-center gap-1 bg-yellow-400 p-1 rounded-sm">
+                                        <AiOutlineDelete/>
+                                        <span>Sửa</span>
+                                    </Link>
+                                    <button 
+                                      onClick={() => handleDelete(field.fieldId)}
+                                      className="flex items-center gap-1 bg-rose-500 p-1 rounded-sm">
+                                        <AiOutlineDelete/>
+                                        <span>Xóa</span>
+                                    </button>
+                                  </div>
+                              </div>
+                              </li>                          
                             ))}
                         </ul>
                         </div>
