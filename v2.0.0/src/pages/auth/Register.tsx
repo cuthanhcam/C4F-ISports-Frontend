@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { LuEye, LuEyeClosed } from 'react-icons/lu';
 import { authAPI } from '../../api/auth.api';
 import { toast } from 'react-toastify';
-
+import logo from "../../assets/images/Logo_C4F.svg"
 const Register = () => {
   // Routing
   const navigate = useNavigate();
@@ -93,7 +93,7 @@ const Register = () => {
                     <div className="absolute inset-0 backdrop-blur-xs bg-surface/40 dark:bg-dark-surface/40 z-10"></div>
                     <div className="absolute bottom-12 left-8 flex items-start gap-2 z-20">
                       {/* Logo */}
-                      <img src="" alt="" className="w-14 h-14" />
+                      <img src={logo} alt="" className="w-14 h-14" />
                       <div>
                         <h1 className="text-3xl text-surface-on dark:text-dark-surface-on font-bold">
                           C4F-ISports

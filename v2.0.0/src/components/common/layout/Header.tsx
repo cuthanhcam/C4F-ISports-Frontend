@@ -1,7 +1,7 @@
 //Header.tsx
 import { useState } from "react";
 import { NavbarMenu } from "../../../constants/navbarMenu";
-import LogoImage from "../../../assets/images/LogoC4F.png";
+import LogoImage from "../../../assets/images/Logo_C4F.svg";
 import { HiOutlineTranslate } from "react-icons/hi";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
@@ -66,7 +66,7 @@ const Header = () => {
         {/* Logo website */}
         <div className="flex items-center gap-2">
           <img src={LogoImage} alt="" className="w-10 h-10 object-cover" />
-          <h1 className="text-2xl text-primary dark:text-dark-primary font-semibold">C4F Isports</h1>
+          <h1 className="text-2xl text-primary dark:text-dark-primary font-semibold">C4F-ISports</h1>
         </div>
         
         {/* Path page */}
@@ -177,11 +177,13 @@ const Header = () => {
                     <FiUser className="text-lg shrink-0"/>
                     <span>Tài khoản của tôi</span>
                   </Link>
-                  <button className="text-primary dark:text-dark-primary flex items-center gap-2 border-b border-outline-variant dark:border-dark-outline-variant p-2 w-full 
+                  <Link 
+                    to={'/users/favorites'}
+                  className="text-primary dark:text-dark-primary flex items-center gap-2 border-b border-outline-variant dark:border-dark-outline-variant p-2 w-full 
                   hover:bg-primary-shade dark:hover:bg-dark-primary hover:text-surface-1 dark:hover:text-dark-primary-on rounded-md transition-colors duration-200 ease-in-out">
                     <FaRegHeart className="text-lg shrink-0" />
                     <span>Sân yêu thích</span>
-                  </button>
+                  </Link>
                   <button 
                     onClick={handleLogout}
                     className="text-primary dark:text-dark-primary truncate flex items-center gap-2 p-2 w-full 

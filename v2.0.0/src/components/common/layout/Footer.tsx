@@ -5,7 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { GoClockFill } from "react-icons/go";
-import LogoImage from "../../../assets/images/LogoC4F.png"; // Giả sử bạn có logo tương tự như header
+import LogoImage from "../../../assets/images/Logo_C4F.svg"; // Giả sử bạn có logo tương tự như header
 
 const Footer = () => {
   return (
@@ -18,7 +18,7 @@ const Footer = () => {
             {/* Logo website */}
             <div className="flex items-center gap-2">
               <img src={LogoImage} alt="ISports Logo" className="w-12 h-12 object-cover" />
-              <h1 className="text-primary dark:text-dark-primary text-3xl font-bold">ISports</h1>
+              <h1 className="text-primary dark:text-dark-primary text-3xl font-bold">C4F-ISports</h1>
             </div>
             {/* Description */}
             <p className="text-surface-onVariant dark:text-dark-surface-onVariant text-sm">
